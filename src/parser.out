@@ -6,13 +6,17 @@ Unused terminals:
     NOESNADA
     BOLEANO
     BEGIN
+    POW
     PUNTO
     FUNCTION
     END
     CARACTER
     VAR
+    RAIZ
     LBRACKET
     COMSIMPLE
+    SQRT
+    POTENCIA
     RBRACKET
     COMDOBLE
 
@@ -113,15 +117,19 @@ LPARENT              : 56 57 58 59 60
 LT                   : 12 14
 MULT                 : 36
 NOESNADA             : 
+POTENCIA             : 
+POW                  : 
 PRINT                : 26 59
 PROGRAM              : 1
 PUNTO                : 
 PUNTOCOMA            : 19 25 30 32 33 57 58 59
+RAIZ                 : 
 RBRACKET             : 
 READ                 : 58
 RESTA                : 18 41
 RKEY                 : 8 30 31 38
 RPARENT              : 56 57 58 59 60
+SQRT                 : 
 STRING               : 23
 SUMA                 : 17 40
 VAR                  : 
