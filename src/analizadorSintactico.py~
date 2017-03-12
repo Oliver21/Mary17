@@ -223,7 +223,19 @@ def p_estatuto7(p):
 	print "estatuto"
 
 def p_estatuto8(p):
-	'''estatuto : COMENTARIO'''
+	'''estatuto : comentario'''
+	print "estatuto"
+
+def p_estatuto9(p):
+	'''estatuto : potencia'''
+	print "estatuto"
+
+def p_estatuto10(p):
+	'''estatuto : raiz'''
+	print "estatuto"
+
+def p_comentatio(p):
+	'''comentario : COMENTARIO'''
 	print "Comentario"
 
 def p_varcte(p):
@@ -261,6 +273,15 @@ def p_print(p):
 def p_ciclofor(p):
 	'''ciclofor : FOR LPARENT asignacion expresion asignacion RPARENT bloque'''
 	print "ciclo for"
+
+def p_potencia(p):
+	'''potencia : POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+	print "potencia"
+
+def p_raiz(p):
+	'''raiz : SQRT LPARENT varcte RPARENT PUNTOCOMA'''
+	print "raiz"
+
 
 def p_error(p):
 	print "error de sintaxis", p
