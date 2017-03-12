@@ -1,0 +1,24 @@
+program pProgramaPrueba:
+	int ivariable1;
+{
+	ivariable1 = ivariable1 + ivariable2;
+	ivariable3 = 10;
+
+	while ( ix < 10 ) {
+		fd = 1;
+	}
+
+	do {
+		fx = 3;
+	} while (iy < 5);
+
+	slectura = read();
+
+	print ("I esta linea");
+
+	for ( ix=8; iy<10 ix = iz+1;){
+		print ("Corrida numero");
+	}
+
+	//Este es un comentario//
+}
