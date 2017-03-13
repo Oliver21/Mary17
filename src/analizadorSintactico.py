@@ -19,6 +19,89 @@ precedence = (
 	('left', 'LKEY', 'RKEY')	
 )
 
+#definicion de variables globales y espacios disponibles
+global_int = {}
+global_int_count = 0
+global_float = {}
+global_float_count = 200
+global_bool = {}
+global_bool_count = 400 
+global_string = {}
+global_string_count = 600
+global_char = {}
+global_char_count = 800
+
+#definicion de variables locales y espacios disponibles
+local_int = {}
+local_int_count = 1000
+local_float = {}
+local_float_count = 1200
+local_bool = {}
+local_bool_count = 1400 
+local_string = {}
+local_string_count = 1600
+local_char = {}
+local_char_count = 1800
+
+#Funcion que busca una variable decladarada global
+def SearchGlobalVariable(identifier):
+	if identifier in global_int:
+		return True
+	elif identifier in global_float:
+		return True
+	elif identifier in global_bool:
+		return True
+	elif identifier in global_string:
+		return True
+	elif identifier in global_char:
+		return True
+	else :
+		return False
+
+#Funcion que busca una variable decladarada local
+def SearchLocalVariable(identifier):
+	if identifier in local_int:
+		return True
+	elif identifier in local_float:
+		return True
+	elif identifier in local_bool:
+		return True
+	elif identifier in local_string:
+		return True
+	elif identifier in local_char:
+		return True
+	else :
+		return False
+
+
+#Funcion que agrega una variable local si su nombre no esta asignado aun
+def AddGlobalVariable(identifier, type):
+	if SearchGlobalVariable(identifier):
+		print("error: la variable ya ah sido declarada");
+	else:
+		variable = {}
+		if type == 'INT':
+			variable['position'] = global_int_count
+			global_int_count = global_int_count + 1
+			global_int[identifier] = variable.copy()
+		elif type == 'FLOAT':
+			variable['position'] = global_float_count
+			global_float_count = global_float_count + 1
+			global_float[identifier] = variable.copy()
+		elif type == 'STRING':
+			variable['position'] = global_string_count
+			global_string_count = global_string_count + 1
+			global_string[identifier] = variable.copy()
+		elif type == 'CHAR':
+			variable['position'] = global_char_count
+			global_char_count = global_char_count + 1
+			global_char[identifier] = variable.copy()
+		elif type == 'BOOL':
+			variable['position'] = global_bool_count
+			global_bool_count = global_bool_count + 1
+			global_bool[identifier] = variable.copy()
+
+
 ####################CONTENIDO DE UN PROGRAMA###################################
 def p_program(p):
 	'''program : PROGRAM ID DOSPUNTOS p2'''
