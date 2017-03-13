@@ -19,6 +19,7 @@ precedence = (
 	('left', 'LKEY', 'RKEY')	
 )
 
+##############################################################
 def p_program(p):
 	'''program : PROGRAM ID DOSPUNTOS p2'''
 	#p[0] = program(p[4], "program")
@@ -32,6 +33,9 @@ def p_p2(p):
 def p_p21(p):
 	'''p2 : bloque'''
 	#print "p2"
+
+##############################################################
+
 
 def p_bloque(p):
 	'''bloque : LKEY b2'''
@@ -53,6 +57,7 @@ def p_b3(p):
 	'''b3 : RKEY'''
 	#print "b3"
 
+##############################################################
 def p_expresion(p):
 	'''expresion : e2'''
 	print "expresion"
@@ -76,7 +81,7 @@ def p_e31(p):
 def p_e32(p):
 	'''e3 : LT GT'''	
 	#print "e3"
-
+##############################################################
 def p_exp(p):
 	'''exp : termino'''
 	print "exp"
@@ -92,11 +97,16 @@ def p_ex2(p):
 def p_ex21(p):
 	'''ex2 : RESTA'''
 	#print "ex2"
-
+##############################################################
+def p_creartabla(p):	
+	print "Nombre de la variable: " + p[2]
+	print "Se ha creado la tabla de variables"
+##############################################################
 def p_vars(p):
 	'''vars : tipo ID PUNTOCOMA'''
-	print "vars"
-
+	p_creartabla(p)
+	print "declaracion"
+##############################################################
 def p_tipo(p):
 	'''tipo : INT'''
 	print "tipo"
@@ -116,11 +126,11 @@ def p_tipo3(p):
 def p_tipo4(p):
 	'''tipo : BOOL'''
 	print "tipo"
-
+##############################################################
 def p_asignacion(p):
 	'''asignacion : ID IGUAL expresion PUNTOCOMA'''
 	print "asignacion"
-
+##############################################################
 def p_escritura(p):
 	'''escritura : PRINT LKEY es2'''
 	print "escritura"
@@ -140,7 +150,7 @@ def p_es3(p):
 def p_es31(p):
 	'''es3 : RKEY PUNTOCOMA'''
 	#print "es3"
-
+##############################################################
 def p_condicion(p):	
 	'''condicion : IF LKEY expresion RKEY bloque c2'''
 	print "condicion"
@@ -153,7 +163,7 @@ def p_c21(p):
 	'''c2 : PUNTOCOMA'''
 	#print "c2"
 
-
+##############################################################
 def p_termino(p):
 	'''termino : factor'''
 	print "termino"
@@ -169,7 +179,7 @@ def p_t2(p):
 def p_t21(p):
 	'''t2 : DIV termino'''
 	#print "t2"
-
+##############################################################
 def p_factor(p):
 	'''factor : LKEY expresion RKEY'''
 	print "factor"
@@ -189,6 +199,7 @@ def p_f21(p):
 def p_f22(p):
 	'''f2 : varcte'''
 	#print "f2"
+##############################################################
 
 def p_estatuto(p):
 	'''estatuto : asignacion'''
@@ -233,10 +244,12 @@ def p_estatuto9(p):
 def p_estatuto10(p):
 	'''estatuto : raiz'''
 	print "estatuto"
+##############################################################
 
 def p_comentatio(p):
 	'''comentario : COMENTARIO'''
 	print "Comentario"
+##############################################################
 
 def p_varcte(p):
 	'''varcte : ID'''
@@ -254,6 +267,7 @@ def p_varcte3(p):
 	'''varcte : CADENA'''
 	print "varcte"
 
+##############################################################
 def p_ciclowhile(p):
 	'''ciclowhile : WHILE LPARENT expresion RPARENT bloque'''
 	print "ciclo While"
@@ -281,7 +295,7 @@ def p_potencia(p):
 def p_raiz(p):
 	'''raiz : SQRT LPARENT varcte RPARENT PUNTOCOMA'''
 	print "raiz"
-
+##############################################################
 
 def p_error(p):
 	print "error de sintaxis", p
@@ -321,60 +335,4 @@ parser = yacc.yacc()
 result = parser.parse(cadena)
 
 print result
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
