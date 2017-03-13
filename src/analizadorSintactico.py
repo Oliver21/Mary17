@@ -10,7 +10,7 @@ from analizadorLexico import tokens
 from sys import stdin
 
 precedence = (
-	('rigth', 'igual'),
+	('right', 'IGUAL'),
 	('left', 'LT', 'GT'),
 	('left', 'SUMA', 'RESTA'),
 	('left', 'MULT', 'DIV'),
