@@ -75,7 +75,8 @@ def SearchLocalVariable(identifier):
 
 
 #Funcion que agrega una variable local si su nombre no esta asignado aun
-def AddGlobalVariable(identifier, type):
+def AddGlobalVariable(typew, identifier):
+	print("Tipo de variable: "  + str(typew) + " Nombre de variable: " + str(identifier))
 	if SearchGlobalVariable(identifier):
 		print("error: la variable ya ah sido declarada");
 	else:
@@ -192,6 +193,7 @@ def p_creartabla(p):
 def p_declaracion(p):
 	'''declaracion : tipo ID PUNTOCOMA'''
 	p_creartabla(p)
+	AddGlobalVariable(p[1],p[2])
 	print "declaracion"
 ######################TIPO DE VARIABLES######################################
 def p_tipo(p):
