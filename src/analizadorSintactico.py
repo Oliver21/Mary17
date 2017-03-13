@@ -26,12 +26,14 @@ def p_program(p):
 	print "programa"
 
 def p_p2(p):
-	'''p2 : declaracion bloque'''
+	'''p2 : declaracion p3'''
 	#p[0] = p2(p[1], "p2")
 	#print "p2"
+def p_p3(p):
+	'''p3 : p2'''
 
-def p_p21(p):
-	'''p2 : bloque'''
+def p_p31(p):
+	'''p3 : bloque'''
 	#print "p2"
 
 ########################CONTENIDO DE UN BLOQUE######################################
@@ -325,7 +327,7 @@ def buscarPrograma(directorio):
 	print "Has seleccionado \"%s\" \n" %files[int(numArchivo)-1]
 	return files[int(numArchivo)-1]	
 
-directorio = '/home/oliver/Escritorio/Mary17/tests/'
+directorio = '../tests/'
 archivo = buscarPrograma(directorio)
 test = directorio+archivo
 fp = codecs.open(test,"r","utf-8")
