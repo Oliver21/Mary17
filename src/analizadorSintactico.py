@@ -8,7 +8,7 @@ import codecs
 import re
 from analizadorLexico import tokens
 from sys import stdin
-
+	
 precedence = (
 	('rigth', 'igual'),
 	('left', 'LT', 'GT'),
@@ -18,6 +18,67 @@ precedence = (
 	('left', 'LPARENT', 'RPARENT'),
 	('left', 'LKEY', 'RKEY')	
 )
+
+#definicion de global_variables y espacios disponibles
+global global_int = {}
+global global_int_count = 0
+global global_float = {}
+global global_float_count = 200
+global global_bool = {}
+global global_bool_count = 400 
+global global_string = {}
+global global_string_count = 600
+global global_char = 800
+global global_char_count = 800
+
+
+
+#Funcion que busca una variable global decladarada
+def SearchGlobalVariable(identifier):
+	if identifier in global_int:
+		return True
+	elif identifier in global_float:
+		return True
+	elif identifier in global_bool:
+		return True
+	elif identifier in global_string:
+		return True
+	elif identifier in global_char:
+		return True
+	else :
+		return False
+
+#Funcion que agrega una variable local si su nombre no esta asignado aun
+def AddGlobalVariable(identifier, type):
+	if SearchGlobalVariable(identifier):
+		print("error: la variable ya ah sido declarada");
+	else:
+		variable = {}
+	elif type = 'INT':
+		variable['position'] = global_int_count
+		global_int_count--
+		global_int[identifier] = variable.copy()
+	elif type = 'FLOAT':
+		variable['position'] = global_float_count
+		global_float_count--
+		global_float[identifier] = variable.copy()
+	elif type = 'STRING':
+		variable['position'] = global_string_count
+		global_string_count--
+		global_int[identifier] = variable.copy()
+	elif type = 'CHAR':
+		variable['position'] = global_char_count
+		global_char_count--
+		global_int[identifier] = variable.copy()
+	elif type = 'BOOL':
+		variable['position'] = global_bool_count
+		global_bool_count--
+		global_int[identifier] = variable.copy()
+
+
+
+
+
 
 def p_program(p):
 	'''program : PROGRAM ID DOSPUNTOS p2'''
@@ -291,7 +352,7 @@ def buscarPrograma(directorio):
 	ficheros = []
 	numArchivo = ''
 	respuesta = False
-	cont = 1
+	cont = 1	
 
 	for base, dirs, files in os.walk(directorio):
 		ficheros.append(files)
@@ -321,60 +382,3 @@ parser = yacc.yacc()
 result = parser.parse(cadena)
 
 print result
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
