@@ -1,5 +1,6 @@
 program pProgramaPrueba:
 	int ivariable1;
+	float ivariable1;
 {
 	ivariable1 = ivariable1 + ivariable2;
 	ivariable3 = 10;

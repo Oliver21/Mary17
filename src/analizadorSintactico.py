@@ -19,6 +19,32 @@ precedence = (
 	('left', 'LKEY', 'RKEY')	
 )
 
+#definimos una estructura de datos tipo pila que nos servira para manejar los tipos y los identificadores de las variables
+class Stack:
+     def __init__(self):
+         self.items = []
+
+     def isEmpty(self):
+         return self.items == []
+
+     def push(self, item):
+         self.items.append(item)
+
+     def pop(self):
+         return self.items.pop()
+
+     def peek(self):
+         return self.items[len(self.items)-1]
+
+     def size(self):
+         return len(self.items)
+
+
+#definimos la pila de variables y tipos de datos
+Stack_Variables = Stack()
+Stack_Types = Stack()
+
+
 #definicion de variables globales y espacios disponibles
 global_int = {}
 global_int_count = 0
@@ -45,6 +71,7 @@ local_char_count = 1800
 
 #Funcion que busca una variable decladarada global
 def SearchGlobalVariable(identifier):
+	global global_int
 	if identifier in global_int:
 		return True
 	elif identifier in global_float:
@@ -75,33 +102,52 @@ def SearchLocalVariable(identifier):
 
 
 #Funcion que agrega una variable local si su nombre no esta asignado aun
-def AddGlobalVariable(typew, identifier):
-	print("Tipo de variable: "  + str(typew) + " Nombre de variable: " + str(identifier))
-	if SearchGlobalVariable(identifier):
-		print("error: la variable ya ah sido declarada");
-	else:
-		variable = {}
-		if type == 'INT':
-			variable['position'] = global_int_count
-			global_int_count = global_int_count + 1
-			global_int[identifier] = variable.copy()
-		elif type == 'FLOAT':
-			variable['position'] = global_float_count
-			global_float_count = global_float_count + 1
-			global_float[identifier] = variable.copy()
-		elif type == 'STRING':
-			variable['position'] = global_string_count
-			global_string_count = global_string_count + 1
-			global_string[identifier] = variable.copy()
-		elif type == 'CHAR':
-			variable['position'] = global_char_count
-			global_char_count = global_char_count + 1
-			global_char[identifier] = variable.copy()
-		elif type == 'BOOL':
-			variable['position'] = global_bool_count
-			global_bool_count = global_bool_count + 1
-			global_bool[identifier] = variable.copy()
+def AddGlobalVariable():
 
+	#Se necesita especificar que las variables que usare son las que declare globalmente
+	global global_float_count
+	global global_int_count
+	global global_int
+	global global_float
+
+	#itero a lo largo de la pila para agregar todas las variables que pueda haber en ella
+	for i in range(0,Stack_Variables.size()):
+		if SearchGlobalVariable(Stack_Variables.peek()):
+			print("error: la variable ya ha sido declarada");
+			Stack_Variables.pop()
+			Stack_Types.pop()
+		else:
+			#Se agrega la variable a su diccionario dependiendo de su tipo
+			variable = {}
+			if Stack_Types.peek() == 'INT':
+				variable['position'] = global_int_count
+				global_int_count = global_int_count + 1
+				global_int[Stack_Variables.peek()] = Stack_Variables.pop()
+				Stack_Types.pop()
+			elif Stack_Types.peek() == 'FLOAT':
+				variable['position'] = global_float_count
+				global_float_count = global_float_count + 1
+				global_float[Stack_Variables.peek()] = Stack_Variables.pop()
+				Stack_Types.pop()
+			elif Stack_Types.peek() == 'STRING':
+				variable['position'] = global_string_count
+				global_string_count = global_string_count + 1
+				global_string[Stack_Variables.peek()] = Stack_Variables.pop()
+				Stack_Types.pop()
+			elif Stack_Types.peek() == 'CHAR':
+				variable['position'] = global_char_count
+				global_char_count = global_char_count + 1
+				global_char[Stack_Variables.peek()] = Stack_Variables.pop()
+				Stack_Types.pop()
+			elif Stack_Types.peek() == 'BOOL':
+				variable['position'] = global_bool_count
+				global_bool_count = global_bool_count + 1
+				global_bool[Stack_Variables.peek()] = Stack_Variables.pop()
+				Stack_Types.pop()
+			else:
+				print("error: tipo de variable incorrecto");
+				Stack_Variables.pop()
+				Stack_Types.pop()
 
 ####################CONTENIDO DE UN PROGRAMA###################################
 def p_program(p):
@@ -185,35 +231,45 @@ def p_ex21(p):
 	#print "ex2"
 ####################GENERAR TABLAS####################################
 
-def p_creartabla(p):	
-	print "Nombre de la variable: " + p[2]
-	print "Se ha creado la tabla de variables"
+#def p_creartabla(p):	
+#	print "Nombre de la variable: " + p[2]
+#	print "Se ha creado la tabla de variables"
 
 ####################DECLARACION DE VARIABLES#############################
 def p_declaracion(p):
 	'''declaracion : tipo ID PUNTOCOMA'''
-	p_creartabla(p)
-	AddGlobalVariable(p[1],p[2])
+	#p_creartabla(p)
+	Stack_Variables.push(p[2])
 	print "declaracion"
 ######################TIPO DE VARIABLES######################################
 def p_tipo(p):
 	'''tipo : INT'''
+ 	Stack_Types.push(p[1])
+	#AddGlobalVariable()
 	print "tipo"
 
 def p_tipo1(p):
 	'''tipo : FLOAT'''
+	Stack_Types.push(p[1])
+	#AddGlobalVariable()
 	print "tipo"
 
 def p_tipo2(p):
 	'''tipo : CHAR'''
+	Stack_Types.push(p[1])
+	#AddGlobalVariable()
 	print "tipo"
 
 def p_tipo3(p):
 	'''tipo : STRING'''
+	Stack_Types.push(p[1])
+	#AddGlobalVariable()
 	print "tipo"
 
 def p_tipo4(p):
-	'''tipo : BOOL'''
+	'''tipo : BOOL'''	
+	Stack_Types.push(p[1])
+	#AddGlobalVariable()
 	print "tipo"
 ##################ASIGNACION A VARIABLES###################################
 def p_asignacion(p):
@@ -421,6 +477,17 @@ fp.close()
 
 parser = yacc.yacc()
 result = parser.parse(cadena)
+
+#Esta funcion la debemos de llamar cuando se terminan de declarar variables no al final del programa, urgente corregir-dm
+#AddGlobalVariable()
+
+#Probando mi implementacion de tabla de simbolos -dm
+print("probando los enteros")
+for x in global_int:
+    print (x)
+    for y in global_int[x]:
+        print (y,':',global_int[x][y])
+
 
 print result
 
