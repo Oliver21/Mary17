@@ -37,7 +37,7 @@ reservadas = ['INT','FLOAT','IF','ELSE','VAR','PRINT','PROGRAM', 'DO', 'WHILE', 
 tokens = reservadas + ['ID', 'MULT', 'DIV', 'SUMA', 'RESTA', 'LPARENT', 'RPARENT', 'COMA',
 'PUNTOCOMA', 'DOSPUNTOS', 'PUNTO', 'LBRACKET', 'RBRACKET', 'LKEY', 'RKEY', 'IGUAL', 'LT', 'GT',
 'COMSIMPLE', 'COMDOBLE', 'ENTERO', 'FLOTANTE', 'CARACTER', 'CADENA', 'NOESNADA', 'COMENTARIO', 'BOLEANO',
-'RAIZ', 'POTENCIA'
+'RAIZ', 'POTENCIA'	
 	]
 
 t_ignore = '\t'
