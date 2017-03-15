@@ -1,9 +1,17 @@
 program pProgramaPrueba:
 	int ivariable1;
-	float ivariable1;
+	int ivariable2;
+	float fvariable3;
+	float fvariable4;
+	bool bvariable5;
+	bool bvariable6;
+	char cvariable7;
+	string string8;
+
 {
 	ivariable1 = ivariable1 + ivariable2;
 	ivariable3 = 10;
+	ivariable4 = "diego";
 
 	while ( ix < 10 ) {
 		fd = 1;

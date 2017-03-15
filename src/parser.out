@@ -2,17 +2,19 @@ Created by PLY version 3.10 (http://www.dabeaz.com/ply)
 
 Unused terminals:
 
+    COMA
     NOESNADA
     BOLEANO
     BEGIN
+    POW
     PUNTO
     FUNCTION
     END
-    CARACTER
     VAR
     RAIZ
     LBRACKET
     COMSIMPLE
+    SQRT
     POTENCIA
     RBRACKET
     COMDOBLE
@@ -25,154 +27,152 @@ Rule 2     p2 -> declaracion p3
 Rule 3     p3 -> p2
 Rule 4     p3 -> bloque
 Rule 5     bloque -> LKEY b2
-Rule 6     bloque -> LKEY b3
-Rule 7     b2 -> estatuto b3
-Rule 8     b2 -> estatuto b2
-Rule 9     b3 -> RKEY
-Rule 10    expresion -> e2
-Rule 11    expresion -> e2 e3 e2
-Rule 12    e2 -> exp
-Rule 13    e3 -> LT
-Rule 14    e3 -> GT
-Rule 15    e3 -> LT GT
-Rule 16    exp -> termino
-Rule 17    exp -> exp ex2 exp
-Rule 18    ex2 -> SUMA
-Rule 19    ex2 -> RESTA
-Rule 20    declaracion -> tipo ID PUNTOCOMA
-Rule 21    tipo -> INT
-Rule 22    tipo -> FLOAT
-Rule 23    tipo -> CHAR
-Rule 24    tipo -> STRING
-Rule 25    tipo -> BOOL
-Rule 26    asignacion -> ID IGUAL expresion PUNTOCOMA
-Rule 27    print -> PRINT LPARENT es2
-Rule 28    es2 -> expresion es3
-Rule 29    es2 -> varstring es3
-Rule 30    es3 -> es2
-Rule 31    es3 -> RPARENT PUNTOCOMA
-Rule 32    condicion -> IF LKEY expresion RKEY bloque c2
-Rule 33    c2 -> ELSE bloque PUNTOCOMA
-Rule 34    c2 -> PUNTOCOMA
-Rule 35    termino -> factor
-Rule 36    termino -> factor t2
-Rule 37    t2 -> MULT termino
-Rule 38    t2 -> DIV termino
-Rule 39    factor -> LKEY expresion RKEY
-Rule 40    factor -> f2
-Rule 41    f2 -> SUMA varcte
-Rule 42    f2 -> RESTA varcte
-Rule 43    f2 -> varcte
-Rule 44    estatuto -> asignacion
-Rule 45    estatuto -> print
-Rule 46    estatuto -> condicion
-Rule 47    estatuto -> ciclowhile
-Rule 48    estatuto -> ciclodowhile
-Rule 49    estatuto -> ciclofor
-Rule 50    estatuto -> read
-Rule 51    estatuto -> declaracion
-Rule 52    estatuto -> comentario
-Rule 53    estatuto -> potencia
-Rule 54    estatuto -> raiz
-Rule 55    comentario -> COMENTARIO
-Rule 56    varcte -> ID
-Rule 57    varcte -> ENTERO
-Rule 58    varcte -> FLOTANTE
-Rule 59    varstring -> CADENA
+Rule 6     b2 -> b3
+Rule 7     b2 -> RKEY
+Rule 8     b3 -> estatuto b4
+Rule 9     b4 -> b3
+Rule 10    b4 -> RKEY
+Rule 11    expresion -> exp e2
+Rule 12    e2 -> e3
+Rule 13    e2 -> empty
+Rule 14    e3 -> GT exp
+Rule 15    e3 -> LT exp
+Rule 16    e3 -> LT GT exp
+Rule 17    exp -> termino exp2
+Rule 18    exp2 -> SUMA exp
+Rule 19    exp2 -> RESTA exp
+Rule 20    exp2 -> empty
+Rule 21    declaracion -> tipo ID PUNTOCOMA
+Rule 22    tipo -> INT
+Rule 23    tipo -> FLOAT
+Rule 24    tipo -> CHAR
+Rule 25    tipo -> STRING
+Rule 26    tipo -> BOOL
+Rule 27    asignacion -> ID IGUAL expresion PUNTOCOMA
+Rule 28    print -> PRINT LPARENT pr2
+Rule 29    pr2 -> expresion pr3
+Rule 30    pr2 -> CADENA pr3
+Rule 31    pr3 -> pr2
+Rule 32    pr3 -> RPARENT PUNTOCOMA
+Rule 33    condicion -> IF LKEY expresion RKEY bloque c2
+Rule 34    c2 -> ELSE bloque PUNTOCOMA
+Rule 35    c2 -> PUNTOCOMA
+Rule 36    termino -> factor te2
+Rule 37    te2 -> MULT termino
+Rule 38    te2 -> DIV termino
+Rule 39    te2 -> empty
+Rule 40    factor -> LKEY expresion RKEY
+Rule 41    factor -> f2
+Rule 42    f2 -> SUMA varcte
+Rule 43    f2 -> RESTA varcte
+Rule 44    f2 -> varcte
+Rule 45    estatuto -> asignacion
+Rule 46    estatuto -> print
+Rule 47    estatuto -> condicion
+Rule 48    estatuto -> ciclowhile
+Rule 49    estatuto -> ciclodowhile
+Rule 50    estatuto -> ciclofor
+Rule 51    estatuto -> read
+Rule 52    estatuto -> declaracion
+Rule 53    estatuto -> comentario
+Rule 54    comentario -> COMENTARIO
+Rule 55    varcte -> ID
+Rule 56    varcte -> ENTERO
+Rule 57    varcte -> FLOTANTE
+Rule 58    varcte -> CADENA
+Rule 59    varcte -> CARACTER
 Rule 60    ciclowhile -> WHILE LPARENT expresion RPARENT bloque
 Rule 61    ciclodowhile -> DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA
 Rule 62    read -> ID IGUAL READ LPARENT RPARENT PUNTOCOMA
 Rule 63    ciclofor -> FOR LPARENT asignacion expresion asignacion RPARENT bloque
-Rule 64    potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA
-Rule 65    raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA
+Rule 64    empty -> <empty>
 
 Terminals, with rules where they appear
 
 BEGIN                : 
 BOLEANO              : 
-BOOL                 : 25
-CADENA               : 59
-CARACTER             : 
-CHAR                 : 23
-COMA                 : 64
+BOOL                 : 26
+CADENA               : 30 58
+CARACTER             : 59
+CHAR                 : 24
+COMA                 : 
 COMDOBLE             : 
-COMENTARIO           : 55
+COMENTARIO           : 54
 COMSIMPLE            : 
 DIV                  : 38
 DO                   : 61
 DOSPUNTOS            : 1
-ELSE                 : 33
+ELSE                 : 34
 END                  : 
-ENTERO               : 57
-FLOAT                : 22
-FLOTANTE             : 58
+ENTERO               : 56
+FLOAT                : 23
+FLOTANTE             : 57
 FOR                  : 63
 FUNCTION             : 
-GT                   : 14 15
-ID                   : 1 20 26 56 62
-IF                   : 32
-IGUAL                : 26 62
-INT                  : 21
+GT                   : 14 16
+ID                   : 1 21 27 55 62
+IF                   : 33
+IGUAL                : 27 62
+INT                  : 22
 LBRACKET             : 
-LKEY                 : 5 6 32 39
-LPARENT              : 27 60 61 62 63 64 65
-LT                   : 13 15
+LKEY                 : 5 33 40
+LPARENT              : 28 60 61 62 63
+LT                   : 15 16
 MULT                 : 37
 NOESNADA             : 
 POTENCIA             : 
-POW                  : 64
-PRINT                : 27
+POW                  : 
+PRINT                : 28
 PROGRAM              : 1
 PUNTO                : 
-PUNTOCOMA            : 20 26 31 33 34 61 62 64 65
+PUNTOCOMA            : 21 27 32 34 35 61 62
 RAIZ                 : 
 RBRACKET             : 
 READ                 : 62
-RESTA                : 19 42
-RKEY                 : 9 32 39
-RPARENT              : 31 60 61 62 63 64 65
-SQRT                 : 65
-STRING               : 24
-SUMA                 : 18 41
+RESTA                : 19 43
+RKEY                 : 7 10 33 40
+RPARENT              : 32 60 61 62 63
+SQRT                 : 
+STRING               : 25
+SUMA                 : 18 42
 VAR                  : 
 WHILE                : 60 61
 error                : 
 
 Nonterminals, with rules where they appear
 
-asignacion           : 44 63 63
-b2                   : 5 8
-b3                   : 6 7
-bloque               : 4 32 33 60 61 63
-c2                   : 32
-ciclodowhile         : 48
-ciclofor             : 49
-ciclowhile           : 47
-comentario           : 52
-condicion            : 46
-declaracion          : 2 51
-e2                   : 10 11 11
-e3                   : 11
-es2                  : 27 30
-es3                  : 28 29
-estatuto             : 7 8
-ex2                  : 17
-exp                  : 12 17 17
-expresion            : 26 28 32 39 60 61 63
-f2                   : 40
-factor               : 35 36
+asignacion           : 45 63 63
+b2                   : 5
+b3                   : 6 9
+b4                   : 8
+bloque               : 4 33 34 60 61 63
+c2                   : 33
+ciclodowhile         : 49
+ciclofor             : 50
+ciclowhile           : 48
+comentario           : 53
+condicion            : 47
+declaracion          : 2 52
+e2                   : 11
+e3                   : 12
+empty                : 13 20 39
+estatuto             : 8
+exp                  : 11 14 15 16 18 19
+exp2                 : 17
+expresion            : 27 29 33 40 60 61 63
+f2                   : 41
+factor               : 36
 p2                   : 1 3
 p3                   : 2
-potencia             : 53
-print                : 45
+pr2                  : 28 31
+pr3                  : 29 30
+print                : 46
 program              : 0
-raiz                 : 54
-read                 : 50
-t2                   : 36
-termino              : 16 37 38
-tipo                 : 20
-varcte               : 41 42 43 64 64 65
-varstring            : 29
+read                 : 51
+te2                  : 36
+termino              : 17 37 38
+tipo                 : 21
+varcte               : 42 43 44
 
 Parsing method: LALR
 
@@ -209,12 +209,12 @@ state 4
 
     (1) program -> PROGRAM ID DOSPUNTOS . p2
     (2) p2 -> . declaracion p3
-    (20) declaracion -> . tipo ID PUNTOCOMA
-    (21) tipo -> . INT
-    (22) tipo -> . FLOAT
-    (23) tipo -> . CHAR
-    (24) tipo -> . STRING
-    (25) tipo -> . BOOL
+    (21) declaracion -> . tipo ID PUNTOCOMA
+    (22) tipo -> . INT
+    (23) tipo -> . FLOAT
+    (24) tipo -> . CHAR
+    (25) tipo -> . STRING
+    (26) tipo -> . BOOL
 
     INT             shift and go to state 8
     FLOAT           shift and go to state 9
@@ -235,44 +235,44 @@ state 5
 
 state 6
 
-    (24) tipo -> STRING .
+    (25) tipo -> STRING .
 
-    ID              reduce using rule 24 (tipo -> STRING .)
+    ID              reduce using rule 25 (tipo -> STRING .)
 
 
 state 7
 
-    (20) declaracion -> tipo . ID PUNTOCOMA
+    (21) declaracion -> tipo . ID PUNTOCOMA
 
     ID              shift and go to state 13
 
 
 state 8
 
-    (21) tipo -> INT .
+    (22) tipo -> INT .
 
-    ID              reduce using rule 21 (tipo -> INT .)
+    ID              reduce using rule 22 (tipo -> INT .)
 
 
 state 9
 
-    (22) tipo -> FLOAT .
+    (23) tipo -> FLOAT .
 
-    ID              reduce using rule 22 (tipo -> FLOAT .)
+    ID              reduce using rule 23 (tipo -> FLOAT .)
 
 
 state 10
 
-    (23) tipo -> CHAR .
+    (24) tipo -> CHAR .
 
-    ID              reduce using rule 23 (tipo -> CHAR .)
+    ID              reduce using rule 24 (tipo -> CHAR .)
 
 
 state 11
 
-    (25) tipo -> BOOL .
+    (26) tipo -> BOOL .
 
-    ID              reduce using rule 25 (tipo -> BOOL .)
+    ID              reduce using rule 26 (tipo -> BOOL .)
 
 
 state 12
@@ -282,13 +282,12 @@ state 12
     (4) p3 -> . bloque
     (2) p2 -> . declaracion p3
     (5) bloque -> . LKEY b2
-    (6) bloque -> . LKEY b3
-    (20) declaracion -> . tipo ID PUNTOCOMA
-    (21) tipo -> . INT
-    (22) tipo -> . FLOAT
-    (23) tipo -> . CHAR
-    (24) tipo -> . STRING
-    (25) tipo -> . BOOL
+    (21) declaracion -> . tipo ID PUNTOCOMA
+    (22) tipo -> . INT
+    (23) tipo -> . FLOAT
+    (24) tipo -> . CHAR
+    (25) tipo -> . STRING
+    (26) tipo -> . BOOL
 
     LKEY            shift and go to state 16
     INT             shift and go to state 8
@@ -305,7 +304,7 @@ state 12
 
 state 13
 
-    (20) declaracion -> tipo ID . PUNTOCOMA
+    (21) declaracion -> tipo ID . PUNTOCOMA
 
     PUNTOCOMA       shift and go to state 18
 
@@ -327,69 +326,60 @@ state 15
 state 16
 
     (5) bloque -> LKEY . b2
-    (6) bloque -> LKEY . b3
-    (7) b2 -> . estatuto b3
-    (8) b2 -> . estatuto b2
-    (9) b3 -> . RKEY
-    (44) estatuto -> . asignacion
-    (45) estatuto -> . print
-    (46) estatuto -> . condicion
-    (47) estatuto -> . ciclowhile
-    (48) estatuto -> . ciclodowhile
-    (49) estatuto -> . ciclofor
-    (50) estatuto -> . read
-    (51) estatuto -> . declaracion
-    (52) estatuto -> . comentario
-    (53) estatuto -> . potencia
-    (54) estatuto -> . raiz
-    (26) asignacion -> . ID IGUAL expresion PUNTOCOMA
-    (27) print -> . PRINT LPARENT es2
-    (32) condicion -> . IF LKEY expresion RKEY bloque c2
+    (6) b2 -> . b3
+    (7) b2 -> . RKEY
+    (8) b3 -> . estatuto b4
+    (45) estatuto -> . asignacion
+    (46) estatuto -> . print
+    (47) estatuto -> . condicion
+    (48) estatuto -> . ciclowhile
+    (49) estatuto -> . ciclodowhile
+    (50) estatuto -> . ciclofor
+    (51) estatuto -> . read
+    (52) estatuto -> . declaracion
+    (53) estatuto -> . comentario
+    (27) asignacion -> . ID IGUAL expresion PUNTOCOMA
+    (28) print -> . PRINT LPARENT pr2
+    (33) condicion -> . IF LKEY expresion RKEY bloque c2
     (60) ciclowhile -> . WHILE LPARENT expresion RPARENT bloque
     (61) ciclodowhile -> . DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA
     (63) ciclofor -> . FOR LPARENT asignacion expresion asignacion RPARENT bloque
     (62) read -> . ID IGUAL READ LPARENT RPARENT PUNTOCOMA
-    (20) declaracion -> . tipo ID PUNTOCOMA
-    (55) comentario -> . COMENTARIO
-    (64) potencia -> . POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA
-    (65) raiz -> . SQRT LPARENT varcte RPARENT PUNTOCOMA
-    (21) tipo -> . INT
-    (22) tipo -> . FLOAT
-    (23) tipo -> . CHAR
-    (24) tipo -> . STRING
-    (25) tipo -> . BOOL
+    (21) declaracion -> . tipo ID PUNTOCOMA
+    (54) comentario -> . COMENTARIO
+    (22) tipo -> . INT
+    (23) tipo -> . FLOAT
+    (24) tipo -> . CHAR
+    (25) tipo -> . STRING
+    (26) tipo -> . BOOL
 
-    RKEY            shift and go to state 35
-    ID              shift and go to state 38
-    PRINT           shift and go to state 24
-    IF              shift and go to state 39
-    WHILE           shift and go to state 21
+    RKEY            shift and go to state 32
+    ID              shift and go to state 35
+    PRINT           shift and go to state 23
+    IF              shift and go to state 36
+    WHILE           shift and go to state 20
     DO              shift and go to state 19
-    FOR             shift and go to state 33
-    COMENTARIO      shift and go to state 20
-    POW             shift and go to state 26
-    SQRT            shift and go to state 41
+    FOR             shift and go to state 30
+    COMENTARIO      shift and go to state 29
     INT             shift and go to state 8
     FLOAT           shift and go to state 9
     CHAR            shift and go to state 10
     STRING          shift and go to state 6
     BOOL            shift and go to state 11
 
-    raiz                           shift and go to state 37
-    asignacion                     shift and go to state 40
-    read                           shift and go to state 34
-    estatuto                       shift and go to state 27
-    ciclofor                       shift and go to state 36
-    comentario                     shift and go to state 25
-    condicion                      shift and go to state 30
-    potencia                       shift and go to state 31
-    b2                             shift and go to state 22
-    b3                             shift and go to state 23
-    print                          shift and go to state 32
-    ciclodowhile                   shift and go to state 29
-    ciclowhile                     shift and go to state 28
-    declaracion                    shift and go to state 42
     tipo                           shift and go to state 7
+    asignacion                     shift and go to state 37
+    read                           shift and go to state 31
+    estatuto                       shift and go to state 25
+    ciclofor                       shift and go to state 33
+    comentario                     shift and go to state 24
+    condicion                      shift and go to state 27
+    b2                             shift and go to state 21
+    b3                             shift and go to state 22
+    print                          shift and go to state 28
+    ciclodowhile                   shift and go to state 34
+    ciclowhile                     shift and go to state 26
+    declaracion                    shift and go to state 38
 
 state 17
 
@@ -400,70 +390,45 @@ state 17
 
 state 18
 
-    (20) declaracion -> tipo ID PUNTOCOMA .
+    (21) declaracion -> tipo ID PUNTOCOMA .
 
-    RKEY            reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    ID              reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    PRINT           reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    IF              reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    WHILE           reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    DO              reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    FOR             reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    COMENTARIO      reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    POW             reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    SQRT            reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    INT             reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    FLOAT           reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    CHAR            reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    STRING          reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    BOOL            reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
-    LKEY            reduce using rule 20 (declaracion -> tipo ID PUNTOCOMA .)
+    RKEY            reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
+    ID              reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
+    PRINT           reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
+    IF              reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
+    WHILE           reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
+    DO              reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
+    FOR             reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
+    COMENTARIO      reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
+    INT             reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
+    FLOAT           reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
+    CHAR            reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
+    STRING          reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
+    BOOL            reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
+    LKEY            reduce using rule 21 (declaracion -> tipo ID PUNTOCOMA .)
 
 
 state 19
 
     (61) ciclodowhile -> DO . bloque WHILE LPARENT expresion RPARENT PUNTOCOMA
     (5) bloque -> . LKEY b2
-    (6) bloque -> . LKEY b3
 
     LKEY            shift and go to state 16
 
-    bloque                         shift and go to state 43
+    bloque                         shift and go to state 39
 
 state 20
 
-    (55) comentario -> COMENTARIO .
+    (60) ciclowhile -> WHILE . LPARENT expresion RPARENT bloque
 
-    RKEY            reduce using rule 55 (comentario -> COMENTARIO .)
-    ID              reduce using rule 55 (comentario -> COMENTARIO .)
-    PRINT           reduce using rule 55 (comentario -> COMENTARIO .)
-    IF              reduce using rule 55 (comentario -> COMENTARIO .)
-    WHILE           reduce using rule 55 (comentario -> COMENTARIO .)
-    DO              reduce using rule 55 (comentario -> COMENTARIO .)
-    FOR             reduce using rule 55 (comentario -> COMENTARIO .)
-    COMENTARIO      reduce using rule 55 (comentario -> COMENTARIO .)
-    POW             reduce using rule 55 (comentario -> COMENTARIO .)
-    SQRT            reduce using rule 55 (comentario -> COMENTARIO .)
-    INT             reduce using rule 55 (comentario -> COMENTARIO .)
-    FLOAT           reduce using rule 55 (comentario -> COMENTARIO .)
-    CHAR            reduce using rule 55 (comentario -> COMENTARIO .)
-    STRING          reduce using rule 55 (comentario -> COMENTARIO .)
-    BOOL            reduce using rule 55 (comentario -> COMENTARIO .)
+    LPARENT         shift and go to state 40
 
 
 state 21
 
-    (60) ciclowhile -> WHILE . LPARENT expresion RPARENT bloque
-
-    LPARENT         shift and go to state 44
-
-
-state 22
-
     (5) bloque -> LKEY b2 .
 
     PUNTOCOMA       reduce using rule 5 (bloque -> LKEY b2 .)
-    ELSE            reduce using rule 5 (bloque -> LKEY b2 .)
     RKEY            reduce using rule 5 (bloque -> LKEY b2 .)
     ID              reduce using rule 5 (bloque -> LKEY b2 .)
     PRINT           reduce using rule 5 (bloque -> LKEY b2 .)
@@ -472,1560 +437,1705 @@ state 22
     DO              reduce using rule 5 (bloque -> LKEY b2 .)
     FOR             reduce using rule 5 (bloque -> LKEY b2 .)
     COMENTARIO      reduce using rule 5 (bloque -> LKEY b2 .)
-    POW             reduce using rule 5 (bloque -> LKEY b2 .)
-    SQRT            reduce using rule 5 (bloque -> LKEY b2 .)
     INT             reduce using rule 5 (bloque -> LKEY b2 .)
     FLOAT           reduce using rule 5 (bloque -> LKEY b2 .)
     CHAR            reduce using rule 5 (bloque -> LKEY b2 .)
     STRING          reduce using rule 5 (bloque -> LKEY b2 .)
     BOOL            reduce using rule 5 (bloque -> LKEY b2 .)
+    ELSE            reduce using rule 5 (bloque -> LKEY b2 .)
     $end            reduce using rule 5 (bloque -> LKEY b2 .)
+
+
+state 22
+
+    (6) b2 -> b3 .
+
+    $end            reduce using rule 6 (b2 -> b3 .)
+    WHILE           reduce using rule 6 (b2 -> b3 .)
+    RKEY            reduce using rule 6 (b2 -> b3 .)
+    ID              reduce using rule 6 (b2 -> b3 .)
+    PRINT           reduce using rule 6 (b2 -> b3 .)
+    IF              reduce using rule 6 (b2 -> b3 .)
+    DO              reduce using rule 6 (b2 -> b3 .)
+    FOR             reduce using rule 6 (b2 -> b3 .)
+    COMENTARIO      reduce using rule 6 (b2 -> b3 .)
+    INT             reduce using rule 6 (b2 -> b3 .)
+    FLOAT           reduce using rule 6 (b2 -> b3 .)
+    CHAR            reduce using rule 6 (b2 -> b3 .)
+    STRING          reduce using rule 6 (b2 -> b3 .)
+    BOOL            reduce using rule 6 (b2 -> b3 .)
+    ELSE            reduce using rule 6 (b2 -> b3 .)
+    PUNTOCOMA       reduce using rule 6 (b2 -> b3 .)
 
 
 state 23
 
-    (6) bloque -> LKEY b3 .
+    (28) print -> PRINT . LPARENT pr2
 
-    PUNTOCOMA       reduce using rule 6 (bloque -> LKEY b3 .)
-    ELSE            reduce using rule 6 (bloque -> LKEY b3 .)
-    RKEY            reduce using rule 6 (bloque -> LKEY b3 .)
-    ID              reduce using rule 6 (bloque -> LKEY b3 .)
-    PRINT           reduce using rule 6 (bloque -> LKEY b3 .)
-    IF              reduce using rule 6 (bloque -> LKEY b3 .)
-    WHILE           reduce using rule 6 (bloque -> LKEY b3 .)
-    DO              reduce using rule 6 (bloque -> LKEY b3 .)
-    FOR             reduce using rule 6 (bloque -> LKEY b3 .)
-    COMENTARIO      reduce using rule 6 (bloque -> LKEY b3 .)
-    POW             reduce using rule 6 (bloque -> LKEY b3 .)
-    SQRT            reduce using rule 6 (bloque -> LKEY b3 .)
-    INT             reduce using rule 6 (bloque -> LKEY b3 .)
-    FLOAT           reduce using rule 6 (bloque -> LKEY b3 .)
-    CHAR            reduce using rule 6 (bloque -> LKEY b3 .)
-    STRING          reduce using rule 6 (bloque -> LKEY b3 .)
-    BOOL            reduce using rule 6 (bloque -> LKEY b3 .)
-    $end            reduce using rule 6 (bloque -> LKEY b3 .)
+    LPARENT         shift and go to state 41
 
 
 state 24
 
-    (27) print -> PRINT . LPARENT es2
+    (53) estatuto -> comentario .
 
-    LPARENT         shift and go to state 45
+    RKEY            reduce using rule 53 (estatuto -> comentario .)
+    ID              reduce using rule 53 (estatuto -> comentario .)
+    PRINT           reduce using rule 53 (estatuto -> comentario .)
+    IF              reduce using rule 53 (estatuto -> comentario .)
+    WHILE           reduce using rule 53 (estatuto -> comentario .)
+    DO              reduce using rule 53 (estatuto -> comentario .)
+    FOR             reduce using rule 53 (estatuto -> comentario .)
+    COMENTARIO      reduce using rule 53 (estatuto -> comentario .)
+    INT             reduce using rule 53 (estatuto -> comentario .)
+    FLOAT           reduce using rule 53 (estatuto -> comentario .)
+    CHAR            reduce using rule 53 (estatuto -> comentario .)
+    STRING          reduce using rule 53 (estatuto -> comentario .)
+    BOOL            reduce using rule 53 (estatuto -> comentario .)
 
 
 state 25
 
-    (52) estatuto -> comentario .
-
-    RKEY            reduce using rule 52 (estatuto -> comentario .)
-    ID              reduce using rule 52 (estatuto -> comentario .)
-    PRINT           reduce using rule 52 (estatuto -> comentario .)
-    IF              reduce using rule 52 (estatuto -> comentario .)
-    WHILE           reduce using rule 52 (estatuto -> comentario .)
-    DO              reduce using rule 52 (estatuto -> comentario .)
-    FOR             reduce using rule 52 (estatuto -> comentario .)
-    COMENTARIO      reduce using rule 52 (estatuto -> comentario .)
-    POW             reduce using rule 52 (estatuto -> comentario .)
-    SQRT            reduce using rule 52 (estatuto -> comentario .)
-    INT             reduce using rule 52 (estatuto -> comentario .)
-    FLOAT           reduce using rule 52 (estatuto -> comentario .)
-    CHAR            reduce using rule 52 (estatuto -> comentario .)
-    STRING          reduce using rule 52 (estatuto -> comentario .)
-    BOOL            reduce using rule 52 (estatuto -> comentario .)
-
-
-state 26
-
-    (64) potencia -> POW . LPARENT varcte COMA varcte RPARENT PUNTOCOMA
-
-    LPARENT         shift and go to state 46
-
-
-state 27
-
-    (7) b2 -> estatuto . b3
-    (8) b2 -> estatuto . b2
-    (9) b3 -> . RKEY
-    (7) b2 -> . estatuto b3
-    (8) b2 -> . estatuto b2
-    (44) estatuto -> . asignacion
-    (45) estatuto -> . print
-    (46) estatuto -> . condicion
-    (47) estatuto -> . ciclowhile
-    (48) estatuto -> . ciclodowhile
-    (49) estatuto -> . ciclofor
-    (50) estatuto -> . read
-    (51) estatuto -> . declaracion
-    (52) estatuto -> . comentario
-    (53) estatuto -> . potencia
-    (54) estatuto -> . raiz
-    (26) asignacion -> . ID IGUAL expresion PUNTOCOMA
-    (27) print -> . PRINT LPARENT es2
-    (32) condicion -> . IF LKEY expresion RKEY bloque c2
+    (8) b3 -> estatuto . b4
+    (9) b4 -> . b3
+    (10) b4 -> . RKEY
+    (8) b3 -> . estatuto b4
+    (45) estatuto -> . asignacion
+    (46) estatuto -> . print
+    (47) estatuto -> . condicion
+    (48) estatuto -> . ciclowhile
+    (49) estatuto -> . ciclodowhile
+    (50) estatuto -> . ciclofor
+    (51) estatuto -> . read
+    (52) estatuto -> . declaracion
+    (53) estatuto -> . comentario
+    (27) asignacion -> . ID IGUAL expresion PUNTOCOMA
+    (28) print -> . PRINT LPARENT pr2
+    (33) condicion -> . IF LKEY expresion RKEY bloque c2
     (60) ciclowhile -> . WHILE LPARENT expresion RPARENT bloque
     (61) ciclodowhile -> . DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA
     (63) ciclofor -> . FOR LPARENT asignacion expresion asignacion RPARENT bloque
     (62) read -> . ID IGUAL READ LPARENT RPARENT PUNTOCOMA
-    (20) declaracion -> . tipo ID PUNTOCOMA
-    (55) comentario -> . COMENTARIO
-    (64) potencia -> . POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA
-    (65) raiz -> . SQRT LPARENT varcte RPARENT PUNTOCOMA
-    (21) tipo -> . INT
-    (22) tipo -> . FLOAT
-    (23) tipo -> . CHAR
-    (24) tipo -> . STRING
-    (25) tipo -> . BOOL
+    (21) declaracion -> . tipo ID PUNTOCOMA
+    (54) comentario -> . COMENTARIO
+    (22) tipo -> . INT
+    (23) tipo -> . FLOAT
+    (24) tipo -> . CHAR
+    (25) tipo -> . STRING
+    (26) tipo -> . BOOL
 
-    RKEY            shift and go to state 35
-    ID              shift and go to state 38
-    PRINT           shift and go to state 24
-    IF              shift and go to state 39
-    WHILE           shift and go to state 21
+    RKEY            shift and go to state 44
+    ID              shift and go to state 35
+    PRINT           shift and go to state 23
+    IF              shift and go to state 36
+    WHILE           shift and go to state 20
     DO              shift and go to state 19
-    FOR             shift and go to state 33
-    COMENTARIO      shift and go to state 20
-    POW             shift and go to state 26
-    SQRT            shift and go to state 41
+    FOR             shift and go to state 30
+    COMENTARIO      shift and go to state 29
     INT             shift and go to state 8
     FLOAT           shift and go to state 9
     CHAR            shift and go to state 10
     STRING          shift and go to state 6
     BOOL            shift and go to state 11
 
-    raiz                           shift and go to state 37
-    asignacion                     shift and go to state 40
-    read                           shift and go to state 34
-    estatuto                       shift and go to state 27
-    ciclofor                       shift and go to state 36
-    comentario                     shift and go to state 25
-    condicion                      shift and go to state 30
-    potencia                       shift and go to state 31
-    b2                             shift and go to state 47
-    b3                             shift and go to state 48
-    print                          shift and go to state 32
-    ciclodowhile                   shift and go to state 29
-    ciclowhile                     shift and go to state 28
-    declaracion                    shift and go to state 42
     tipo                           shift and go to state 7
+    asignacion                     shift and go to state 37
+    read                           shift and go to state 31
+    estatuto                       shift and go to state 25
+    ciclofor                       shift and go to state 33
+    comentario                     shift and go to state 24
+    b4                             shift and go to state 42
+    condicion                      shift and go to state 27
+    b3                             shift and go to state 43
+    print                          shift and go to state 28
+    ciclodowhile                   shift and go to state 34
+    ciclowhile                     shift and go to state 26
+    declaracion                    shift and go to state 38
+
+state 26
+
+    (48) estatuto -> ciclowhile .
+
+    RKEY            reduce using rule 48 (estatuto -> ciclowhile .)
+    ID              reduce using rule 48 (estatuto -> ciclowhile .)
+    PRINT           reduce using rule 48 (estatuto -> ciclowhile .)
+    IF              reduce using rule 48 (estatuto -> ciclowhile .)
+    WHILE           reduce using rule 48 (estatuto -> ciclowhile .)
+    DO              reduce using rule 48 (estatuto -> ciclowhile .)
+    FOR             reduce using rule 48 (estatuto -> ciclowhile .)
+    COMENTARIO      reduce using rule 48 (estatuto -> ciclowhile .)
+    INT             reduce using rule 48 (estatuto -> ciclowhile .)
+    FLOAT           reduce using rule 48 (estatuto -> ciclowhile .)
+    CHAR            reduce using rule 48 (estatuto -> ciclowhile .)
+    STRING          reduce using rule 48 (estatuto -> ciclowhile .)
+    BOOL            reduce using rule 48 (estatuto -> ciclowhile .)
+
+
+state 27
+
+    (47) estatuto -> condicion .
+
+    RKEY            reduce using rule 47 (estatuto -> condicion .)
+    ID              reduce using rule 47 (estatuto -> condicion .)
+    PRINT           reduce using rule 47 (estatuto -> condicion .)
+    IF              reduce using rule 47 (estatuto -> condicion .)
+    WHILE           reduce using rule 47 (estatuto -> condicion .)
+    DO              reduce using rule 47 (estatuto -> condicion .)
+    FOR             reduce using rule 47 (estatuto -> condicion .)
+    COMENTARIO      reduce using rule 47 (estatuto -> condicion .)
+    INT             reduce using rule 47 (estatuto -> condicion .)
+    FLOAT           reduce using rule 47 (estatuto -> condicion .)
+    CHAR            reduce using rule 47 (estatuto -> condicion .)
+    STRING          reduce using rule 47 (estatuto -> condicion .)
+    BOOL            reduce using rule 47 (estatuto -> condicion .)
+
 
 state 28
 
-    (47) estatuto -> ciclowhile .
+    (46) estatuto -> print .
 
-    RKEY            reduce using rule 47 (estatuto -> ciclowhile .)
-    ID              reduce using rule 47 (estatuto -> ciclowhile .)
-    PRINT           reduce using rule 47 (estatuto -> ciclowhile .)
-    IF              reduce using rule 47 (estatuto -> ciclowhile .)
-    WHILE           reduce using rule 47 (estatuto -> ciclowhile .)
-    DO              reduce using rule 47 (estatuto -> ciclowhile .)
-    FOR             reduce using rule 47 (estatuto -> ciclowhile .)
-    COMENTARIO      reduce using rule 47 (estatuto -> ciclowhile .)
-    POW             reduce using rule 47 (estatuto -> ciclowhile .)
-    SQRT            reduce using rule 47 (estatuto -> ciclowhile .)
-    INT             reduce using rule 47 (estatuto -> ciclowhile .)
-    FLOAT           reduce using rule 47 (estatuto -> ciclowhile .)
-    CHAR            reduce using rule 47 (estatuto -> ciclowhile .)
-    STRING          reduce using rule 47 (estatuto -> ciclowhile .)
-    BOOL            reduce using rule 47 (estatuto -> ciclowhile .)
+    RKEY            reduce using rule 46 (estatuto -> print .)
+    ID              reduce using rule 46 (estatuto -> print .)
+    PRINT           reduce using rule 46 (estatuto -> print .)
+    IF              reduce using rule 46 (estatuto -> print .)
+    WHILE           reduce using rule 46 (estatuto -> print .)
+    DO              reduce using rule 46 (estatuto -> print .)
+    FOR             reduce using rule 46 (estatuto -> print .)
+    COMENTARIO      reduce using rule 46 (estatuto -> print .)
+    INT             reduce using rule 46 (estatuto -> print .)
+    FLOAT           reduce using rule 46 (estatuto -> print .)
+    CHAR            reduce using rule 46 (estatuto -> print .)
+    STRING          reduce using rule 46 (estatuto -> print .)
+    BOOL            reduce using rule 46 (estatuto -> print .)
 
 
 state 29
 
-    (48) estatuto -> ciclodowhile .
+    (54) comentario -> COMENTARIO .
 
-    RKEY            reduce using rule 48 (estatuto -> ciclodowhile .)
-    ID              reduce using rule 48 (estatuto -> ciclodowhile .)
-    PRINT           reduce using rule 48 (estatuto -> ciclodowhile .)
-    IF              reduce using rule 48 (estatuto -> ciclodowhile .)
-    WHILE           reduce using rule 48 (estatuto -> ciclodowhile .)
-    DO              reduce using rule 48 (estatuto -> ciclodowhile .)
-    FOR             reduce using rule 48 (estatuto -> ciclodowhile .)
-    COMENTARIO      reduce using rule 48 (estatuto -> ciclodowhile .)
-    POW             reduce using rule 48 (estatuto -> ciclodowhile .)
-    SQRT            reduce using rule 48 (estatuto -> ciclodowhile .)
-    INT             reduce using rule 48 (estatuto -> ciclodowhile .)
-    FLOAT           reduce using rule 48 (estatuto -> ciclodowhile .)
-    CHAR            reduce using rule 48 (estatuto -> ciclodowhile .)
-    STRING          reduce using rule 48 (estatuto -> ciclodowhile .)
-    BOOL            reduce using rule 48 (estatuto -> ciclodowhile .)
+    RKEY            reduce using rule 54 (comentario -> COMENTARIO .)
+    ID              reduce using rule 54 (comentario -> COMENTARIO .)
+    PRINT           reduce using rule 54 (comentario -> COMENTARIO .)
+    IF              reduce using rule 54 (comentario -> COMENTARIO .)
+    WHILE           reduce using rule 54 (comentario -> COMENTARIO .)
+    DO              reduce using rule 54 (comentario -> COMENTARIO .)
+    FOR             reduce using rule 54 (comentario -> COMENTARIO .)
+    COMENTARIO      reduce using rule 54 (comentario -> COMENTARIO .)
+    INT             reduce using rule 54 (comentario -> COMENTARIO .)
+    FLOAT           reduce using rule 54 (comentario -> COMENTARIO .)
+    CHAR            reduce using rule 54 (comentario -> COMENTARIO .)
+    STRING          reduce using rule 54 (comentario -> COMENTARIO .)
+    BOOL            reduce using rule 54 (comentario -> COMENTARIO .)
 
 
 state 30
 
-    (46) estatuto -> condicion .
+    (63) ciclofor -> FOR . LPARENT asignacion expresion asignacion RPARENT bloque
 
-    RKEY            reduce using rule 46 (estatuto -> condicion .)
-    ID              reduce using rule 46 (estatuto -> condicion .)
-    PRINT           reduce using rule 46 (estatuto -> condicion .)
-    IF              reduce using rule 46 (estatuto -> condicion .)
-    WHILE           reduce using rule 46 (estatuto -> condicion .)
-    DO              reduce using rule 46 (estatuto -> condicion .)
-    FOR             reduce using rule 46 (estatuto -> condicion .)
-    COMENTARIO      reduce using rule 46 (estatuto -> condicion .)
-    POW             reduce using rule 46 (estatuto -> condicion .)
-    SQRT            reduce using rule 46 (estatuto -> condicion .)
-    INT             reduce using rule 46 (estatuto -> condicion .)
-    FLOAT           reduce using rule 46 (estatuto -> condicion .)
-    CHAR            reduce using rule 46 (estatuto -> condicion .)
-    STRING          reduce using rule 46 (estatuto -> condicion .)
-    BOOL            reduce using rule 46 (estatuto -> condicion .)
+    LPARENT         shift and go to state 45
 
 
 state 31
 
-    (53) estatuto -> potencia .
+    (51) estatuto -> read .
 
-    RKEY            reduce using rule 53 (estatuto -> potencia .)
-    ID              reduce using rule 53 (estatuto -> potencia .)
-    PRINT           reduce using rule 53 (estatuto -> potencia .)
-    IF              reduce using rule 53 (estatuto -> potencia .)
-    WHILE           reduce using rule 53 (estatuto -> potencia .)
-    DO              reduce using rule 53 (estatuto -> potencia .)
-    FOR             reduce using rule 53 (estatuto -> potencia .)
-    COMENTARIO      reduce using rule 53 (estatuto -> potencia .)
-    POW             reduce using rule 53 (estatuto -> potencia .)
-    SQRT            reduce using rule 53 (estatuto -> potencia .)
-    INT             reduce using rule 53 (estatuto -> potencia .)
-    FLOAT           reduce using rule 53 (estatuto -> potencia .)
-    CHAR            reduce using rule 53 (estatuto -> potencia .)
-    STRING          reduce using rule 53 (estatuto -> potencia .)
-    BOOL            reduce using rule 53 (estatuto -> potencia .)
+    RKEY            reduce using rule 51 (estatuto -> read .)
+    ID              reduce using rule 51 (estatuto -> read .)
+    PRINT           reduce using rule 51 (estatuto -> read .)
+    IF              reduce using rule 51 (estatuto -> read .)
+    WHILE           reduce using rule 51 (estatuto -> read .)
+    DO              reduce using rule 51 (estatuto -> read .)
+    FOR             reduce using rule 51 (estatuto -> read .)
+    COMENTARIO      reduce using rule 51 (estatuto -> read .)
+    INT             reduce using rule 51 (estatuto -> read .)
+    FLOAT           reduce using rule 51 (estatuto -> read .)
+    CHAR            reduce using rule 51 (estatuto -> read .)
+    STRING          reduce using rule 51 (estatuto -> read .)
+    BOOL            reduce using rule 51 (estatuto -> read .)
 
 
 state 32
 
-    (45) estatuto -> print .
+    (7) b2 -> RKEY .
 
-    RKEY            reduce using rule 45 (estatuto -> print .)
-    ID              reduce using rule 45 (estatuto -> print .)
-    PRINT           reduce using rule 45 (estatuto -> print .)
-    IF              reduce using rule 45 (estatuto -> print .)
-    WHILE           reduce using rule 45 (estatuto -> print .)
-    DO              reduce using rule 45 (estatuto -> print .)
-    FOR             reduce using rule 45 (estatuto -> print .)
-    COMENTARIO      reduce using rule 45 (estatuto -> print .)
-    POW             reduce using rule 45 (estatuto -> print .)
-    SQRT            reduce using rule 45 (estatuto -> print .)
-    INT             reduce using rule 45 (estatuto -> print .)
-    FLOAT           reduce using rule 45 (estatuto -> print .)
-    CHAR            reduce using rule 45 (estatuto -> print .)
-    STRING          reduce using rule 45 (estatuto -> print .)
-    BOOL            reduce using rule 45 (estatuto -> print .)
+    $end            reduce using rule 7 (b2 -> RKEY .)
+    WHILE           reduce using rule 7 (b2 -> RKEY .)
+    RKEY            reduce using rule 7 (b2 -> RKEY .)
+    ID              reduce using rule 7 (b2 -> RKEY .)
+    PRINT           reduce using rule 7 (b2 -> RKEY .)
+    IF              reduce using rule 7 (b2 -> RKEY .)
+    DO              reduce using rule 7 (b2 -> RKEY .)
+    FOR             reduce using rule 7 (b2 -> RKEY .)
+    COMENTARIO      reduce using rule 7 (b2 -> RKEY .)
+    INT             reduce using rule 7 (b2 -> RKEY .)
+    FLOAT           reduce using rule 7 (b2 -> RKEY .)
+    CHAR            reduce using rule 7 (b2 -> RKEY .)
+    STRING          reduce using rule 7 (b2 -> RKEY .)
+    BOOL            reduce using rule 7 (b2 -> RKEY .)
+    ELSE            reduce using rule 7 (b2 -> RKEY .)
+    PUNTOCOMA       reduce using rule 7 (b2 -> RKEY .)
 
 
 state 33
 
-    (63) ciclofor -> FOR . LPARENT asignacion expresion asignacion RPARENT bloque
+    (50) estatuto -> ciclofor .
 
-    LPARENT         shift and go to state 49
+    RKEY            reduce using rule 50 (estatuto -> ciclofor .)
+    ID              reduce using rule 50 (estatuto -> ciclofor .)
+    PRINT           reduce using rule 50 (estatuto -> ciclofor .)
+    IF              reduce using rule 50 (estatuto -> ciclofor .)
+    WHILE           reduce using rule 50 (estatuto -> ciclofor .)
+    DO              reduce using rule 50 (estatuto -> ciclofor .)
+    FOR             reduce using rule 50 (estatuto -> ciclofor .)
+    COMENTARIO      reduce using rule 50 (estatuto -> ciclofor .)
+    INT             reduce using rule 50 (estatuto -> ciclofor .)
+    FLOAT           reduce using rule 50 (estatuto -> ciclofor .)
+    CHAR            reduce using rule 50 (estatuto -> ciclofor .)
+    STRING          reduce using rule 50 (estatuto -> ciclofor .)
+    BOOL            reduce using rule 50 (estatuto -> ciclofor .)
 
 
 state 34
 
-    (50) estatuto -> read .
+    (49) estatuto -> ciclodowhile .
 
-    RKEY            reduce using rule 50 (estatuto -> read .)
-    ID              reduce using rule 50 (estatuto -> read .)
-    PRINT           reduce using rule 50 (estatuto -> read .)
-    IF              reduce using rule 50 (estatuto -> read .)
-    WHILE           reduce using rule 50 (estatuto -> read .)
-    DO              reduce using rule 50 (estatuto -> read .)
-    FOR             reduce using rule 50 (estatuto -> read .)
-    COMENTARIO      reduce using rule 50 (estatuto -> read .)
-    POW             reduce using rule 50 (estatuto -> read .)
-    SQRT            reduce using rule 50 (estatuto -> read .)
-    INT             reduce using rule 50 (estatuto -> read .)
-    FLOAT           reduce using rule 50 (estatuto -> read .)
-    CHAR            reduce using rule 50 (estatuto -> read .)
-    STRING          reduce using rule 50 (estatuto -> read .)
-    BOOL            reduce using rule 50 (estatuto -> read .)
+    RKEY            reduce using rule 49 (estatuto -> ciclodowhile .)
+    ID              reduce using rule 49 (estatuto -> ciclodowhile .)
+    PRINT           reduce using rule 49 (estatuto -> ciclodowhile .)
+    IF              reduce using rule 49 (estatuto -> ciclodowhile .)
+    WHILE           reduce using rule 49 (estatuto -> ciclodowhile .)
+    DO              reduce using rule 49 (estatuto -> ciclodowhile .)
+    FOR             reduce using rule 49 (estatuto -> ciclodowhile .)
+    COMENTARIO      reduce using rule 49 (estatuto -> ciclodowhile .)
+    INT             reduce using rule 49 (estatuto -> ciclodowhile .)
+    FLOAT           reduce using rule 49 (estatuto -> ciclodowhile .)
+    CHAR            reduce using rule 49 (estatuto -> ciclodowhile .)
+    STRING          reduce using rule 49 (estatuto -> ciclodowhile .)
+    BOOL            reduce using rule 49 (estatuto -> ciclodowhile .)
 
 
 state 35
 
-    (9) b3 -> RKEY .
+    (27) asignacion -> ID . IGUAL expresion PUNTOCOMA
+    (62) read -> ID . IGUAL READ LPARENT RPARENT PUNTOCOMA
 
-    $end            reduce using rule 9 (b3 -> RKEY .)
-    WHILE           reduce using rule 9 (b3 -> RKEY .)
-    RKEY            reduce using rule 9 (b3 -> RKEY .)
-    ID              reduce using rule 9 (b3 -> RKEY .)
-    PRINT           reduce using rule 9 (b3 -> RKEY .)
-    IF              reduce using rule 9 (b3 -> RKEY .)
-    DO              reduce using rule 9 (b3 -> RKEY .)
-    FOR             reduce using rule 9 (b3 -> RKEY .)
-    COMENTARIO      reduce using rule 9 (b3 -> RKEY .)
-    POW             reduce using rule 9 (b3 -> RKEY .)
-    SQRT            reduce using rule 9 (b3 -> RKEY .)
-    INT             reduce using rule 9 (b3 -> RKEY .)
-    FLOAT           reduce using rule 9 (b3 -> RKEY .)
-    CHAR            reduce using rule 9 (b3 -> RKEY .)
-    STRING          reduce using rule 9 (b3 -> RKEY .)
-    BOOL            reduce using rule 9 (b3 -> RKEY .)
-    ELSE            reduce using rule 9 (b3 -> RKEY .)
-    PUNTOCOMA       reduce using rule 9 (b3 -> RKEY .)
+    IGUAL           shift and go to state 46
 
 
 state 36
 
-    (49) estatuto -> ciclofor .
+    (33) condicion -> IF . LKEY expresion RKEY bloque c2
 
-    RKEY            reduce using rule 49 (estatuto -> ciclofor .)
-    ID              reduce using rule 49 (estatuto -> ciclofor .)
-    PRINT           reduce using rule 49 (estatuto -> ciclofor .)
-    IF              reduce using rule 49 (estatuto -> ciclofor .)
-    WHILE           reduce using rule 49 (estatuto -> ciclofor .)
-    DO              reduce using rule 49 (estatuto -> ciclofor .)
-    FOR             reduce using rule 49 (estatuto -> ciclofor .)
-    COMENTARIO      reduce using rule 49 (estatuto -> ciclofor .)
-    POW             reduce using rule 49 (estatuto -> ciclofor .)
-    SQRT            reduce using rule 49 (estatuto -> ciclofor .)
-    INT             reduce using rule 49 (estatuto -> ciclofor .)
-    FLOAT           reduce using rule 49 (estatuto -> ciclofor .)
-    CHAR            reduce using rule 49 (estatuto -> ciclofor .)
-    STRING          reduce using rule 49 (estatuto -> ciclofor .)
-    BOOL            reduce using rule 49 (estatuto -> ciclofor .)
+    LKEY            shift and go to state 47
 
 
 state 37
 
-    (54) estatuto -> raiz .
+    (45) estatuto -> asignacion .
 
-    RKEY            reduce using rule 54 (estatuto -> raiz .)
-    ID              reduce using rule 54 (estatuto -> raiz .)
-    PRINT           reduce using rule 54 (estatuto -> raiz .)
-    IF              reduce using rule 54 (estatuto -> raiz .)
-    WHILE           reduce using rule 54 (estatuto -> raiz .)
-    DO              reduce using rule 54 (estatuto -> raiz .)
-    FOR             reduce using rule 54 (estatuto -> raiz .)
-    COMENTARIO      reduce using rule 54 (estatuto -> raiz .)
-    POW             reduce using rule 54 (estatuto -> raiz .)
-    SQRT            reduce using rule 54 (estatuto -> raiz .)
-    INT             reduce using rule 54 (estatuto -> raiz .)
-    FLOAT           reduce using rule 54 (estatuto -> raiz .)
-    CHAR            reduce using rule 54 (estatuto -> raiz .)
-    STRING          reduce using rule 54 (estatuto -> raiz .)
-    BOOL            reduce using rule 54 (estatuto -> raiz .)
+    RKEY            reduce using rule 45 (estatuto -> asignacion .)
+    ID              reduce using rule 45 (estatuto -> asignacion .)
+    PRINT           reduce using rule 45 (estatuto -> asignacion .)
+    IF              reduce using rule 45 (estatuto -> asignacion .)
+    WHILE           reduce using rule 45 (estatuto -> asignacion .)
+    DO              reduce using rule 45 (estatuto -> asignacion .)
+    FOR             reduce using rule 45 (estatuto -> asignacion .)
+    COMENTARIO      reduce using rule 45 (estatuto -> asignacion .)
+    INT             reduce using rule 45 (estatuto -> asignacion .)
+    FLOAT           reduce using rule 45 (estatuto -> asignacion .)
+    CHAR            reduce using rule 45 (estatuto -> asignacion .)
+    STRING          reduce using rule 45 (estatuto -> asignacion .)
+    BOOL            reduce using rule 45 (estatuto -> asignacion .)
 
 
 state 38
 
-    (26) asignacion -> ID . IGUAL expresion PUNTOCOMA
-    (62) read -> ID . IGUAL READ LPARENT RPARENT PUNTOCOMA
+    (52) estatuto -> declaracion .
 
-    IGUAL           shift and go to state 50
+    RKEY            reduce using rule 52 (estatuto -> declaracion .)
+    ID              reduce using rule 52 (estatuto -> declaracion .)
+    PRINT           reduce using rule 52 (estatuto -> declaracion .)
+    IF              reduce using rule 52 (estatuto -> declaracion .)
+    WHILE           reduce using rule 52 (estatuto -> declaracion .)
+    DO              reduce using rule 52 (estatuto -> declaracion .)
+    FOR             reduce using rule 52 (estatuto -> declaracion .)
+    COMENTARIO      reduce using rule 52 (estatuto -> declaracion .)
+    INT             reduce using rule 52 (estatuto -> declaracion .)
+    FLOAT           reduce using rule 52 (estatuto -> declaracion .)
+    CHAR            reduce using rule 52 (estatuto -> declaracion .)
+    STRING          reduce using rule 52 (estatuto -> declaracion .)
+    BOOL            reduce using rule 52 (estatuto -> declaracion .)
 
 
 state 39
 
-    (32) condicion -> IF . LKEY expresion RKEY bloque c2
+    (61) ciclodowhile -> DO bloque . WHILE LPARENT expresion RPARENT PUNTOCOMA
 
-    LKEY            shift and go to state 51
+    WHILE           shift and go to state 48
 
 
 state 40
 
-    (44) estatuto -> asignacion .
+    (60) ciclowhile -> WHILE LPARENT . expresion RPARENT bloque
+    (11) expresion -> . exp e2
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
-    RKEY            reduce using rule 44 (estatuto -> asignacion .)
-    ID              reduce using rule 44 (estatuto -> asignacion .)
-    PRINT           reduce using rule 44 (estatuto -> asignacion .)
-    IF              reduce using rule 44 (estatuto -> asignacion .)
-    WHILE           reduce using rule 44 (estatuto -> asignacion .)
-    DO              reduce using rule 44 (estatuto -> asignacion .)
-    FOR             reduce using rule 44 (estatuto -> asignacion .)
-    COMENTARIO      reduce using rule 44 (estatuto -> asignacion .)
-    POW             reduce using rule 44 (estatuto -> asignacion .)
-    SQRT            reduce using rule 44 (estatuto -> asignacion .)
-    INT             reduce using rule 44 (estatuto -> asignacion .)
-    FLOAT           reduce using rule 44 (estatuto -> asignacion .)
-    CHAR            reduce using rule 44 (estatuto -> asignacion .)
-    STRING          reduce using rule 44 (estatuto -> asignacion .)
-    BOOL            reduce using rule 44 (estatuto -> asignacion .)
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
+    ID              shift and go to state 59
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
+    expresion                      shift and go to state 60
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 50
+    exp                            shift and go to state 61
+    factor                         shift and go to state 55
 
 state 41
 
-    (65) raiz -> SQRT . LPARENT varcte RPARENT PUNTOCOMA
+    (28) print -> PRINT LPARENT . pr2
+    (29) pr2 -> . expresion pr3
+    (30) pr2 -> . CADENA pr3
+    (11) expresion -> . exp e2
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
-    LPARENT         shift and go to state 52
+    CADENA          shift and go to state 63
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
+    ID              shift and go to state 59
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CARACTER        shift and go to state 58
 
+    expresion                      shift and go to state 65
+    varcte                         shift and go to state 53
+    f2                             shift and go to state 49
+    factor                         shift and go to state 55
+    termino                        shift and go to state 50
+    exp                            shift and go to state 61
+    pr2                            shift and go to state 64
 
 state 42
 
-    (51) estatuto -> declaracion .
+    (8) b3 -> estatuto b4 .
 
-    RKEY            reduce using rule 51 (estatuto -> declaracion .)
-    ID              reduce using rule 51 (estatuto -> declaracion .)
-    PRINT           reduce using rule 51 (estatuto -> declaracion .)
-    IF              reduce using rule 51 (estatuto -> declaracion .)
-    WHILE           reduce using rule 51 (estatuto -> declaracion .)
-    DO              reduce using rule 51 (estatuto -> declaracion .)
-    FOR             reduce using rule 51 (estatuto -> declaracion .)
-    COMENTARIO      reduce using rule 51 (estatuto -> declaracion .)
-    POW             reduce using rule 51 (estatuto -> declaracion .)
-    SQRT            reduce using rule 51 (estatuto -> declaracion .)
-    INT             reduce using rule 51 (estatuto -> declaracion .)
-    FLOAT           reduce using rule 51 (estatuto -> declaracion .)
-    CHAR            reduce using rule 51 (estatuto -> declaracion .)
-    STRING          reduce using rule 51 (estatuto -> declaracion .)
-    BOOL            reduce using rule 51 (estatuto -> declaracion .)
+    $end            reduce using rule 8 (b3 -> estatuto b4 .)
+    WHILE           reduce using rule 8 (b3 -> estatuto b4 .)
+    RKEY            reduce using rule 8 (b3 -> estatuto b4 .)
+    ID              reduce using rule 8 (b3 -> estatuto b4 .)
+    PRINT           reduce using rule 8 (b3 -> estatuto b4 .)
+    IF              reduce using rule 8 (b3 -> estatuto b4 .)
+    DO              reduce using rule 8 (b3 -> estatuto b4 .)
+    FOR             reduce using rule 8 (b3 -> estatuto b4 .)
+    COMENTARIO      reduce using rule 8 (b3 -> estatuto b4 .)
+    INT             reduce using rule 8 (b3 -> estatuto b4 .)
+    FLOAT           reduce using rule 8 (b3 -> estatuto b4 .)
+    CHAR            reduce using rule 8 (b3 -> estatuto b4 .)
+    STRING          reduce using rule 8 (b3 -> estatuto b4 .)
+    BOOL            reduce using rule 8 (b3 -> estatuto b4 .)
+    ELSE            reduce using rule 8 (b3 -> estatuto b4 .)
+    PUNTOCOMA       reduce using rule 8 (b3 -> estatuto b4 .)
 
 
 state 43
 
-    (61) ciclodowhile -> DO bloque . WHILE LPARENT expresion RPARENT PUNTOCOMA
+    (9) b4 -> b3 .
 
-    WHILE           shift and go to state 53
+    $end            reduce using rule 9 (b4 -> b3 .)
+    WHILE           reduce using rule 9 (b4 -> b3 .)
+    RKEY            reduce using rule 9 (b4 -> b3 .)
+    ID              reduce using rule 9 (b4 -> b3 .)
+    PRINT           reduce using rule 9 (b4 -> b3 .)
+    IF              reduce using rule 9 (b4 -> b3 .)
+    DO              reduce using rule 9 (b4 -> b3 .)
+    FOR             reduce using rule 9 (b4 -> b3 .)
+    COMENTARIO      reduce using rule 9 (b4 -> b3 .)
+    INT             reduce using rule 9 (b4 -> b3 .)
+    FLOAT           reduce using rule 9 (b4 -> b3 .)
+    CHAR            reduce using rule 9 (b4 -> b3 .)
+    STRING          reduce using rule 9 (b4 -> b3 .)
+    BOOL            reduce using rule 9 (b4 -> b3 .)
+    ELSE            reduce using rule 9 (b4 -> b3 .)
+    PUNTOCOMA       reduce using rule 9 (b4 -> b3 .)
 
 
 state 44
 
-    (60) ciclowhile -> WHILE LPARENT . expresion RPARENT bloque
-    (10) expresion -> . e2
-    (11) expresion -> . e2 e3 e2
-    (12) e2 -> . exp
-    (16) exp -> . termino
-    (17) exp -> . exp ex2 exp
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (10) b4 -> RKEY .
 
-    LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
-    ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    $end            reduce using rule 10 (b4 -> RKEY .)
+    WHILE           reduce using rule 10 (b4 -> RKEY .)
+    RKEY            reduce using rule 10 (b4 -> RKEY .)
+    ID              reduce using rule 10 (b4 -> RKEY .)
+    PRINT           reduce using rule 10 (b4 -> RKEY .)
+    IF              reduce using rule 10 (b4 -> RKEY .)
+    DO              reduce using rule 10 (b4 -> RKEY .)
+    FOR             reduce using rule 10 (b4 -> RKEY .)
+    COMENTARIO      reduce using rule 10 (b4 -> RKEY .)
+    INT             reduce using rule 10 (b4 -> RKEY .)
+    FLOAT           reduce using rule 10 (b4 -> RKEY .)
+    CHAR            reduce using rule 10 (b4 -> RKEY .)
+    STRING          reduce using rule 10 (b4 -> RKEY .)
+    BOOL            reduce using rule 10 (b4 -> RKEY .)
+    ELSE            reduce using rule 10 (b4 -> RKEY .)
+    PUNTOCOMA       reduce using rule 10 (b4 -> RKEY .)
 
-    expresion                      shift and go to state 54
-    f2                             shift and go to state 56
-    varcte                         shift and go to state 55
-    termino                        shift and go to state 61
-    exp                            shift and go to state 62
-    factor                         shift and go to state 63
-    e2                             shift and go to state 66
 
 state 45
 
-    (27) print -> PRINT LPARENT . es2
-    (28) es2 -> . expresion es3
-    (29) es2 -> . varstring es3
-    (10) expresion -> . e2
-    (11) expresion -> . e2 e3 e2
-    (59) varstring -> . CADENA
-    (12) e2 -> . exp
-    (16) exp -> . termino
-    (17) exp -> . exp ex2 exp
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (63) ciclofor -> FOR LPARENT . asignacion expresion asignacion RPARENT bloque
+    (27) asignacion -> . ID IGUAL expresion PUNTOCOMA
 
-    CADENA          shift and go to state 67
-    LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
-    ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    ID              shift and go to state 67
 
-    expresion                      shift and go to state 69
-    varcte                         shift and go to state 55
-    f2                             shift and go to state 56
-    es2                            shift and go to state 70
-    varstring                      shift and go to state 68
-    termino                        shift and go to state 61
-    exp                            shift and go to state 62
-    factor                         shift and go to state 63
-    e2                             shift and go to state 66
+    asignacion                     shift and go to state 66
 
 state 46
 
-    (64) potencia -> POW LPARENT . varcte COMA varcte RPARENT PUNTOCOMA
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (27) asignacion -> ID IGUAL . expresion PUNTOCOMA
+    (62) read -> ID IGUAL . READ LPARENT RPARENT PUNTOCOMA
+    (11) expresion -> . exp e2
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
+    READ            shift and go to state 68
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
     ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
-    varcte                         shift and go to state 71
+    expresion                      shift and go to state 69
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 50
+    exp                            shift and go to state 61
+    factor                         shift and go to state 55
 
 state 47
 
-    (8) b2 -> estatuto b2 .
+    (33) condicion -> IF LKEY . expresion RKEY bloque c2
+    (11) expresion -> . exp e2
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
-    $end            reduce using rule 8 (b2 -> estatuto b2 .)
-    WHILE           reduce using rule 8 (b2 -> estatuto b2 .)
-    RKEY            reduce using rule 8 (b2 -> estatuto b2 .)
-    ID              reduce using rule 8 (b2 -> estatuto b2 .)
-    PRINT           reduce using rule 8 (b2 -> estatuto b2 .)
-    IF              reduce using rule 8 (b2 -> estatuto b2 .)
-    DO              reduce using rule 8 (b2 -> estatuto b2 .)
-    FOR             reduce using rule 8 (b2 -> estatuto b2 .)
-    COMENTARIO      reduce using rule 8 (b2 -> estatuto b2 .)
-    POW             reduce using rule 8 (b2 -> estatuto b2 .)
-    SQRT            reduce using rule 8 (b2 -> estatuto b2 .)
-    INT             reduce using rule 8 (b2 -> estatuto b2 .)
-    FLOAT           reduce using rule 8 (b2 -> estatuto b2 .)
-    CHAR            reduce using rule 8 (b2 -> estatuto b2 .)
-    STRING          reduce using rule 8 (b2 -> estatuto b2 .)
-    BOOL            reduce using rule 8 (b2 -> estatuto b2 .)
-    ELSE            reduce using rule 8 (b2 -> estatuto b2 .)
-    PUNTOCOMA       reduce using rule 8 (b2 -> estatuto b2 .)
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
+    ID              shift and go to state 59
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
+    expresion                      shift and go to state 70
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 50
+    exp                            shift and go to state 61
+    factor                         shift and go to state 55
 
 state 48
 
-    (7) b2 -> estatuto b3 .
+    (61) ciclodowhile -> DO bloque WHILE . LPARENT expresion RPARENT PUNTOCOMA
 
-    $end            reduce using rule 7 (b2 -> estatuto b3 .)
-    WHILE           reduce using rule 7 (b2 -> estatuto b3 .)
-    RKEY            reduce using rule 7 (b2 -> estatuto b3 .)
-    ID              reduce using rule 7 (b2 -> estatuto b3 .)
-    PRINT           reduce using rule 7 (b2 -> estatuto b3 .)
-    IF              reduce using rule 7 (b2 -> estatuto b3 .)
-    DO              reduce using rule 7 (b2 -> estatuto b3 .)
-    FOR             reduce using rule 7 (b2 -> estatuto b3 .)
-    COMENTARIO      reduce using rule 7 (b2 -> estatuto b3 .)
-    POW             reduce using rule 7 (b2 -> estatuto b3 .)
-    SQRT            reduce using rule 7 (b2 -> estatuto b3 .)
-    INT             reduce using rule 7 (b2 -> estatuto b3 .)
-    FLOAT           reduce using rule 7 (b2 -> estatuto b3 .)
-    CHAR            reduce using rule 7 (b2 -> estatuto b3 .)
-    STRING          reduce using rule 7 (b2 -> estatuto b3 .)
-    BOOL            reduce using rule 7 (b2 -> estatuto b3 .)
-    ELSE            reduce using rule 7 (b2 -> estatuto b3 .)
-    PUNTOCOMA       reduce using rule 7 (b2 -> estatuto b3 .)
+    LPARENT         shift and go to state 71
 
 
 state 49
 
-    (63) ciclofor -> FOR LPARENT . asignacion expresion asignacion RPARENT bloque
-    (26) asignacion -> . ID IGUAL expresion PUNTOCOMA
+    (41) factor -> f2 .
 
-    ID              shift and go to state 73
+    MULT            reduce using rule 41 (factor -> f2 .)
+    DIV             reduce using rule 41 (factor -> f2 .)
+    SUMA            reduce using rule 41 (factor -> f2 .)
+    RESTA           reduce using rule 41 (factor -> f2 .)
+    GT              reduce using rule 41 (factor -> f2 .)
+    LT              reduce using rule 41 (factor -> f2 .)
+    RPARENT         reduce using rule 41 (factor -> f2 .)
+    CADENA          reduce using rule 41 (factor -> f2 .)
+    LKEY            reduce using rule 41 (factor -> f2 .)
+    ID              reduce using rule 41 (factor -> f2 .)
+    ENTERO          reduce using rule 41 (factor -> f2 .)
+    FLOTANTE        reduce using rule 41 (factor -> f2 .)
+    CARACTER        reduce using rule 41 (factor -> f2 .)
+    PUNTOCOMA       reduce using rule 41 (factor -> f2 .)
+    RKEY            reduce using rule 41 (factor -> f2 .)
 
-    asignacion                     shift and go to state 72
 
 state 50
 
-    (26) asignacion -> ID IGUAL . expresion PUNTOCOMA
-    (62) read -> ID IGUAL . READ LPARENT RPARENT PUNTOCOMA
-    (10) expresion -> . e2
-    (11) expresion -> . e2 e3 e2
-    (12) e2 -> . exp
-    (16) exp -> . termino
-    (17) exp -> . exp ex2 exp
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (17) exp -> termino . exp2
+    (18) exp2 -> . SUMA exp
+    (19) exp2 -> . RESTA exp
+    (20) exp2 -> . empty
+    (64) empty -> .
 
-    READ            shift and go to state 74
-    LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
-    ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+  ! shift/reduce conflict for SUMA resolved as shift
+  ! shift/reduce conflict for RESTA resolved as shift
+    SUMA            shift and go to state 73
+    RESTA           shift and go to state 74
+    GT              reduce using rule 64 (empty -> .)
+    LT              reduce using rule 64 (empty -> .)
+    RPARENT         reduce using rule 64 (empty -> .)
+    CADENA          reduce using rule 64 (empty -> .)
+    LKEY            reduce using rule 64 (empty -> .)
+    ID              reduce using rule 64 (empty -> .)
+    ENTERO          reduce using rule 64 (empty -> .)
+    FLOTANTE        reduce using rule 64 (empty -> .)
+    CARACTER        reduce using rule 64 (empty -> .)
+    PUNTOCOMA       reduce using rule 64 (empty -> .)
+    RKEY            reduce using rule 64 (empty -> .)
 
-    expresion                      shift and go to state 75
-    f2                             shift and go to state 56
-    varcte                         shift and go to state 55
-    termino                        shift and go to state 61
-    exp                            shift and go to state 62
-    factor                         shift and go to state 63
-    e2                             shift and go to state 66
+  ! SUMA            [ reduce using rule 64 (empty -> .) ]
+  ! RESTA           [ reduce using rule 64 (empty -> .) ]
+
+    exp2                           shift and go to state 72
+    empty                          shift and go to state 75
 
 state 51
 
-    (32) condicion -> IF LKEY . expresion RKEY bloque c2
-    (10) expresion -> . e2
-    (11) expresion -> . e2 e3 e2
-    (12) e2 -> . exp
-    (16) exp -> . termino
-    (17) exp -> . exp ex2 exp
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (43) f2 -> RESTA . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
-    LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
     ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
-    expresion                      shift and go to state 76
-    f2                             shift and go to state 56
-    varcte                         shift and go to state 55
-    termino                        shift and go to state 61
-    exp                            shift and go to state 62
-    factor                         shift and go to state 63
-    e2                             shift and go to state 66
+    varcte                         shift and go to state 76
 
 state 52
 
-    (65) raiz -> SQRT LPARENT . varcte RPARENT PUNTOCOMA
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (42) f2 -> SUMA . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
     ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
     varcte                         shift and go to state 77
 
 state 53
 
-    (61) ciclodowhile -> DO bloque WHILE . LPARENT expresion RPARENT PUNTOCOMA
+    (44) f2 -> varcte .
 
-    LPARENT         shift and go to state 78
+    MULT            reduce using rule 44 (f2 -> varcte .)
+    DIV             reduce using rule 44 (f2 -> varcte .)
+    SUMA            reduce using rule 44 (f2 -> varcte .)
+    RESTA           reduce using rule 44 (f2 -> varcte .)
+    RPARENT         reduce using rule 44 (f2 -> varcte .)
+    CADENA          reduce using rule 44 (f2 -> varcte .)
+    LKEY            reduce using rule 44 (f2 -> varcte .)
+    ID              reduce using rule 44 (f2 -> varcte .)
+    ENTERO          reduce using rule 44 (f2 -> varcte .)
+    FLOTANTE        reduce using rule 44 (f2 -> varcte .)
+    CARACTER        reduce using rule 44 (f2 -> varcte .)
+    PUNTOCOMA       reduce using rule 44 (f2 -> varcte .)
+    RKEY            reduce using rule 44 (f2 -> varcte .)
+    GT              reduce using rule 44 (f2 -> varcte .)
+    LT              reduce using rule 44 (f2 -> varcte .)
 
 
 state 54
 
-    (60) ciclowhile -> WHILE LPARENT expresion . RPARENT bloque
+    (58) varcte -> CADENA .
 
-    RPARENT         shift and go to state 79
+    MULT            reduce using rule 58 (varcte -> CADENA .)
+    DIV             reduce using rule 58 (varcte -> CADENA .)
+    SUMA            reduce using rule 58 (varcte -> CADENA .)
+    RESTA           reduce using rule 58 (varcte -> CADENA .)
+    RPARENT         reduce using rule 58 (varcte -> CADENA .)
+    CADENA          reduce using rule 58 (varcte -> CADENA .)
+    LKEY            reduce using rule 58 (varcte -> CADENA .)
+    ID              reduce using rule 58 (varcte -> CADENA .)
+    ENTERO          reduce using rule 58 (varcte -> CADENA .)
+    FLOTANTE        reduce using rule 58 (varcte -> CADENA .)
+    CARACTER        reduce using rule 58 (varcte -> CADENA .)
+    PUNTOCOMA       reduce using rule 58 (varcte -> CADENA .)
+    RKEY            reduce using rule 58 (varcte -> CADENA .)
+    GT              reduce using rule 58 (varcte -> CADENA .)
+    LT              reduce using rule 58 (varcte -> CADENA .)
 
 
 state 55
 
-    (43) f2 -> varcte .
+    (36) termino -> factor . te2
+    (37) te2 -> . MULT termino
+    (38) te2 -> . DIV termino
+    (39) te2 -> . empty
+    (64) empty -> .
 
-    MULT            reduce using rule 43 (f2 -> varcte .)
-    DIV             reduce using rule 43 (f2 -> varcte .)
-    SUMA            reduce using rule 43 (f2 -> varcte .)
-    RESTA           reduce using rule 43 (f2 -> varcte .)
-    LT              reduce using rule 43 (f2 -> varcte .)
-    GT              reduce using rule 43 (f2 -> varcte .)
-    RKEY            reduce using rule 43 (f2 -> varcte .)
-    RPARENT         reduce using rule 43 (f2 -> varcte .)
-    CADENA          reduce using rule 43 (f2 -> varcte .)
-    LKEY            reduce using rule 43 (f2 -> varcte .)
-    ID              reduce using rule 43 (f2 -> varcte .)
-    ENTERO          reduce using rule 43 (f2 -> varcte .)
-    FLOTANTE        reduce using rule 43 (f2 -> varcte .)
-    PUNTOCOMA       reduce using rule 43 (f2 -> varcte .)
+    MULT            shift and go to state 78
+    DIV             shift and go to state 79
+    SUMA            reduce using rule 64 (empty -> .)
+    RESTA           reduce using rule 64 (empty -> .)
+    GT              reduce using rule 64 (empty -> .)
+    LT              reduce using rule 64 (empty -> .)
+    RPARENT         reduce using rule 64 (empty -> .)
+    CADENA          reduce using rule 64 (empty -> .)
+    LKEY            reduce using rule 64 (empty -> .)
+    ID              reduce using rule 64 (empty -> .)
+    ENTERO          reduce using rule 64 (empty -> .)
+    FLOTANTE        reduce using rule 64 (empty -> .)
+    CARACTER        reduce using rule 64 (empty -> .)
+    PUNTOCOMA       reduce using rule 64 (empty -> .)
+    RKEY            reduce using rule 64 (empty -> .)
 
+    te2                            shift and go to state 80
+    empty                          shift and go to state 81
 
 state 56
 
-    (40) factor -> f2 .
+    (56) varcte -> ENTERO .
 
-    MULT            reduce using rule 40 (factor -> f2 .)
-    DIV             reduce using rule 40 (factor -> f2 .)
-    SUMA            reduce using rule 40 (factor -> f2 .)
-    RESTA           reduce using rule 40 (factor -> f2 .)
-    LT              reduce using rule 40 (factor -> f2 .)
-    GT              reduce using rule 40 (factor -> f2 .)
-    PUNTOCOMA       reduce using rule 40 (factor -> f2 .)
-    RPARENT         reduce using rule 40 (factor -> f2 .)
-    CADENA          reduce using rule 40 (factor -> f2 .)
-    LKEY            reduce using rule 40 (factor -> f2 .)
-    ID              reduce using rule 40 (factor -> f2 .)
-    ENTERO          reduce using rule 40 (factor -> f2 .)
-    FLOTANTE        reduce using rule 40 (factor -> f2 .)
-    RKEY            reduce using rule 40 (factor -> f2 .)
+    MULT            reduce using rule 56 (varcte -> ENTERO .)
+    DIV             reduce using rule 56 (varcte -> ENTERO .)
+    SUMA            reduce using rule 56 (varcte -> ENTERO .)
+    RESTA           reduce using rule 56 (varcte -> ENTERO .)
+    RPARENT         reduce using rule 56 (varcte -> ENTERO .)
+    CADENA          reduce using rule 56 (varcte -> ENTERO .)
+    LKEY            reduce using rule 56 (varcte -> ENTERO .)
+    ID              reduce using rule 56 (varcte -> ENTERO .)
+    ENTERO          reduce using rule 56 (varcte -> ENTERO .)
+    FLOTANTE        reduce using rule 56 (varcte -> ENTERO .)
+    CARACTER        reduce using rule 56 (varcte -> ENTERO .)
+    PUNTOCOMA       reduce using rule 56 (varcte -> ENTERO .)
+    RKEY            reduce using rule 56 (varcte -> ENTERO .)
+    GT              reduce using rule 56 (varcte -> ENTERO .)
+    LT              reduce using rule 56 (varcte -> ENTERO .)
 
 
 state 57
 
-    (39) factor -> LKEY . expresion RKEY
-    (10) expresion -> . e2
-    (11) expresion -> . e2 e3 e2
-    (12) e2 -> . exp
-    (16) exp -> . termino
-    (17) exp -> . exp ex2 exp
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (40) factor -> LKEY . expresion RKEY
+    (11) expresion -> . exp e2
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
     LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
     ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
-    expresion                      shift and go to state 80
-    f2                             shift and go to state 56
-    varcte                         shift and go to state 55
-    termino                        shift and go to state 61
-    exp                            shift and go to state 62
-    factor                         shift and go to state 63
-    e2                             shift and go to state 66
+    expresion                      shift and go to state 82
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 50
+    exp                            shift and go to state 61
+    factor                         shift and go to state 55
 
 state 58
 
-    (58) varcte -> FLOTANTE .
+    (59) varcte -> CARACTER .
 
-    MULT            reduce using rule 58 (varcte -> FLOTANTE .)
-    DIV             reduce using rule 58 (varcte -> FLOTANTE .)
-    SUMA            reduce using rule 58 (varcte -> FLOTANTE .)
-    RESTA           reduce using rule 58 (varcte -> FLOTANTE .)
-    LT              reduce using rule 58 (varcte -> FLOTANTE .)
-    GT              reduce using rule 58 (varcte -> FLOTANTE .)
-    RPARENT         reduce using rule 58 (varcte -> FLOTANTE .)
-    CADENA          reduce using rule 58 (varcte -> FLOTANTE .)
-    LKEY            reduce using rule 58 (varcte -> FLOTANTE .)
-    ID              reduce using rule 58 (varcte -> FLOTANTE .)
-    ENTERO          reduce using rule 58 (varcte -> FLOTANTE .)
-    FLOTANTE        reduce using rule 58 (varcte -> FLOTANTE .)
-    PUNTOCOMA       reduce using rule 58 (varcte -> FLOTANTE .)
-    RKEY            reduce using rule 58 (varcte -> FLOTANTE .)
-    COMA            reduce using rule 58 (varcte -> FLOTANTE .)
+    MULT            reduce using rule 59 (varcte -> CARACTER .)
+    DIV             reduce using rule 59 (varcte -> CARACTER .)
+    SUMA            reduce using rule 59 (varcte -> CARACTER .)
+    RESTA           reduce using rule 59 (varcte -> CARACTER .)
+    RPARENT         reduce using rule 59 (varcte -> CARACTER .)
+    CADENA          reduce using rule 59 (varcte -> CARACTER .)
+    LKEY            reduce using rule 59 (varcte -> CARACTER .)
+    ID              reduce using rule 59 (varcte -> CARACTER .)
+    ENTERO          reduce using rule 59 (varcte -> CARACTER .)
+    FLOTANTE        reduce using rule 59 (varcte -> CARACTER .)
+    CARACTER        reduce using rule 59 (varcte -> CARACTER .)
+    PUNTOCOMA       reduce using rule 59 (varcte -> CARACTER .)
+    RKEY            reduce using rule 59 (varcte -> CARACTER .)
+    GT              reduce using rule 59 (varcte -> CARACTER .)
+    LT              reduce using rule 59 (varcte -> CARACTER .)
 
 
 state 59
 
-    (56) varcte -> ID .
+    (55) varcte -> ID .
 
-    MULT            reduce using rule 56 (varcte -> ID .)
-    DIV             reduce using rule 56 (varcte -> ID .)
-    SUMA            reduce using rule 56 (varcte -> ID .)
-    RESTA           reduce using rule 56 (varcte -> ID .)
-    LT              reduce using rule 56 (varcte -> ID .)
-    GT              reduce using rule 56 (varcte -> ID .)
-    RPARENT         reduce using rule 56 (varcte -> ID .)
-    CADENA          reduce using rule 56 (varcte -> ID .)
-    LKEY            reduce using rule 56 (varcte -> ID .)
-    ID              reduce using rule 56 (varcte -> ID .)
-    ENTERO          reduce using rule 56 (varcte -> ID .)
-    FLOTANTE        reduce using rule 56 (varcte -> ID .)
-    PUNTOCOMA       reduce using rule 56 (varcte -> ID .)
-    RKEY            reduce using rule 56 (varcte -> ID .)
-    COMA            reduce using rule 56 (varcte -> ID .)
+    MULT            reduce using rule 55 (varcte -> ID .)
+    DIV             reduce using rule 55 (varcte -> ID .)
+    SUMA            reduce using rule 55 (varcte -> ID .)
+    RESTA           reduce using rule 55 (varcte -> ID .)
+    RPARENT         reduce using rule 55 (varcte -> ID .)
+    CADENA          reduce using rule 55 (varcte -> ID .)
+    LKEY            reduce using rule 55 (varcte -> ID .)
+    ID              reduce using rule 55 (varcte -> ID .)
+    ENTERO          reduce using rule 55 (varcte -> ID .)
+    FLOTANTE        reduce using rule 55 (varcte -> ID .)
+    CARACTER        reduce using rule 55 (varcte -> ID .)
+    PUNTOCOMA       reduce using rule 55 (varcte -> ID .)
+    RKEY            reduce using rule 55 (varcte -> ID .)
+    GT              reduce using rule 55 (varcte -> ID .)
+    LT              reduce using rule 55 (varcte -> ID .)
 
 
 state 60
 
-    (41) f2 -> SUMA . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (60) ciclowhile -> WHILE LPARENT expresion . RPARENT bloque
 
-    ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    RPARENT         shift and go to state 83
 
-    varcte                         shift and go to state 81
 
 state 61
 
-    (16) exp -> termino .
+    (11) expresion -> exp . e2
+    (12) e2 -> . e3
+    (13) e2 -> . empty
+    (14) e3 -> . GT exp
+    (15) e3 -> . LT exp
+    (16) e3 -> . LT GT exp
+    (64) empty -> .
 
-    SUMA            reduce using rule 16 (exp -> termino .)
-    RESTA           reduce using rule 16 (exp -> termino .)
-    LT              reduce using rule 16 (exp -> termino .)
-    GT              reduce using rule 16 (exp -> termino .)
-    PUNTOCOMA       reduce using rule 16 (exp -> termino .)
-    RKEY            reduce using rule 16 (exp -> termino .)
-    ID              reduce using rule 16 (exp -> termino .)
-    RPARENT         reduce using rule 16 (exp -> termino .)
-    CADENA          reduce using rule 16 (exp -> termino .)
-    LKEY            reduce using rule 16 (exp -> termino .)
-    ENTERO          reduce using rule 16 (exp -> termino .)
-    FLOTANTE        reduce using rule 16 (exp -> termino .)
+    GT              shift and go to state 84
+    LT              shift and go to state 85
+    RPARENT         reduce using rule 64 (empty -> .)
+    CADENA          reduce using rule 64 (empty -> .)
+    LKEY            reduce using rule 64 (empty -> .)
+    SUMA            reduce using rule 64 (empty -> .)
+    RESTA           reduce using rule 64 (empty -> .)
+    ID              reduce using rule 64 (empty -> .)
+    ENTERO          reduce using rule 64 (empty -> .)
+    FLOTANTE        reduce using rule 64 (empty -> .)
+    CARACTER        reduce using rule 64 (empty -> .)
+    PUNTOCOMA       reduce using rule 64 (empty -> .)
+    RKEY            reduce using rule 64 (empty -> .)
 
+    empty                          shift and go to state 87
+    e3                             shift and go to state 86
+    e2                             shift and go to state 88
 
 state 62
 
-    (12) e2 -> exp .
-    (17) exp -> exp . ex2 exp
-    (18) ex2 -> . SUMA
-    (19) ex2 -> . RESTA
+    (57) varcte -> FLOTANTE .
 
-  ! shift/reduce conflict for SUMA resolved as shift
-  ! shift/reduce conflict for RESTA resolved as shift
-    LT              reduce using rule 12 (e2 -> exp .)
-    GT              reduce using rule 12 (e2 -> exp .)
-    RPARENT         reduce using rule 12 (e2 -> exp .)
-    CADENA          reduce using rule 12 (e2 -> exp .)
-    LKEY            reduce using rule 12 (e2 -> exp .)
-    ID              reduce using rule 12 (e2 -> exp .)
-    ENTERO          reduce using rule 12 (e2 -> exp .)
-    FLOTANTE        reduce using rule 12 (e2 -> exp .)
-    PUNTOCOMA       reduce using rule 12 (e2 -> exp .)
-    RKEY            reduce using rule 12 (e2 -> exp .)
-    SUMA            shift and go to state 84
-    RESTA           shift and go to state 82
+    MULT            reduce using rule 57 (varcte -> FLOTANTE .)
+    DIV             reduce using rule 57 (varcte -> FLOTANTE .)
+    SUMA            reduce using rule 57 (varcte -> FLOTANTE .)
+    RESTA           reduce using rule 57 (varcte -> FLOTANTE .)
+    RPARENT         reduce using rule 57 (varcte -> FLOTANTE .)
+    CADENA          reduce using rule 57 (varcte -> FLOTANTE .)
+    LKEY            reduce using rule 57 (varcte -> FLOTANTE .)
+    ID              reduce using rule 57 (varcte -> FLOTANTE .)
+    ENTERO          reduce using rule 57 (varcte -> FLOTANTE .)
+    FLOTANTE        reduce using rule 57 (varcte -> FLOTANTE .)
+    CARACTER        reduce using rule 57 (varcte -> FLOTANTE .)
+    PUNTOCOMA       reduce using rule 57 (varcte -> FLOTANTE .)
+    RKEY            reduce using rule 57 (varcte -> FLOTANTE .)
+    GT              reduce using rule 57 (varcte -> FLOTANTE .)
+    LT              reduce using rule 57 (varcte -> FLOTANTE .)
 
-  ! SUMA            [ reduce using rule 12 (e2 -> exp .) ]
-  ! RESTA           [ reduce using rule 12 (e2 -> exp .) ]
-
-    ex2                            shift and go to state 83
 
 state 63
 
-    (35) termino -> factor .
-    (36) termino -> factor . t2
-    (37) t2 -> . MULT termino
-    (38) t2 -> . DIV termino
+    (30) pr2 -> CADENA . pr3
+    (58) varcte -> CADENA .
+    (31) pr3 -> . pr2
+    (32) pr3 -> . RPARENT PUNTOCOMA
+    (29) pr2 -> . expresion pr3
+    (30) pr2 -> . CADENA pr3
+    (11) expresion -> . exp e2
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
-    SUMA            reduce using rule 35 (termino -> factor .)
-    RESTA           reduce using rule 35 (termino -> factor .)
-    LT              reduce using rule 35 (termino -> factor .)
-    GT              reduce using rule 35 (termino -> factor .)
-    RPARENT         reduce using rule 35 (termino -> factor .)
-    CADENA          reduce using rule 35 (termino -> factor .)
-    LKEY            reduce using rule 35 (termino -> factor .)
-    ID              reduce using rule 35 (termino -> factor .)
-    ENTERO          reduce using rule 35 (termino -> factor .)
-    FLOTANTE        reduce using rule 35 (termino -> factor .)
-    PUNTOCOMA       reduce using rule 35 (termino -> factor .)
-    RKEY            reduce using rule 35 (termino -> factor .)
-    MULT            shift and go to state 87
-    DIV             shift and go to state 85
+  ! shift/reduce conflict for RPARENT resolved as shift
+  ! shift/reduce conflict for CADENA resolved as shift
+  ! shift/reduce conflict for LKEY resolved as shift
+  ! shift/reduce conflict for SUMA resolved as shift
+  ! shift/reduce conflict for RESTA resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+  ! shift/reduce conflict for ENTERO resolved as shift
+  ! shift/reduce conflict for FLOTANTE resolved as shift
+  ! shift/reduce conflict for CARACTER resolved as shift
+    MULT            reduce using rule 58 (varcte -> CADENA .)
+    DIV             reduce using rule 58 (varcte -> CADENA .)
+    GT              reduce using rule 58 (varcte -> CADENA .)
+    LT              reduce using rule 58 (varcte -> CADENA .)
+    RPARENT         shift and go to state 89
+    CADENA          shift and go to state 63
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
+    ID              shift and go to state 59
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CARACTER        shift and go to state 58
 
-    t2                             shift and go to state 86
+  ! SUMA            [ reduce using rule 58 (varcte -> CADENA .) ]
+  ! RESTA           [ reduce using rule 58 (varcte -> CADENA .) ]
+  ! RPARENT         [ reduce using rule 58 (varcte -> CADENA .) ]
+  ! CADENA          [ reduce using rule 58 (varcte -> CADENA .) ]
+  ! LKEY            [ reduce using rule 58 (varcte -> CADENA .) ]
+  ! ID              [ reduce using rule 58 (varcte -> CADENA .) ]
+  ! ENTERO          [ reduce using rule 58 (varcte -> CADENA .) ]
+  ! FLOTANTE        [ reduce using rule 58 (varcte -> CADENA .) ]
+  ! CARACTER        [ reduce using rule 58 (varcte -> CADENA .) ]
+
+    expresion                      shift and go to state 65
+    varcte                         shift and go to state 53
+    f2                             shift and go to state 49
+    pr3                            shift and go to state 90
+    factor                         shift and go to state 55
+    termino                        shift and go to state 50
+    exp                            shift and go to state 61
+    pr2                            shift and go to state 91
 
 state 64
 
-    (57) varcte -> ENTERO .
+    (28) print -> PRINT LPARENT pr2 .
 
-    MULT            reduce using rule 57 (varcte -> ENTERO .)
-    DIV             reduce using rule 57 (varcte -> ENTERO .)
-    SUMA            reduce using rule 57 (varcte -> ENTERO .)
-    RESTA           reduce using rule 57 (varcte -> ENTERO .)
-    LT              reduce using rule 57 (varcte -> ENTERO .)
-    GT              reduce using rule 57 (varcte -> ENTERO .)
-    RPARENT         reduce using rule 57 (varcte -> ENTERO .)
-    CADENA          reduce using rule 57 (varcte -> ENTERO .)
-    LKEY            reduce using rule 57 (varcte -> ENTERO .)
-    ID              reduce using rule 57 (varcte -> ENTERO .)
-    ENTERO          reduce using rule 57 (varcte -> ENTERO .)
-    FLOTANTE        reduce using rule 57 (varcte -> ENTERO .)
-    PUNTOCOMA       reduce using rule 57 (varcte -> ENTERO .)
-    RKEY            reduce using rule 57 (varcte -> ENTERO .)
-    COMA            reduce using rule 57 (varcte -> ENTERO .)
+    RKEY            reduce using rule 28 (print -> PRINT LPARENT pr2 .)
+    ID              reduce using rule 28 (print -> PRINT LPARENT pr2 .)
+    PRINT           reduce using rule 28 (print -> PRINT LPARENT pr2 .)
+    IF              reduce using rule 28 (print -> PRINT LPARENT pr2 .)
+    WHILE           reduce using rule 28 (print -> PRINT LPARENT pr2 .)
+    DO              reduce using rule 28 (print -> PRINT LPARENT pr2 .)
+    FOR             reduce using rule 28 (print -> PRINT LPARENT pr2 .)
+    COMENTARIO      reduce using rule 28 (print -> PRINT LPARENT pr2 .)
+    INT             reduce using rule 28 (print -> PRINT LPARENT pr2 .)
+    FLOAT           reduce using rule 28 (print -> PRINT LPARENT pr2 .)
+    CHAR            reduce using rule 28 (print -> PRINT LPARENT pr2 .)
+    STRING          reduce using rule 28 (print -> PRINT LPARENT pr2 .)
+    BOOL            reduce using rule 28 (print -> PRINT LPARENT pr2 .)
 
 
 state 65
 
-    (42) f2 -> RESTA . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (29) pr2 -> expresion . pr3
+    (31) pr3 -> . pr2
+    (32) pr3 -> . RPARENT PUNTOCOMA
+    (29) pr2 -> . expresion pr3
+    (30) pr2 -> . CADENA pr3
+    (11) expresion -> . exp e2
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
+    RPARENT         shift and go to state 89
+    CADENA          shift and go to state 63
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
     ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CARACTER        shift and go to state 58
 
-    varcte                         shift and go to state 88
+    expresion                      shift and go to state 65
+    varcte                         shift and go to state 53
+    f2                             shift and go to state 49
+    pr3                            shift and go to state 92
+    factor                         shift and go to state 55
+    termino                        shift and go to state 50
+    exp                            shift and go to state 61
+    pr2                            shift and go to state 91
 
 state 66
 
-    (10) expresion -> e2 .
-    (11) expresion -> e2 . e3 e2
-    (13) e3 -> . LT
-    (14) e3 -> . GT
-    (15) e3 -> . LT GT
+    (63) ciclofor -> FOR LPARENT asignacion . expresion asignacion RPARENT bloque
+    (11) expresion -> . exp e2
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
-    PUNTOCOMA       reduce using rule 10 (expresion -> e2 .)
-    ID              reduce using rule 10 (expresion -> e2 .)
-    RKEY            reduce using rule 10 (expresion -> e2 .)
-    RPARENT         reduce using rule 10 (expresion -> e2 .)
-    CADENA          reduce using rule 10 (expresion -> e2 .)
-    LKEY            reduce using rule 10 (expresion -> e2 .)
-    SUMA            reduce using rule 10 (expresion -> e2 .)
-    RESTA           reduce using rule 10 (expresion -> e2 .)
-    ENTERO          reduce using rule 10 (expresion -> e2 .)
-    FLOTANTE        reduce using rule 10 (expresion -> e2 .)
-    LT              shift and go to state 89
-    GT              shift and go to state 90
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
+    ID              shift and go to state 59
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
-    e3                             shift and go to state 91
+    expresion                      shift and go to state 93
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 50
+    exp                            shift and go to state 61
+    factor                         shift and go to state 55
 
 state 67
 
-    (59) varstring -> CADENA .
+    (27) asignacion -> ID . IGUAL expresion PUNTOCOMA
 
-    RPARENT         reduce using rule 59 (varstring -> CADENA .)
-    CADENA          reduce using rule 59 (varstring -> CADENA .)
-    LKEY            reduce using rule 59 (varstring -> CADENA .)
-    SUMA            reduce using rule 59 (varstring -> CADENA .)
-    RESTA           reduce using rule 59 (varstring -> CADENA .)
-    ID              reduce using rule 59 (varstring -> CADENA .)
-    ENTERO          reduce using rule 59 (varstring -> CADENA .)
-    FLOTANTE        reduce using rule 59 (varstring -> CADENA .)
+    IGUAL           shift and go to state 94
 
 
 state 68
 
-    (29) es2 -> varstring . es3
-    (30) es3 -> . es2
-    (31) es3 -> . RPARENT PUNTOCOMA
-    (28) es2 -> . expresion es3
-    (29) es2 -> . varstring es3
-    (10) expresion -> . e2
-    (11) expresion -> . e2 e3 e2
-    (59) varstring -> . CADENA
-    (12) e2 -> . exp
-    (16) exp -> . termino
-    (17) exp -> . exp ex2 exp
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (62) read -> ID IGUAL READ . LPARENT RPARENT PUNTOCOMA
 
-    RPARENT         shift and go to state 92
-    CADENA          shift and go to state 67
-    LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
-    ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    LPARENT         shift and go to state 95
 
-    expresion                      shift and go to state 69
-    varcte                         shift and go to state 55
-    f2                             shift and go to state 56
-    es3                            shift and go to state 93
-    es2                            shift and go to state 94
-    varstring                      shift and go to state 68
-    termino                        shift and go to state 61
-    exp                            shift and go to state 62
-    factor                         shift and go to state 63
-    e2                             shift and go to state 66
 
 state 69
 
-    (28) es2 -> expresion . es3
-    (30) es3 -> . es2
-    (31) es3 -> . RPARENT PUNTOCOMA
-    (28) es2 -> . expresion es3
-    (29) es2 -> . varstring es3
-    (10) expresion -> . e2
-    (11) expresion -> . e2 e3 e2
-    (59) varstring -> . CADENA
-    (12) e2 -> . exp
-    (16) exp -> . termino
-    (17) exp -> . exp ex2 exp
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (27) asignacion -> ID IGUAL expresion . PUNTOCOMA
 
-    RPARENT         shift and go to state 92
-    CADENA          shift and go to state 67
-    LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
-    ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    PUNTOCOMA       shift and go to state 96
 
-    expresion                      shift and go to state 69
-    varcte                         shift and go to state 55
-    f2                             shift and go to state 56
-    es3                            shift and go to state 95
-    es2                            shift and go to state 94
-    varstring                      shift and go to state 68
-    termino                        shift and go to state 61
-    exp                            shift and go to state 62
-    factor                         shift and go to state 63
-    e2                             shift and go to state 66
 
 state 70
 
-    (27) print -> PRINT LPARENT es2 .
+    (33) condicion -> IF LKEY expresion . RKEY bloque c2
 
-    RKEY            reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    ID              reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    PRINT           reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    IF              reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    WHILE           reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    DO              reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    FOR             reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    COMENTARIO      reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    POW             reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    SQRT            reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    INT             reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    FLOAT           reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    CHAR            reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    STRING          reduce using rule 27 (print -> PRINT LPARENT es2 .)
-    BOOL            reduce using rule 27 (print -> PRINT LPARENT es2 .)
+    RKEY            shift and go to state 97
 
 
 state 71
 
-    (64) potencia -> POW LPARENT varcte . COMA varcte RPARENT PUNTOCOMA
+    (61) ciclodowhile -> DO bloque WHILE LPARENT . expresion RPARENT PUNTOCOMA
+    (11) expresion -> . exp e2
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
-    COMA            shift and go to state 96
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
+    ID              shift and go to state 59
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
+    expresion                      shift and go to state 98
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 50
+    exp                            shift and go to state 61
+    factor                         shift and go to state 55
 
 state 72
 
-    (63) ciclofor -> FOR LPARENT asignacion . expresion asignacion RPARENT bloque
-    (10) expresion -> . e2
-    (11) expresion -> . e2 e3 e2
-    (12) e2 -> . exp
-    (16) exp -> . termino
-    (17) exp -> . exp ex2 exp
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (17) exp -> termino exp2 .
 
-    LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
-    ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    GT              reduce using rule 17 (exp -> termino exp2 .)
+    LT              reduce using rule 17 (exp -> termino exp2 .)
+    RPARENT         reduce using rule 17 (exp -> termino exp2 .)
+    CADENA          reduce using rule 17 (exp -> termino exp2 .)
+    LKEY            reduce using rule 17 (exp -> termino exp2 .)
+    SUMA            reduce using rule 17 (exp -> termino exp2 .)
+    RESTA           reduce using rule 17 (exp -> termino exp2 .)
+    ID              reduce using rule 17 (exp -> termino exp2 .)
+    ENTERO          reduce using rule 17 (exp -> termino exp2 .)
+    FLOTANTE        reduce using rule 17 (exp -> termino exp2 .)
+    CARACTER        reduce using rule 17 (exp -> termino exp2 .)
+    PUNTOCOMA       reduce using rule 17 (exp -> termino exp2 .)
+    RKEY            reduce using rule 17 (exp -> termino exp2 .)
 
-    expresion                      shift and go to state 97
-    f2                             shift and go to state 56
-    varcte                         shift and go to state 55
-    termino                        shift and go to state 61
-    exp                            shift and go to state 62
-    factor                         shift and go to state 63
-    e2                             shift and go to state 66
 
 state 73
 
-    (26) asignacion -> ID . IGUAL expresion PUNTOCOMA
+    (18) exp2 -> SUMA . exp
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
-    IGUAL           shift and go to state 98
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
+    ID              shift and go to state 59
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 50
+    exp                            shift and go to state 99
+    factor                         shift and go to state 55
 
 state 74
 
-    (62) read -> ID IGUAL READ . LPARENT RPARENT PUNTOCOMA
+    (19) exp2 -> RESTA . exp
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
-    LPARENT         shift and go to state 99
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
+    ID              shift and go to state 59
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 50
+    exp                            shift and go to state 100
+    factor                         shift and go to state 55
 
 state 75
 
-    (26) asignacion -> ID IGUAL expresion . PUNTOCOMA
+    (20) exp2 -> empty .
 
-    PUNTOCOMA       shift and go to state 100
+    GT              reduce using rule 20 (exp2 -> empty .)
+    LT              reduce using rule 20 (exp2 -> empty .)
+    RPARENT         reduce using rule 20 (exp2 -> empty .)
+    CADENA          reduce using rule 20 (exp2 -> empty .)
+    LKEY            reduce using rule 20 (exp2 -> empty .)
+    SUMA            reduce using rule 20 (exp2 -> empty .)
+    RESTA           reduce using rule 20 (exp2 -> empty .)
+    ID              reduce using rule 20 (exp2 -> empty .)
+    ENTERO          reduce using rule 20 (exp2 -> empty .)
+    FLOTANTE        reduce using rule 20 (exp2 -> empty .)
+    CARACTER        reduce using rule 20 (exp2 -> empty .)
+    PUNTOCOMA       reduce using rule 20 (exp2 -> empty .)
+    RKEY            reduce using rule 20 (exp2 -> empty .)
 
 
 state 76
 
-    (32) condicion -> IF LKEY expresion . RKEY bloque c2
+    (43) f2 -> RESTA varcte .
 
-    RKEY            shift and go to state 101
+    MULT            reduce using rule 43 (f2 -> RESTA varcte .)
+    DIV             reduce using rule 43 (f2 -> RESTA varcte .)
+    SUMA            reduce using rule 43 (f2 -> RESTA varcte .)
+    RESTA           reduce using rule 43 (f2 -> RESTA varcte .)
+    RPARENT         reduce using rule 43 (f2 -> RESTA varcte .)
+    CADENA          reduce using rule 43 (f2 -> RESTA varcte .)
+    LKEY            reduce using rule 43 (f2 -> RESTA varcte .)
+    ID              reduce using rule 43 (f2 -> RESTA varcte .)
+    ENTERO          reduce using rule 43 (f2 -> RESTA varcte .)
+    FLOTANTE        reduce using rule 43 (f2 -> RESTA varcte .)
+    CARACTER        reduce using rule 43 (f2 -> RESTA varcte .)
+    PUNTOCOMA       reduce using rule 43 (f2 -> RESTA varcte .)
+    RKEY            reduce using rule 43 (f2 -> RESTA varcte .)
+    GT              reduce using rule 43 (f2 -> RESTA varcte .)
+    LT              reduce using rule 43 (f2 -> RESTA varcte .)
 
 
 state 77
 
-    (65) raiz -> SQRT LPARENT varcte . RPARENT PUNTOCOMA
+    (42) f2 -> SUMA varcte .
 
-    RPARENT         shift and go to state 102
+    MULT            reduce using rule 42 (f2 -> SUMA varcte .)
+    DIV             reduce using rule 42 (f2 -> SUMA varcte .)
+    SUMA            reduce using rule 42 (f2 -> SUMA varcte .)
+    RESTA           reduce using rule 42 (f2 -> SUMA varcte .)
+    RPARENT         reduce using rule 42 (f2 -> SUMA varcte .)
+    CADENA          reduce using rule 42 (f2 -> SUMA varcte .)
+    LKEY            reduce using rule 42 (f2 -> SUMA varcte .)
+    ID              reduce using rule 42 (f2 -> SUMA varcte .)
+    ENTERO          reduce using rule 42 (f2 -> SUMA varcte .)
+    FLOTANTE        reduce using rule 42 (f2 -> SUMA varcte .)
+    CARACTER        reduce using rule 42 (f2 -> SUMA varcte .)
+    PUNTOCOMA       reduce using rule 42 (f2 -> SUMA varcte .)
+    RKEY            reduce using rule 42 (f2 -> SUMA varcte .)
+    GT              reduce using rule 42 (f2 -> SUMA varcte .)
+    LT              reduce using rule 42 (f2 -> SUMA varcte .)
 
 
 state 78
 
-    (61) ciclodowhile -> DO bloque WHILE LPARENT . expresion RPARENT PUNTOCOMA
-    (10) expresion -> . e2
-    (11) expresion -> . e2 e3 e2
-    (12) e2 -> . exp
-    (16) exp -> . termino
-    (17) exp -> . exp ex2 exp
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (37) te2 -> MULT . termino
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
     LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
     ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
-    expresion                      shift and go to state 103
-    f2                             shift and go to state 56
-    varcte                         shift and go to state 55
-    termino                        shift and go to state 61
-    exp                            shift and go to state 62
-    factor                         shift and go to state 63
-    e2                             shift and go to state 66
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 101
+    factor                         shift and go to state 55
 
 state 79
 
+    (38) te2 -> DIV . termino
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
+
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
+    ID              shift and go to state 59
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
+
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 102
+    factor                         shift and go to state 55
+
+state 80
+
+    (36) termino -> factor te2 .
+
+    SUMA            reduce using rule 36 (termino -> factor te2 .)
+    RESTA           reduce using rule 36 (termino -> factor te2 .)
+    GT              reduce using rule 36 (termino -> factor te2 .)
+    LT              reduce using rule 36 (termino -> factor te2 .)
+    RPARENT         reduce using rule 36 (termino -> factor te2 .)
+    CADENA          reduce using rule 36 (termino -> factor te2 .)
+    LKEY            reduce using rule 36 (termino -> factor te2 .)
+    ID              reduce using rule 36 (termino -> factor te2 .)
+    ENTERO          reduce using rule 36 (termino -> factor te2 .)
+    FLOTANTE        reduce using rule 36 (termino -> factor te2 .)
+    CARACTER        reduce using rule 36 (termino -> factor te2 .)
+    PUNTOCOMA       reduce using rule 36 (termino -> factor te2 .)
+    RKEY            reduce using rule 36 (termino -> factor te2 .)
+
+
+state 81
+
+    (39) te2 -> empty .
+
+    SUMA            reduce using rule 39 (te2 -> empty .)
+    RESTA           reduce using rule 39 (te2 -> empty .)
+    GT              reduce using rule 39 (te2 -> empty .)
+    LT              reduce using rule 39 (te2 -> empty .)
+    RPARENT         reduce using rule 39 (te2 -> empty .)
+    CADENA          reduce using rule 39 (te2 -> empty .)
+    LKEY            reduce using rule 39 (te2 -> empty .)
+    ID              reduce using rule 39 (te2 -> empty .)
+    ENTERO          reduce using rule 39 (te2 -> empty .)
+    FLOTANTE        reduce using rule 39 (te2 -> empty .)
+    CARACTER        reduce using rule 39 (te2 -> empty .)
+    PUNTOCOMA       reduce using rule 39 (te2 -> empty .)
+    RKEY            reduce using rule 39 (te2 -> empty .)
+
+
+state 82
+
+    (40) factor -> LKEY expresion . RKEY
+
+    RKEY            shift and go to state 103
+
+
+state 83
+
     (60) ciclowhile -> WHILE LPARENT expresion RPARENT . bloque
     (5) bloque -> . LKEY b2
-    (6) bloque -> . LKEY b3
 
     LKEY            shift and go to state 16
 
     bloque                         shift and go to state 104
 
-state 80
-
-    (39) factor -> LKEY expresion . RKEY
-
-    RKEY            shift and go to state 105
-
-
-state 81
-
-    (41) f2 -> SUMA varcte .
-
-    MULT            reduce using rule 41 (f2 -> SUMA varcte .)
-    DIV             reduce using rule 41 (f2 -> SUMA varcte .)
-    SUMA            reduce using rule 41 (f2 -> SUMA varcte .)
-    RESTA           reduce using rule 41 (f2 -> SUMA varcte .)
-    LT              reduce using rule 41 (f2 -> SUMA varcte .)
-    GT              reduce using rule 41 (f2 -> SUMA varcte .)
-    RKEY            reduce using rule 41 (f2 -> SUMA varcte .)
-    RPARENT         reduce using rule 41 (f2 -> SUMA varcte .)
-    CADENA          reduce using rule 41 (f2 -> SUMA varcte .)
-    LKEY            reduce using rule 41 (f2 -> SUMA varcte .)
-    ID              reduce using rule 41 (f2 -> SUMA varcte .)
-    ENTERO          reduce using rule 41 (f2 -> SUMA varcte .)
-    FLOTANTE        reduce using rule 41 (f2 -> SUMA varcte .)
-    PUNTOCOMA       reduce using rule 41 (f2 -> SUMA varcte .)
-
-
-state 82
-
-    (19) ex2 -> RESTA .
-
-    LKEY            reduce using rule 19 (ex2 -> RESTA .)
-    SUMA            reduce using rule 19 (ex2 -> RESTA .)
-    RESTA           reduce using rule 19 (ex2 -> RESTA .)
-    ID              reduce using rule 19 (ex2 -> RESTA .)
-    ENTERO          reduce using rule 19 (ex2 -> RESTA .)
-    FLOTANTE        reduce using rule 19 (ex2 -> RESTA .)
-
-
-state 83
-
-    (17) exp -> exp ex2 . exp
-    (16) exp -> . termino
-    (17) exp -> . exp ex2 exp
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
-
-    LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
-    ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
-
-    f2                             shift and go to state 56
-    varcte                         shift and go to state 55
-    termino                        shift and go to state 61
-    exp                            shift and go to state 106
-    factor                         shift and go to state 63
-
 state 84
 
-    (18) ex2 -> SUMA .
+    (14) e3 -> GT . exp
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
-    LKEY            reduce using rule 18 (ex2 -> SUMA .)
-    SUMA            reduce using rule 18 (ex2 -> SUMA .)
-    RESTA           reduce using rule 18 (ex2 -> SUMA .)
-    ID              reduce using rule 18 (ex2 -> SUMA .)
-    ENTERO          reduce using rule 18 (ex2 -> SUMA .)
-    FLOTANTE        reduce using rule 18 (ex2 -> SUMA .)
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
+    ID              shift and go to state 59
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 50
+    exp                            shift and go to state 105
+    factor                         shift and go to state 55
 
 state 85
 
-    (38) t2 -> DIV . termino
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (15) e3 -> LT . exp
+    (16) e3 -> LT . GT exp
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
+    GT              shift and go to state 106
     LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
     ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
-    f2                             shift and go to state 56
-    varcte                         shift and go to state 55
-    termino                        shift and go to state 107
-    factor                         shift and go to state 63
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 50
+    exp                            shift and go to state 107
+    factor                         shift and go to state 55
 
 state 86
 
-    (36) termino -> factor t2 .
+    (12) e2 -> e3 .
 
-    SUMA            reduce using rule 36 (termino -> factor t2 .)
-    RESTA           reduce using rule 36 (termino -> factor t2 .)
-    LT              reduce using rule 36 (termino -> factor t2 .)
-    GT              reduce using rule 36 (termino -> factor t2 .)
-    RPARENT         reduce using rule 36 (termino -> factor t2 .)
-    CADENA          reduce using rule 36 (termino -> factor t2 .)
-    LKEY            reduce using rule 36 (termino -> factor t2 .)
-    ID              reduce using rule 36 (termino -> factor t2 .)
-    ENTERO          reduce using rule 36 (termino -> factor t2 .)
-    FLOTANTE        reduce using rule 36 (termino -> factor t2 .)
-    PUNTOCOMA       reduce using rule 36 (termino -> factor t2 .)
-    RKEY            reduce using rule 36 (termino -> factor t2 .)
+    RPARENT         reduce using rule 12 (e2 -> e3 .)
+    CADENA          reduce using rule 12 (e2 -> e3 .)
+    LKEY            reduce using rule 12 (e2 -> e3 .)
+    SUMA            reduce using rule 12 (e2 -> e3 .)
+    RESTA           reduce using rule 12 (e2 -> e3 .)
+    ID              reduce using rule 12 (e2 -> e3 .)
+    ENTERO          reduce using rule 12 (e2 -> e3 .)
+    FLOTANTE        reduce using rule 12 (e2 -> e3 .)
+    CARACTER        reduce using rule 12 (e2 -> e3 .)
+    PUNTOCOMA       reduce using rule 12 (e2 -> e3 .)
+    RKEY            reduce using rule 12 (e2 -> e3 .)
 
 
 state 87
 
-    (37) t2 -> MULT . termino
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (13) e2 -> empty .
 
-    LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
-    ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    RPARENT         reduce using rule 13 (e2 -> empty .)
+    CADENA          reduce using rule 13 (e2 -> empty .)
+    LKEY            reduce using rule 13 (e2 -> empty .)
+    SUMA            reduce using rule 13 (e2 -> empty .)
+    RESTA           reduce using rule 13 (e2 -> empty .)
+    ID              reduce using rule 13 (e2 -> empty .)
+    ENTERO          reduce using rule 13 (e2 -> empty .)
+    FLOTANTE        reduce using rule 13 (e2 -> empty .)
+    CARACTER        reduce using rule 13 (e2 -> empty .)
+    PUNTOCOMA       reduce using rule 13 (e2 -> empty .)
+    RKEY            reduce using rule 13 (e2 -> empty .)
 
-    f2                             shift and go to state 56
-    varcte                         shift and go to state 55
-    termino                        shift and go to state 108
-    factor                         shift and go to state 63
 
 state 88
 
-    (42) f2 -> RESTA varcte .
+    (11) expresion -> exp e2 .
 
-    MULT            reduce using rule 42 (f2 -> RESTA varcte .)
-    DIV             reduce using rule 42 (f2 -> RESTA varcte .)
-    SUMA            reduce using rule 42 (f2 -> RESTA varcte .)
-    RESTA           reduce using rule 42 (f2 -> RESTA varcte .)
-    LT              reduce using rule 42 (f2 -> RESTA varcte .)
-    GT              reduce using rule 42 (f2 -> RESTA varcte .)
-    RKEY            reduce using rule 42 (f2 -> RESTA varcte .)
-    RPARENT         reduce using rule 42 (f2 -> RESTA varcte .)
-    CADENA          reduce using rule 42 (f2 -> RESTA varcte .)
-    LKEY            reduce using rule 42 (f2 -> RESTA varcte .)
-    ID              reduce using rule 42 (f2 -> RESTA varcte .)
-    ENTERO          reduce using rule 42 (f2 -> RESTA varcte .)
-    FLOTANTE        reduce using rule 42 (f2 -> RESTA varcte .)
-    PUNTOCOMA       reduce using rule 42 (f2 -> RESTA varcte .)
+    RKEY            reduce using rule 11 (expresion -> exp e2 .)
+    RPARENT         reduce using rule 11 (expresion -> exp e2 .)
+    CADENA          reduce using rule 11 (expresion -> exp e2 .)
+    LKEY            reduce using rule 11 (expresion -> exp e2 .)
+    SUMA            reduce using rule 11 (expresion -> exp e2 .)
+    RESTA           reduce using rule 11 (expresion -> exp e2 .)
+    ID              reduce using rule 11 (expresion -> exp e2 .)
+    ENTERO          reduce using rule 11 (expresion -> exp e2 .)
+    FLOTANTE        reduce using rule 11 (expresion -> exp e2 .)
+    CARACTER        reduce using rule 11 (expresion -> exp e2 .)
+    PUNTOCOMA       reduce using rule 11 (expresion -> exp e2 .)
 
 
 state 89
 
-    (13) e3 -> LT .
-    (15) e3 -> LT . GT
+    (32) pr3 -> RPARENT . PUNTOCOMA
 
-    LKEY            reduce using rule 13 (e3 -> LT .)
-    SUMA            reduce using rule 13 (e3 -> LT .)
-    RESTA           reduce using rule 13 (e3 -> LT .)
-    ID              reduce using rule 13 (e3 -> LT .)
-    ENTERO          reduce using rule 13 (e3 -> LT .)
-    FLOTANTE        reduce using rule 13 (e3 -> LT .)
-    GT              shift and go to state 109
+    PUNTOCOMA       shift and go to state 108
 
 
 state 90
 
-    (14) e3 -> GT .
+    (30) pr2 -> CADENA pr3 .
 
-    LKEY            reduce using rule 14 (e3 -> GT .)
-    SUMA            reduce using rule 14 (e3 -> GT .)
-    RESTA           reduce using rule 14 (e3 -> GT .)
-    ID              reduce using rule 14 (e3 -> GT .)
-    ENTERO          reduce using rule 14 (e3 -> GT .)
-    FLOTANTE        reduce using rule 14 (e3 -> GT .)
+    RKEY            reduce using rule 30 (pr2 -> CADENA pr3 .)
+    ID              reduce using rule 30 (pr2 -> CADENA pr3 .)
+    PRINT           reduce using rule 30 (pr2 -> CADENA pr3 .)
+    IF              reduce using rule 30 (pr2 -> CADENA pr3 .)
+    WHILE           reduce using rule 30 (pr2 -> CADENA pr3 .)
+    DO              reduce using rule 30 (pr2 -> CADENA pr3 .)
+    FOR             reduce using rule 30 (pr2 -> CADENA pr3 .)
+    COMENTARIO      reduce using rule 30 (pr2 -> CADENA pr3 .)
+    INT             reduce using rule 30 (pr2 -> CADENA pr3 .)
+    FLOAT           reduce using rule 30 (pr2 -> CADENA pr3 .)
+    CHAR            reduce using rule 30 (pr2 -> CADENA pr3 .)
+    STRING          reduce using rule 30 (pr2 -> CADENA pr3 .)
+    BOOL            reduce using rule 30 (pr2 -> CADENA pr3 .)
 
 
 state 91
 
-    (11) expresion -> e2 e3 . e2
-    (12) e2 -> . exp
-    (16) exp -> . termino
-    (17) exp -> . exp ex2 exp
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (31) pr3 -> pr2 .
 
-    LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
-    ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    RKEY            reduce using rule 31 (pr3 -> pr2 .)
+    ID              reduce using rule 31 (pr3 -> pr2 .)
+    PRINT           reduce using rule 31 (pr3 -> pr2 .)
+    IF              reduce using rule 31 (pr3 -> pr2 .)
+    WHILE           reduce using rule 31 (pr3 -> pr2 .)
+    DO              reduce using rule 31 (pr3 -> pr2 .)
+    FOR             reduce using rule 31 (pr3 -> pr2 .)
+    COMENTARIO      reduce using rule 31 (pr3 -> pr2 .)
+    INT             reduce using rule 31 (pr3 -> pr2 .)
+    FLOAT           reduce using rule 31 (pr3 -> pr2 .)
+    CHAR            reduce using rule 31 (pr3 -> pr2 .)
+    STRING          reduce using rule 31 (pr3 -> pr2 .)
+    BOOL            reduce using rule 31 (pr3 -> pr2 .)
 
-    f2                             shift and go to state 56
-    varcte                         shift and go to state 55
-    termino                        shift and go to state 61
-    exp                            shift and go to state 62
-    factor                         shift and go to state 63
-    e2                             shift and go to state 110
 
 state 92
 
-    (31) es3 -> RPARENT . PUNTOCOMA
+    (29) pr2 -> expresion pr3 .
 
-    PUNTOCOMA       shift and go to state 111
+    RKEY            reduce using rule 29 (pr2 -> expresion pr3 .)
+    ID              reduce using rule 29 (pr2 -> expresion pr3 .)
+    PRINT           reduce using rule 29 (pr2 -> expresion pr3 .)
+    IF              reduce using rule 29 (pr2 -> expresion pr3 .)
+    WHILE           reduce using rule 29 (pr2 -> expresion pr3 .)
+    DO              reduce using rule 29 (pr2 -> expresion pr3 .)
+    FOR             reduce using rule 29 (pr2 -> expresion pr3 .)
+    COMENTARIO      reduce using rule 29 (pr2 -> expresion pr3 .)
+    INT             reduce using rule 29 (pr2 -> expresion pr3 .)
+    FLOAT           reduce using rule 29 (pr2 -> expresion pr3 .)
+    CHAR            reduce using rule 29 (pr2 -> expresion pr3 .)
+    STRING          reduce using rule 29 (pr2 -> expresion pr3 .)
+    BOOL            reduce using rule 29 (pr2 -> expresion pr3 .)
 
 
 state 93
 
-    (29) es2 -> varstring es3 .
+    (63) ciclofor -> FOR LPARENT asignacion expresion . asignacion RPARENT bloque
+    (27) asignacion -> . ID IGUAL expresion PUNTOCOMA
 
-    RKEY            reduce using rule 29 (es2 -> varstring es3 .)
-    ID              reduce using rule 29 (es2 -> varstring es3 .)
-    PRINT           reduce using rule 29 (es2 -> varstring es3 .)
-    IF              reduce using rule 29 (es2 -> varstring es3 .)
-    WHILE           reduce using rule 29 (es2 -> varstring es3 .)
-    DO              reduce using rule 29 (es2 -> varstring es3 .)
-    FOR             reduce using rule 29 (es2 -> varstring es3 .)
-    COMENTARIO      reduce using rule 29 (es2 -> varstring es3 .)
-    POW             reduce using rule 29 (es2 -> varstring es3 .)
-    SQRT            reduce using rule 29 (es2 -> varstring es3 .)
-    INT             reduce using rule 29 (es2 -> varstring es3 .)
-    FLOAT           reduce using rule 29 (es2 -> varstring es3 .)
-    CHAR            reduce using rule 29 (es2 -> varstring es3 .)
-    STRING          reduce using rule 29 (es2 -> varstring es3 .)
-    BOOL            reduce using rule 29 (es2 -> varstring es3 .)
+    ID              shift and go to state 67
 
+    asignacion                     shift and go to state 109
 
 state 94
 
-    (30) es3 -> es2 .
+    (27) asignacion -> ID IGUAL . expresion PUNTOCOMA
+    (11) expresion -> . exp e2
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
-    RKEY            reduce using rule 30 (es3 -> es2 .)
-    ID              reduce using rule 30 (es3 -> es2 .)
-    PRINT           reduce using rule 30 (es3 -> es2 .)
-    IF              reduce using rule 30 (es3 -> es2 .)
-    WHILE           reduce using rule 30 (es3 -> es2 .)
-    DO              reduce using rule 30 (es3 -> es2 .)
-    FOR             reduce using rule 30 (es3 -> es2 .)
-    COMENTARIO      reduce using rule 30 (es3 -> es2 .)
-    POW             reduce using rule 30 (es3 -> es2 .)
-    SQRT            reduce using rule 30 (es3 -> es2 .)
-    INT             reduce using rule 30 (es3 -> es2 .)
-    FLOAT           reduce using rule 30 (es3 -> es2 .)
-    CHAR            reduce using rule 30 (es3 -> es2 .)
-    STRING          reduce using rule 30 (es3 -> es2 .)
-    BOOL            reduce using rule 30 (es3 -> es2 .)
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
+    ID              shift and go to state 59
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
+    expresion                      shift and go to state 69
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 50
+    exp                            shift and go to state 61
+    factor                         shift and go to state 55
 
 state 95
 
-    (28) es2 -> expresion es3 .
+    (62) read -> ID IGUAL READ LPARENT . RPARENT PUNTOCOMA
 
-    RKEY            reduce using rule 28 (es2 -> expresion es3 .)
-    ID              reduce using rule 28 (es2 -> expresion es3 .)
-    PRINT           reduce using rule 28 (es2 -> expresion es3 .)
-    IF              reduce using rule 28 (es2 -> expresion es3 .)
-    WHILE           reduce using rule 28 (es2 -> expresion es3 .)
-    DO              reduce using rule 28 (es2 -> expresion es3 .)
-    FOR             reduce using rule 28 (es2 -> expresion es3 .)
-    COMENTARIO      reduce using rule 28 (es2 -> expresion es3 .)
-    POW             reduce using rule 28 (es2 -> expresion es3 .)
-    SQRT            reduce using rule 28 (es2 -> expresion es3 .)
-    INT             reduce using rule 28 (es2 -> expresion es3 .)
-    FLOAT           reduce using rule 28 (es2 -> expresion es3 .)
-    CHAR            reduce using rule 28 (es2 -> expresion es3 .)
-    STRING          reduce using rule 28 (es2 -> expresion es3 .)
-    BOOL            reduce using rule 28 (es2 -> expresion es3 .)
+    RPARENT         shift and go to state 110
 
 
 state 96
 
-    (64) potencia -> POW LPARENT varcte COMA . varcte RPARENT PUNTOCOMA
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (27) asignacion -> ID IGUAL expresion PUNTOCOMA .
 
-    ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    RKEY            reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    ID              reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    PRINT           reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    IF              reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    WHILE           reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    DO              reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    FOR             reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    COMENTARIO      reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    INT             reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    FLOAT           reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    CHAR            reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    STRING          reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    BOOL            reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    RPARENT         reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    LKEY            reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    SUMA            reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    RESTA           reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    ENTERO          reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    FLOTANTE        reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    CADENA          reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    CARACTER        reduce using rule 27 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
 
-    varcte                         shift and go to state 112
 
 state 97
 
-    (63) ciclofor -> FOR LPARENT asignacion expresion . asignacion RPARENT bloque
-    (26) asignacion -> . ID IGUAL expresion PUNTOCOMA
+    (33) condicion -> IF LKEY expresion RKEY . bloque c2
+    (5) bloque -> . LKEY b2
 
-    ID              shift and go to state 73
+    LKEY            shift and go to state 16
 
-    asignacion                     shift and go to state 113
+    bloque                         shift and go to state 111
 
 state 98
 
-    (26) asignacion -> ID IGUAL . expresion PUNTOCOMA
-    (10) expresion -> . e2
-    (11) expresion -> . e2 e3 e2
-    (12) e2 -> . exp
-    (16) exp -> . termino
-    (17) exp -> . exp ex2 exp
-    (35) termino -> . factor
-    (36) termino -> . factor t2
-    (39) factor -> . LKEY expresion RKEY
-    (40) factor -> . f2
-    (41) f2 -> . SUMA varcte
-    (42) f2 -> . RESTA varcte
-    (43) f2 -> . varcte
-    (56) varcte -> . ID
-    (57) varcte -> . ENTERO
-    (58) varcte -> . FLOTANTE
+    (61) ciclodowhile -> DO bloque WHILE LPARENT expresion . RPARENT PUNTOCOMA
 
-    LKEY            shift and go to state 57
-    SUMA            shift and go to state 60
-    RESTA           shift and go to state 65
-    ID              shift and go to state 59
-    ENTERO          shift and go to state 64
-    FLOTANTE        shift and go to state 58
+    RPARENT         shift and go to state 112
 
-    expresion                      shift and go to state 75
-    f2                             shift and go to state 56
-    varcte                         shift and go to state 55
-    termino                        shift and go to state 61
-    exp                            shift and go to state 62
-    factor                         shift and go to state 63
-    e2                             shift and go to state 66
 
 state 99
 
-    (62) read -> ID IGUAL READ LPARENT . RPARENT PUNTOCOMA
+    (18) exp2 -> SUMA exp .
 
-    RPARENT         shift and go to state 114
+    GT              reduce using rule 18 (exp2 -> SUMA exp .)
+    LT              reduce using rule 18 (exp2 -> SUMA exp .)
+    RPARENT         reduce using rule 18 (exp2 -> SUMA exp .)
+    CADENA          reduce using rule 18 (exp2 -> SUMA exp .)
+    LKEY            reduce using rule 18 (exp2 -> SUMA exp .)
+    SUMA            reduce using rule 18 (exp2 -> SUMA exp .)
+    RESTA           reduce using rule 18 (exp2 -> SUMA exp .)
+    ID              reduce using rule 18 (exp2 -> SUMA exp .)
+    ENTERO          reduce using rule 18 (exp2 -> SUMA exp .)
+    FLOTANTE        reduce using rule 18 (exp2 -> SUMA exp .)
+    CARACTER        reduce using rule 18 (exp2 -> SUMA exp .)
+    PUNTOCOMA       reduce using rule 18 (exp2 -> SUMA exp .)
+    RKEY            reduce using rule 18 (exp2 -> SUMA exp .)
 
 
 state 100
 
-    (26) asignacion -> ID IGUAL expresion PUNTOCOMA .
+    (19) exp2 -> RESTA exp .
 
-    RKEY            reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    ID              reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    PRINT           reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    IF              reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    WHILE           reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    DO              reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    FOR             reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    COMENTARIO      reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    POW             reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    SQRT            reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    INT             reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    FLOAT           reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    CHAR            reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    STRING          reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    BOOL            reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    RPARENT         reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    LKEY            reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    SUMA            reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    RESTA           reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    ENTERO          reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
-    FLOTANTE        reduce using rule 26 (asignacion -> ID IGUAL expresion PUNTOCOMA .)
+    GT              reduce using rule 19 (exp2 -> RESTA exp .)
+    LT              reduce using rule 19 (exp2 -> RESTA exp .)
+    RPARENT         reduce using rule 19 (exp2 -> RESTA exp .)
+    CADENA          reduce using rule 19 (exp2 -> RESTA exp .)
+    LKEY            reduce using rule 19 (exp2 -> RESTA exp .)
+    SUMA            reduce using rule 19 (exp2 -> RESTA exp .)
+    RESTA           reduce using rule 19 (exp2 -> RESTA exp .)
+    ID              reduce using rule 19 (exp2 -> RESTA exp .)
+    ENTERO          reduce using rule 19 (exp2 -> RESTA exp .)
+    FLOTANTE        reduce using rule 19 (exp2 -> RESTA exp .)
+    CARACTER        reduce using rule 19 (exp2 -> RESTA exp .)
+    PUNTOCOMA       reduce using rule 19 (exp2 -> RESTA exp .)
+    RKEY            reduce using rule 19 (exp2 -> RESTA exp .)
 
 
 state 101
 
-    (32) condicion -> IF LKEY expresion RKEY . bloque c2
-    (5) bloque -> . LKEY b2
-    (6) bloque -> . LKEY b3
+    (37) te2 -> MULT termino .
 
-    LKEY            shift and go to state 16
+    SUMA            reduce using rule 37 (te2 -> MULT termino .)
+    RESTA           reduce using rule 37 (te2 -> MULT termino .)
+    GT              reduce using rule 37 (te2 -> MULT termino .)
+    LT              reduce using rule 37 (te2 -> MULT termino .)
+    RPARENT         reduce using rule 37 (te2 -> MULT termino .)
+    CADENA          reduce using rule 37 (te2 -> MULT termino .)
+    LKEY            reduce using rule 37 (te2 -> MULT termino .)
+    ID              reduce using rule 37 (te2 -> MULT termino .)
+    ENTERO          reduce using rule 37 (te2 -> MULT termino .)
+    FLOTANTE        reduce using rule 37 (te2 -> MULT termino .)
+    CARACTER        reduce using rule 37 (te2 -> MULT termino .)
+    PUNTOCOMA       reduce using rule 37 (te2 -> MULT termino .)
+    RKEY            reduce using rule 37 (te2 -> MULT termino .)
 
-    bloque                         shift and go to state 115
 
 state 102
 
-    (65) raiz -> SQRT LPARENT varcte RPARENT . PUNTOCOMA
+    (38) te2 -> DIV termino .
 
-    PUNTOCOMA       shift and go to state 116
+    SUMA            reduce using rule 38 (te2 -> DIV termino .)
+    RESTA           reduce using rule 38 (te2 -> DIV termino .)
+    GT              reduce using rule 38 (te2 -> DIV termino .)
+    LT              reduce using rule 38 (te2 -> DIV termino .)
+    RPARENT         reduce using rule 38 (te2 -> DIV termino .)
+    CADENA          reduce using rule 38 (te2 -> DIV termino .)
+    LKEY            reduce using rule 38 (te2 -> DIV termino .)
+    ID              reduce using rule 38 (te2 -> DIV termino .)
+    ENTERO          reduce using rule 38 (te2 -> DIV termino .)
+    FLOTANTE        reduce using rule 38 (te2 -> DIV termino .)
+    CARACTER        reduce using rule 38 (te2 -> DIV termino .)
+    PUNTOCOMA       reduce using rule 38 (te2 -> DIV termino .)
+    RKEY            reduce using rule 38 (te2 -> DIV termino .)
 
 
 state 103
 
-    (61) ciclodowhile -> DO bloque WHILE LPARENT expresion . RPARENT PUNTOCOMA
+    (40) factor -> LKEY expresion RKEY .
 
-    RPARENT         shift and go to state 117
+    MULT            reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    DIV             reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    SUMA            reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    RESTA           reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    GT              reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    LT              reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    RPARENT         reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    CADENA          reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    LKEY            reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    ID              reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    ENTERO          reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    FLOTANTE        reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    CARACTER        reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    PUNTOCOMA       reduce using rule 40 (factor -> LKEY expresion RKEY .)
+    RKEY            reduce using rule 40 (factor -> LKEY expresion RKEY .)
 
 
 state 104
@@ -2040,8 +2150,6 @@ state 104
     DO              reduce using rule 60 (ciclowhile -> WHILE LPARENT expresion RPARENT bloque .)
     FOR             reduce using rule 60 (ciclowhile -> WHILE LPARENT expresion RPARENT bloque .)
     COMENTARIO      reduce using rule 60 (ciclowhile -> WHILE LPARENT expresion RPARENT bloque .)
-    POW             reduce using rule 60 (ciclowhile -> WHILE LPARENT expresion RPARENT bloque .)
-    SQRT            reduce using rule 60 (ciclowhile -> WHILE LPARENT expresion RPARENT bloque .)
     INT             reduce using rule 60 (ciclowhile -> WHILE LPARENT expresion RPARENT bloque .)
     FLOAT           reduce using rule 60 (ciclowhile -> WHILE LPARENT expresion RPARENT bloque .)
     CHAR            reduce using rule 60 (ciclowhile -> WHILE LPARENT expresion RPARENT bloque .)
@@ -2051,214 +2159,147 @@ state 104
 
 state 105
 
-    (39) factor -> LKEY expresion RKEY .
+    (14) e3 -> GT exp .
 
-    MULT            reduce using rule 39 (factor -> LKEY expresion RKEY .)
-    DIV             reduce using rule 39 (factor -> LKEY expresion RKEY .)
-    SUMA            reduce using rule 39 (factor -> LKEY expresion RKEY .)
-    RESTA           reduce using rule 39 (factor -> LKEY expresion RKEY .)
-    LT              reduce using rule 39 (factor -> LKEY expresion RKEY .)
-    GT              reduce using rule 39 (factor -> LKEY expresion RKEY .)
-    PUNTOCOMA       reduce using rule 39 (factor -> LKEY expresion RKEY .)
-    RPARENT         reduce using rule 39 (factor -> LKEY expresion RKEY .)
-    CADENA          reduce using rule 39 (factor -> LKEY expresion RKEY .)
-    LKEY            reduce using rule 39 (factor -> LKEY expresion RKEY .)
-    ID              reduce using rule 39 (factor -> LKEY expresion RKEY .)
-    ENTERO          reduce using rule 39 (factor -> LKEY expresion RKEY .)
-    FLOTANTE        reduce using rule 39 (factor -> LKEY expresion RKEY .)
-    RKEY            reduce using rule 39 (factor -> LKEY expresion RKEY .)
+    RPARENT         reduce using rule 14 (e3 -> GT exp .)
+    CADENA          reduce using rule 14 (e3 -> GT exp .)
+    LKEY            reduce using rule 14 (e3 -> GT exp .)
+    SUMA            reduce using rule 14 (e3 -> GT exp .)
+    RESTA           reduce using rule 14 (e3 -> GT exp .)
+    ID              reduce using rule 14 (e3 -> GT exp .)
+    ENTERO          reduce using rule 14 (e3 -> GT exp .)
+    FLOTANTE        reduce using rule 14 (e3 -> GT exp .)
+    CARACTER        reduce using rule 14 (e3 -> GT exp .)
+    PUNTOCOMA       reduce using rule 14 (e3 -> GT exp .)
+    RKEY            reduce using rule 14 (e3 -> GT exp .)
 
 
 state 106
 
-    (17) exp -> exp ex2 exp .
-    (17) exp -> exp . ex2 exp
-    (18) ex2 -> . SUMA
-    (19) ex2 -> . RESTA
+    (16) e3 -> LT GT . exp
+    (17) exp -> . termino exp2
+    (36) termino -> . factor te2
+    (40) factor -> . LKEY expresion RKEY
+    (41) factor -> . f2
+    (42) f2 -> . SUMA varcte
+    (43) f2 -> . RESTA varcte
+    (44) f2 -> . varcte
+    (55) varcte -> . ID
+    (56) varcte -> . ENTERO
+    (57) varcte -> . FLOTANTE
+    (58) varcte -> . CADENA
+    (59) varcte -> . CARACTER
 
-  ! shift/reduce conflict for SUMA resolved as shift
-  ! shift/reduce conflict for RESTA resolved as shift
-    LT              reduce using rule 17 (exp -> exp ex2 exp .)
-    GT              reduce using rule 17 (exp -> exp ex2 exp .)
-    PUNTOCOMA       reduce using rule 17 (exp -> exp ex2 exp .)
-    RKEY            reduce using rule 17 (exp -> exp ex2 exp .)
-    ID              reduce using rule 17 (exp -> exp ex2 exp .)
-    RPARENT         reduce using rule 17 (exp -> exp ex2 exp .)
-    CADENA          reduce using rule 17 (exp -> exp ex2 exp .)
-    LKEY            reduce using rule 17 (exp -> exp ex2 exp .)
-    ENTERO          reduce using rule 17 (exp -> exp ex2 exp .)
-    FLOTANTE        reduce using rule 17 (exp -> exp ex2 exp .)
-    SUMA            shift and go to state 84
-    RESTA           shift and go to state 82
+    LKEY            shift and go to state 57
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 51
+    ID              shift and go to state 59
+    ENTERO          shift and go to state 56
+    FLOTANTE        shift and go to state 62
+    CADENA          shift and go to state 54
+    CARACTER        shift and go to state 58
 
-  ! SUMA            [ reduce using rule 17 (exp -> exp ex2 exp .) ]
-  ! RESTA           [ reduce using rule 17 (exp -> exp ex2 exp .) ]
-
-    ex2                            shift and go to state 83
+    f2                             shift and go to state 49
+    varcte                         shift and go to state 53
+    termino                        shift and go to state 50
+    exp                            shift and go to state 113
+    factor                         shift and go to state 55
 
 state 107
 
-    (38) t2 -> DIV termino .
+    (15) e3 -> LT exp .
 
-    SUMA            reduce using rule 38 (t2 -> DIV termino .)
-    RESTA           reduce using rule 38 (t2 -> DIV termino .)
-    LT              reduce using rule 38 (t2 -> DIV termino .)
-    GT              reduce using rule 38 (t2 -> DIV termino .)
-    RPARENT         reduce using rule 38 (t2 -> DIV termino .)
-    CADENA          reduce using rule 38 (t2 -> DIV termino .)
-    LKEY            reduce using rule 38 (t2 -> DIV termino .)
-    ID              reduce using rule 38 (t2 -> DIV termino .)
-    ENTERO          reduce using rule 38 (t2 -> DIV termino .)
-    FLOTANTE        reduce using rule 38 (t2 -> DIV termino .)
-    PUNTOCOMA       reduce using rule 38 (t2 -> DIV termino .)
-    RKEY            reduce using rule 38 (t2 -> DIV termino .)
+    RPARENT         reduce using rule 15 (e3 -> LT exp .)
+    CADENA          reduce using rule 15 (e3 -> LT exp .)
+    LKEY            reduce using rule 15 (e3 -> LT exp .)
+    SUMA            reduce using rule 15 (e3 -> LT exp .)
+    RESTA           reduce using rule 15 (e3 -> LT exp .)
+    ID              reduce using rule 15 (e3 -> LT exp .)
+    ENTERO          reduce using rule 15 (e3 -> LT exp .)
+    FLOTANTE        reduce using rule 15 (e3 -> LT exp .)
+    CARACTER        reduce using rule 15 (e3 -> LT exp .)
+    PUNTOCOMA       reduce using rule 15 (e3 -> LT exp .)
+    RKEY            reduce using rule 15 (e3 -> LT exp .)
 
 
 state 108
 
-    (37) t2 -> MULT termino .
+    (32) pr3 -> RPARENT PUNTOCOMA .
 
-    SUMA            reduce using rule 37 (t2 -> MULT termino .)
-    RESTA           reduce using rule 37 (t2 -> MULT termino .)
-    LT              reduce using rule 37 (t2 -> MULT termino .)
-    GT              reduce using rule 37 (t2 -> MULT termino .)
-    RPARENT         reduce using rule 37 (t2 -> MULT termino .)
-    CADENA          reduce using rule 37 (t2 -> MULT termino .)
-    LKEY            reduce using rule 37 (t2 -> MULT termino .)
-    ID              reduce using rule 37 (t2 -> MULT termino .)
-    ENTERO          reduce using rule 37 (t2 -> MULT termino .)
-    FLOTANTE        reduce using rule 37 (t2 -> MULT termino .)
-    PUNTOCOMA       reduce using rule 37 (t2 -> MULT termino .)
-    RKEY            reduce using rule 37 (t2 -> MULT termino .)
+    RKEY            reduce using rule 32 (pr3 -> RPARENT PUNTOCOMA .)
+    ID              reduce using rule 32 (pr3 -> RPARENT PUNTOCOMA .)
+    PRINT           reduce using rule 32 (pr3 -> RPARENT PUNTOCOMA .)
+    IF              reduce using rule 32 (pr3 -> RPARENT PUNTOCOMA .)
+    WHILE           reduce using rule 32 (pr3 -> RPARENT PUNTOCOMA .)
+    DO              reduce using rule 32 (pr3 -> RPARENT PUNTOCOMA .)
+    FOR             reduce using rule 32 (pr3 -> RPARENT PUNTOCOMA .)
+    COMENTARIO      reduce using rule 32 (pr3 -> RPARENT PUNTOCOMA .)
+    INT             reduce using rule 32 (pr3 -> RPARENT PUNTOCOMA .)
+    FLOAT           reduce using rule 32 (pr3 -> RPARENT PUNTOCOMA .)
+    CHAR            reduce using rule 32 (pr3 -> RPARENT PUNTOCOMA .)
+    STRING          reduce using rule 32 (pr3 -> RPARENT PUNTOCOMA .)
+    BOOL            reduce using rule 32 (pr3 -> RPARENT PUNTOCOMA .)
 
 
 state 109
 
-    (15) e3 -> LT GT .
+    (63) ciclofor -> FOR LPARENT asignacion expresion asignacion . RPARENT bloque
 
-    LKEY            reduce using rule 15 (e3 -> LT GT .)
-    SUMA            reduce using rule 15 (e3 -> LT GT .)
-    RESTA           reduce using rule 15 (e3 -> LT GT .)
-    ID              reduce using rule 15 (e3 -> LT GT .)
-    ENTERO          reduce using rule 15 (e3 -> LT GT .)
-    FLOTANTE        reduce using rule 15 (e3 -> LT GT .)
+    RPARENT         shift and go to state 114
 
 
 state 110
 
-    (11) expresion -> e2 e3 e2 .
+    (62) read -> ID IGUAL READ LPARENT RPARENT . PUNTOCOMA
 
-    PUNTOCOMA       reduce using rule 11 (expresion -> e2 e3 e2 .)
-    ID              reduce using rule 11 (expresion -> e2 e3 e2 .)
-    RKEY            reduce using rule 11 (expresion -> e2 e3 e2 .)
-    RPARENT         reduce using rule 11 (expresion -> e2 e3 e2 .)
-    CADENA          reduce using rule 11 (expresion -> e2 e3 e2 .)
-    LKEY            reduce using rule 11 (expresion -> e2 e3 e2 .)
-    SUMA            reduce using rule 11 (expresion -> e2 e3 e2 .)
-    RESTA           reduce using rule 11 (expresion -> e2 e3 e2 .)
-    ENTERO          reduce using rule 11 (expresion -> e2 e3 e2 .)
-    FLOTANTE        reduce using rule 11 (expresion -> e2 e3 e2 .)
+    PUNTOCOMA       shift and go to state 115
 
 
 state 111
 
-    (31) es3 -> RPARENT PUNTOCOMA .
+    (33) condicion -> IF LKEY expresion RKEY bloque . c2
+    (34) c2 -> . ELSE bloque PUNTOCOMA
+    (35) c2 -> . PUNTOCOMA
 
-    RKEY            reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    ID              reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    PRINT           reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    IF              reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    WHILE           reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    DO              reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    FOR             reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    COMENTARIO      reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    POW             reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    SQRT            reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    INT             reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    FLOAT           reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    CHAR            reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    STRING          reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
-    BOOL            reduce using rule 31 (es3 -> RPARENT PUNTOCOMA .)
+    ELSE            shift and go to state 117
+    PUNTOCOMA       shift and go to state 116
 
+    c2                             shift and go to state 118
 
 state 112
 
-    (64) potencia -> POW LPARENT varcte COMA varcte . RPARENT PUNTOCOMA
+    (61) ciclodowhile -> DO bloque WHILE LPARENT expresion RPARENT . PUNTOCOMA
 
-    RPARENT         shift and go to state 118
+    PUNTOCOMA       shift and go to state 119
 
 
 state 113
 
-    (63) ciclofor -> FOR LPARENT asignacion expresion asignacion . RPARENT bloque
+    (16) e3 -> LT GT exp .
 
-    RPARENT         shift and go to state 119
+    RPARENT         reduce using rule 16 (e3 -> LT GT exp .)
+    CADENA          reduce using rule 16 (e3 -> LT GT exp .)
+    LKEY            reduce using rule 16 (e3 -> LT GT exp .)
+    SUMA            reduce using rule 16 (e3 -> LT GT exp .)
+    RESTA           reduce using rule 16 (e3 -> LT GT exp .)
+    ID              reduce using rule 16 (e3 -> LT GT exp .)
+    ENTERO          reduce using rule 16 (e3 -> LT GT exp .)
+    FLOTANTE        reduce using rule 16 (e3 -> LT GT exp .)
+    CARACTER        reduce using rule 16 (e3 -> LT GT exp .)
+    PUNTOCOMA       reduce using rule 16 (e3 -> LT GT exp .)
+    RKEY            reduce using rule 16 (e3 -> LT GT exp .)
 
 
 state 114
 
-    (62) read -> ID IGUAL READ LPARENT RPARENT . PUNTOCOMA
-
-    PUNTOCOMA       shift and go to state 120
-
-
-state 115
-
-    (32) condicion -> IF LKEY expresion RKEY bloque . c2
-    (33) c2 -> . ELSE bloque PUNTOCOMA
-    (34) c2 -> . PUNTOCOMA
-
-    ELSE            shift and go to state 122
-    PUNTOCOMA       shift and go to state 121
-
-    c2                             shift and go to state 123
-
-state 116
-
-    (65) raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .
-
-    RKEY            reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    ID              reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    PRINT           reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    IF              reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    WHILE           reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    DO              reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    FOR             reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    COMENTARIO      reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    POW             reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    SQRT            reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    INT             reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    FLOAT           reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    CHAR            reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    STRING          reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-    BOOL            reduce using rule 65 (raiz -> SQRT LPARENT varcte RPARENT PUNTOCOMA .)
-
-
-state 117
-
-    (61) ciclodowhile -> DO bloque WHILE LPARENT expresion RPARENT . PUNTOCOMA
-
-    PUNTOCOMA       shift and go to state 124
-
-
-state 118
-
-    (64) potencia -> POW LPARENT varcte COMA varcte RPARENT . PUNTOCOMA
-
-    PUNTOCOMA       shift and go to state 125
-
-
-state 119
-
     (63) ciclofor -> FOR LPARENT asignacion expresion asignacion RPARENT . bloque
     (5) bloque -> . LKEY b2
-    (6) bloque -> . LKEY b3
 
     LKEY            shift and go to state 16
 
-    bloque                         shift and go to state 126
+    bloque                         shift and go to state 120
 
-state 120
+state 115
 
     (62) read -> ID IGUAL READ LPARENT RPARENT PUNTOCOMA .
 
@@ -2270,8 +2311,6 @@ state 120
     DO              reduce using rule 62 (read -> ID IGUAL READ LPARENT RPARENT PUNTOCOMA .)
     FOR             reduce using rule 62 (read -> ID IGUAL READ LPARENT RPARENT PUNTOCOMA .)
     COMENTARIO      reduce using rule 62 (read -> ID IGUAL READ LPARENT RPARENT PUNTOCOMA .)
-    POW             reduce using rule 62 (read -> ID IGUAL READ LPARENT RPARENT PUNTOCOMA .)
-    SQRT            reduce using rule 62 (read -> ID IGUAL READ LPARENT RPARENT PUNTOCOMA .)
     INT             reduce using rule 62 (read -> ID IGUAL READ LPARENT RPARENT PUNTOCOMA .)
     FLOAT           reduce using rule 62 (read -> ID IGUAL READ LPARENT RPARENT PUNTOCOMA .)
     CHAR            reduce using rule 62 (read -> ID IGUAL READ LPARENT RPARENT PUNTOCOMA .)
@@ -2279,59 +2318,54 @@ state 120
     BOOL            reduce using rule 62 (read -> ID IGUAL READ LPARENT RPARENT PUNTOCOMA .)
 
 
-state 121
+state 116
 
-    (34) c2 -> PUNTOCOMA .
+    (35) c2 -> PUNTOCOMA .
 
-    RKEY            reduce using rule 34 (c2 -> PUNTOCOMA .)
-    ID              reduce using rule 34 (c2 -> PUNTOCOMA .)
-    PRINT           reduce using rule 34 (c2 -> PUNTOCOMA .)
-    IF              reduce using rule 34 (c2 -> PUNTOCOMA .)
-    WHILE           reduce using rule 34 (c2 -> PUNTOCOMA .)
-    DO              reduce using rule 34 (c2 -> PUNTOCOMA .)
-    FOR             reduce using rule 34 (c2 -> PUNTOCOMA .)
-    COMENTARIO      reduce using rule 34 (c2 -> PUNTOCOMA .)
-    POW             reduce using rule 34 (c2 -> PUNTOCOMA .)
-    SQRT            reduce using rule 34 (c2 -> PUNTOCOMA .)
-    INT             reduce using rule 34 (c2 -> PUNTOCOMA .)
-    FLOAT           reduce using rule 34 (c2 -> PUNTOCOMA .)
-    CHAR            reduce using rule 34 (c2 -> PUNTOCOMA .)
-    STRING          reduce using rule 34 (c2 -> PUNTOCOMA .)
-    BOOL            reduce using rule 34 (c2 -> PUNTOCOMA .)
+    RKEY            reduce using rule 35 (c2 -> PUNTOCOMA .)
+    ID              reduce using rule 35 (c2 -> PUNTOCOMA .)
+    PRINT           reduce using rule 35 (c2 -> PUNTOCOMA .)
+    IF              reduce using rule 35 (c2 -> PUNTOCOMA .)
+    WHILE           reduce using rule 35 (c2 -> PUNTOCOMA .)
+    DO              reduce using rule 35 (c2 -> PUNTOCOMA .)
+    FOR             reduce using rule 35 (c2 -> PUNTOCOMA .)
+    COMENTARIO      reduce using rule 35 (c2 -> PUNTOCOMA .)
+    INT             reduce using rule 35 (c2 -> PUNTOCOMA .)
+    FLOAT           reduce using rule 35 (c2 -> PUNTOCOMA .)
+    CHAR            reduce using rule 35 (c2 -> PUNTOCOMA .)
+    STRING          reduce using rule 35 (c2 -> PUNTOCOMA .)
+    BOOL            reduce using rule 35 (c2 -> PUNTOCOMA .)
 
 
-state 122
+state 117
 
-    (33) c2 -> ELSE . bloque PUNTOCOMA
+    (34) c2 -> ELSE . bloque PUNTOCOMA
     (5) bloque -> . LKEY b2
-    (6) bloque -> . LKEY b3
 
     LKEY            shift and go to state 16
 
-    bloque                         shift and go to state 127
+    bloque                         shift and go to state 121
 
-state 123
+state 118
 
-    (32) condicion -> IF LKEY expresion RKEY bloque c2 .
+    (33) condicion -> IF LKEY expresion RKEY bloque c2 .
 
-    RKEY            reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    ID              reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    PRINT           reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    IF              reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    WHILE           reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    DO              reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    FOR             reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    COMENTARIO      reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    POW             reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    SQRT            reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    INT             reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    FLOAT           reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    CHAR            reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    STRING          reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
-    BOOL            reduce using rule 32 (condicion -> IF LKEY expresion RKEY bloque c2 .)
+    RKEY            reduce using rule 33 (condicion -> IF LKEY expresion RKEY bloque c2 .)
+    ID              reduce using rule 33 (condicion -> IF LKEY expresion RKEY bloque c2 .)
+    PRINT           reduce using rule 33 (condicion -> IF LKEY expresion RKEY bloque c2 .)
+    IF              reduce using rule 33 (condicion -> IF LKEY expresion RKEY bloque c2 .)
+    WHILE           reduce using rule 33 (condicion -> IF LKEY expresion RKEY bloque c2 .)
+    DO              reduce using rule 33 (condicion -> IF LKEY expresion RKEY bloque c2 .)
+    FOR             reduce using rule 33 (condicion -> IF LKEY expresion RKEY bloque c2 .)
+    COMENTARIO      reduce using rule 33 (condicion -> IF LKEY expresion RKEY bloque c2 .)
+    INT             reduce using rule 33 (condicion -> IF LKEY expresion RKEY bloque c2 .)
+    FLOAT           reduce using rule 33 (condicion -> IF LKEY expresion RKEY bloque c2 .)
+    CHAR            reduce using rule 33 (condicion -> IF LKEY expresion RKEY bloque c2 .)
+    STRING          reduce using rule 33 (condicion -> IF LKEY expresion RKEY bloque c2 .)
+    BOOL            reduce using rule 33 (condicion -> IF LKEY expresion RKEY bloque c2 .)
 
 
-state 124
+state 119
 
     (61) ciclodowhile -> DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA .
 
@@ -2343,8 +2377,6 @@ state 124
     DO              reduce using rule 61 (ciclodowhile -> DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA .)
     FOR             reduce using rule 61 (ciclodowhile -> DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA .)
     COMENTARIO      reduce using rule 61 (ciclodowhile -> DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA .)
-    POW             reduce using rule 61 (ciclodowhile -> DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA .)
-    SQRT            reduce using rule 61 (ciclodowhile -> DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA .)
     INT             reduce using rule 61 (ciclodowhile -> DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA .)
     FLOAT           reduce using rule 61 (ciclodowhile -> DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA .)
     CHAR            reduce using rule 61 (ciclodowhile -> DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA .)
@@ -2352,28 +2384,7 @@ state 124
     BOOL            reduce using rule 61 (ciclodowhile -> DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA .)
 
 
-state 125
-
-    (64) potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .
-
-    RKEY            reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    ID              reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    PRINT           reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    IF              reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    WHILE           reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    DO              reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    FOR             reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    COMENTARIO      reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    POW             reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    SQRT            reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    INT             reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    FLOAT           reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    CHAR            reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    STRING          reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-    BOOL            reduce using rule 64 (potencia -> POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA .)
-
-
-state 126
+state 120
 
     (63) ciclofor -> FOR LPARENT asignacion expresion asignacion RPARENT bloque .
 
@@ -2385,8 +2396,6 @@ state 126
     DO              reduce using rule 63 (ciclofor -> FOR LPARENT asignacion expresion asignacion RPARENT bloque .)
     FOR             reduce using rule 63 (ciclofor -> FOR LPARENT asignacion expresion asignacion RPARENT bloque .)
     COMENTARIO      reduce using rule 63 (ciclofor -> FOR LPARENT asignacion expresion asignacion RPARENT bloque .)
-    POW             reduce using rule 63 (ciclofor -> FOR LPARENT asignacion expresion asignacion RPARENT bloque .)
-    SQRT            reduce using rule 63 (ciclofor -> FOR LPARENT asignacion expresion asignacion RPARENT bloque .)
     INT             reduce using rule 63 (ciclofor -> FOR LPARENT asignacion expresion asignacion RPARENT bloque .)
     FLOAT           reduce using rule 63 (ciclofor -> FOR LPARENT asignacion expresion asignacion RPARENT bloque .)
     CHAR            reduce using rule 63 (ciclofor -> FOR LPARENT asignacion expresion asignacion RPARENT bloque .)
@@ -2394,37 +2403,42 @@ state 126
     BOOL            reduce using rule 63 (ciclofor -> FOR LPARENT asignacion expresion asignacion RPARENT bloque .)
 
 
-state 127
+state 121
 
-    (33) c2 -> ELSE bloque . PUNTOCOMA
+    (34) c2 -> ELSE bloque . PUNTOCOMA
 
-    PUNTOCOMA       shift and go to state 128
+    PUNTOCOMA       shift and go to state 122
 
 
-state 128
+state 122
 
-    (33) c2 -> ELSE bloque PUNTOCOMA .
+    (34) c2 -> ELSE bloque PUNTOCOMA .
 
-    RKEY            reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    ID              reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    PRINT           reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    IF              reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    WHILE           reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    DO              reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    FOR             reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    COMENTARIO      reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    POW             reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    SQRT            reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    INT             reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    FLOAT           reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    CHAR            reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    STRING          reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
-    BOOL            reduce using rule 33 (c2 -> ELSE bloque PUNTOCOMA .)
+    RKEY            reduce using rule 34 (c2 -> ELSE bloque PUNTOCOMA .)
+    ID              reduce using rule 34 (c2 -> ELSE bloque PUNTOCOMA .)
+    PRINT           reduce using rule 34 (c2 -> ELSE bloque PUNTOCOMA .)
+    IF              reduce using rule 34 (c2 -> ELSE bloque PUNTOCOMA .)
+    WHILE           reduce using rule 34 (c2 -> ELSE bloque PUNTOCOMA .)
+    DO              reduce using rule 34 (c2 -> ELSE bloque PUNTOCOMA .)
+    FOR             reduce using rule 34 (c2 -> ELSE bloque PUNTOCOMA .)
+    COMENTARIO      reduce using rule 34 (c2 -> ELSE bloque PUNTOCOMA .)
+    INT             reduce using rule 34 (c2 -> ELSE bloque PUNTOCOMA .)
+    FLOAT           reduce using rule 34 (c2 -> ELSE bloque PUNTOCOMA .)
+    CHAR            reduce using rule 34 (c2 -> ELSE bloque PUNTOCOMA .)
+    STRING          reduce using rule 34 (c2 -> ELSE bloque PUNTOCOMA .)
+    BOOL            reduce using rule 34 (c2 -> ELSE bloque PUNTOCOMA .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for SUMA in state 62 resolved as shift
-WARNING: shift/reduce conflict for RESTA in state 62 resolved as shift
-WARNING: shift/reduce conflict for SUMA in state 106 resolved as shift
-WARNING: shift/reduce conflict for RESTA in state 106 resolved as shift
+WARNING: shift/reduce conflict for SUMA in state 50 resolved as shift
+WARNING: shift/reduce conflict for RESTA in state 50 resolved as shift
+WARNING: shift/reduce conflict for RPARENT in state 63 resolved as shift
+WARNING: shift/reduce conflict for CADENA in state 63 resolved as shift
+WARNING: shift/reduce conflict for LKEY in state 63 resolved as shift
+WARNING: shift/reduce conflict for SUMA in state 63 resolved as shift
+WARNING: shift/reduce conflict for RESTA in state 63 resolved as shift
+WARNING: shift/reduce conflict for ID in state 63 resolved as shift
+WARNING: shift/reduce conflict for ENTERO in state 63 resolved as shift
+WARNING: shift/reduce conflict for FLOTANTE in state 63 resolved as shift
+WARNING: shift/reduce conflict for CARACTER in state 63 resolved as shift

@@ -40,10 +40,39 @@ class Stack:
          return len(self.items)
 
 
+
+
+#definimos la clase para la tabla por enviroment
+#Nos servira para simular el creado de tablas por scope
+class Env:
+	dict = {}
+	#Este atributo es un objeto de la misma clase Env
+	#Representa el scope anterior 
+	prev = None
+	def __init__(ant):
+		prev = ant
+
+#funcion que nos sirve para insertar un nuevo simbolo a la tabla
+	def put(identifier, content):
+			dict[identifier] = content.copy()
+
+#funcion que itera por las tablas para encontrar un simbolo
+#empieza por el scope actual y regresa una tabla o None si no encuentra la variable
+
+	def get(identifier):
+		e = self.table
+		while e != None:
+			if identifier in e:
+  				return [identifier]
+  				break
+			else:
+				e = e.prev
+		return None
+
+
 #definimos la pila de variables y tipos de datos
 Stack_Variables = Stack()
 Stack_Types = Stack()
-
 
 #definicion de variables globales y espacios disponibles
 global_int = {}
@@ -57,17 +86,20 @@ global_string_count = 600
 global_char = {}
 global_char_count = 800
 
+
 #definicion de variables locales y espacios disponibles
-local_int = {}
-local_int_count = 1000
-local_float = {}
-local_float_count = 1200
-local_bool = {}
-local_bool_count = 1400 
-local_string = {}
-local_string_count = 1600
-local_char = {}
-local_char_count = 1800
+def local():
+	local_int = {}
+	local_int_count = 1000
+	local_float = {}
+	local_float_count = 1200
+	local_bool = {}
+	local_bool_count = 1400 
+	local_string = {}
+	local_string_count = 1600
+	local_char = {}
+	local_char_count = 1800
+
 
 #Funcion que busca una variable decladarada global
 def SearchGlobalVariable(identifier):
@@ -102,52 +134,47 @@ def SearchLocalVariable(identifier):
 
 
 #Funcion que agrega una variable local si su nombre no esta asignado aun
-def AddGlobalVariable():
-
+def AddGlobalVariable(type,identifier):
 	#Se necesita especificar que las variables que usare son las que declare globalmente
 	global global_float_count
 	global global_int_count
 	global global_int
 	global global_float
-
+	global global_bool
+	global global_bool_count
+	global global_string_count
+	global global_string
+	global global_char
+	global global_char_count
+	print(type + " " + identifier)
 	#itero a lo largo de la pila para agregar todas las variables que pueda haber en ella
-	for i in range(0,Stack_Variables.size()):
-		if SearchGlobalVariable(Stack_Variables.peek()):
-			print("error: la variable ya ha sido declarada");
-			Stack_Variables.pop()
-			Stack_Types.pop()
+	if SearchGlobalVariable(identifier):
+		print("error: la variable ya ha sido declarada")
+	else:
+		#Se agrega la variable a su diccionario dependiendo de su tipo
+		variable = {}
+		if type == 'INT':
+			variable['position'] = global_int_count
+			global_int_count = global_int_count + 1
+			global_int[identifier] = variable.copy()
+		elif type == 'FLOAT':
+			variable['position'] = global_float_count
+			global_float_count = global_float_count + 1
+			global_float[identifier] = variable.copy()
+		elif type == 'STRING':
+			variable['position'] = global_string_count
+			global_string_count = global_string_count + 1
+			global_string[identifier] = variable.copy()
+		elif type == 'CHAR':
+			variable['position'] = global_char_count
+			global_char_count = global_char_count + 1
+			global_char[identifier] = variable.copy()
+		elif type == 'BOOL':
+			variable['position'] = global_bool_count
+			global_bool_count = global_bool_count + 1
+			global_bool[identifier] = variable.copy()
 		else:
-			#Se agrega la variable a su diccionario dependiendo de su tipo
-			variable = {}
-			if Stack_Types.peek() == 'INT':
-				variable['position'] = global_int_count
-				global_int_count = global_int_count + 1
-				global_int[Stack_Variables.peek()] = Stack_Variables.pop()
-				Stack_Types.pop()
-			elif Stack_Types.peek() == 'FLOAT':
-				variable['position'] = global_float_count
-				global_float_count = global_float_count + 1
-				global_float[Stack_Variables.peek()] = Stack_Variables.pop()
-				Stack_Types.pop()
-			elif Stack_Types.peek() == 'STRING':
-				variable['position'] = global_string_count
-				global_string_count = global_string_count + 1
-				global_string[Stack_Variables.peek()] = Stack_Variables.pop()
-				Stack_Types.pop()
-			elif Stack_Types.peek() == 'CHAR':
-				variable['position'] = global_char_count
-				global_char_count = global_char_count + 1
-				global_char[Stack_Variables.peek()] = Stack_Variables.pop()
-				Stack_Types.pop()
-			elif Stack_Types.peek() == 'BOOL':
-				variable['position'] = global_bool_count
-				global_bool_count = global_bool_count + 1
-				global_bool[Stack_Variables.peek()] = Stack_Variables.pop()
-				Stack_Types.pop()
-			else:
-				print("error: tipo de variable incorrecto");
-				Stack_Variables.pop()
-				Stack_Types.pop()
+			print("error: tipo de variable incorrecto");
 
 ####################CONTENIDO DE UN PROGRAMA###################################
 def p_program(p):
@@ -159,12 +186,10 @@ def p_p2(p):
 	'''p2 : declaracion p3'''
 	#p[0] = p2(p[1], "p2")
 	#print "p2"
-def p_p3(p):
-	'''p3 : p2'''
 
-def p_p31(p):
-	'''p3 : bloque'''
-	#print "p2"
+def p_p3(p):
+	'''p3 : p2
+	| bloque'''
 
 ########################CONTENIDO DE UN BLOQUE######################################
 
@@ -173,222 +198,135 @@ def p_bloque(p):
 	'''bloque : LKEY b2'''
 	print "bloque"
 
-def p_bloque1(p):
-	'''bloque : LKEY b3'''
-	print "bloque"
-
 def p_b2(p):
-	'''b2 : estatuto b3'''
-	#print "b2"
-
-def p_b21(p):
-	'''b2 : estatuto b2'''
-	#print "b2"
+	'''b2 : b3
+	| RKEY'''
 
 def p_b3(p):
-	'''b3 : RKEY'''
-	#print "b3"
+	'''b3 : estatuto b4'''
+
+def p_b4(p):
+	'''b4 : b3
+	| RKEY'''
 
 ###########################CONTENIDO DE UNA EXPRESION#################################
 def p_expresion(p):
-	'''expresion : e2'''
+	'''expresion : exp e2 '''
 	print "expresion"
 
-def p_expresion1(p):
-	'''expresion : e2 e3 e2'''
-	print "expresion"
 
 def p_e2(p):
-	'''e2 : exp'''
-	#print "e2"
+	'''e2 : e3 
+	| empty'''
 
 def p_e3(p):
-	'''e3 : LT'''	
-	#print "e3"
+	'''e3 : GT exp
+	| LT exp
+	| LT GT exp'''
 
-def p_e31(p):
-	'''e3 : GT'''	
-	#print "e3"
-
-def p_e32(p):
-	'''e3 : LT GT'''	
-	#print "e3"
 ##################EXP###################################
 def p_exp(p):
-	'''exp : termino'''
-	print "exp"
-	
-def p_exp1(p):
-	'''exp : exp ex2 exp'''
+	'''exp : termino exp2'''
 	print "exp"
 
-def p_ex2(p):
-	'''ex2 : SUMA'''
-	#print "ex2"
-
-def p_ex21(p):
-	'''ex2 : RESTA'''
-	#print "ex2"
-####################GENERAR TABLAS####################################
-
-#def p_creartabla(p):	
-#	print "Nombre de la variable: " + p[2]
-#	print "Se ha creado la tabla de variables"
+def p_exp2(p):
+	'''exp2 : SUMA exp 
+	| RESTA exp
+	| empty'''	
 
 ####################DECLARACION DE VARIABLES#############################
 def p_declaracion(p):
 	'''declaracion : tipo ID PUNTOCOMA'''
 	#p_creartabla(p)
-	Stack_Variables.push(p[2])
+	AddGlobalVariable(p[1],p[2])
 	print "declaracion"
+
 ######################TIPO DE VARIABLES######################################
 def p_tipo(p):
-	'''tipo : INT'''
- 	Stack_Types.push(p[1])
-	#AddGlobalVariable()
+	'''tipo : INT
+	| FLOAT
+	| CHAR
+	| STRING
+	| BOOL'''
+	p[0] = p[1]
 	print "tipo"
 
-def p_tipo1(p):
-	'''tipo : FLOAT'''
-	Stack_Types.push(p[1])
-	#AddGlobalVariable()
-	print "tipo"
-
-def p_tipo2(p):
-	'''tipo : CHAR'''
-	Stack_Types.push(p[1])
-	#AddGlobalVariable()
-	print "tipo"
-
-def p_tipo3(p):
-	'''tipo : STRING'''
-	Stack_Types.push(p[1])
-	#AddGlobalVariable()
-	print "tipo"
-
-def p_tipo4(p):
-	'''tipo : BOOL'''	
-	Stack_Types.push(p[1])
-	#AddGlobalVariable()
-	print "tipo"
 ##################ASIGNACION A VARIABLES###################################
 def p_asignacion(p):
 	'''asignacion : ID IGUAL expresion PUNTOCOMA'''
 	print "asignacion"
 #########################ESCRITURA####################################
 def p_print(p):
-	'''print : PRINT LPARENT es2'''
+	'''print : PRINT LPARENT pr2'''
 	print "esritura"
 
-def p_es2(p):
-	'''es2 : expresion es3'''
+def p_pr2(p):
+	'''pr2 : expresion pr3
+	| CADENA pr3'''
 	#print "es2"
 
-def p_es21(p):
-	'''es2 : varstring es3'''
-	#print "es2"
-
-def p_es3(p):
-	'''es3 : es2'''
-	#print "es3"
-
-def p_es31(p):
-	'''es3 : RPARENT PUNTOCOMA'''
-	#print "es3"
+def p_pr3(p):
+	'''pr3 : pr2
+	| RPARENT PUNTOCOMA'''
 ######################CONDICION###############################
 def p_condicion(p):	
 	'''condicion : IF LKEY expresion RKEY bloque c2'''
 	print "condicion"
 
 def p_c2(p):
-	'''c2 : ELSE bloque PUNTOCOMA'''
-	#print "c2"
-	
-def p_c21(p):
-	'''c2 : PUNTOCOMA'''
+	'''c2 : ELSE bloque PUNTOCOMA
+	| PUNTOCOMA'''
 	#print "c2"
 
 ########################TERMINO#################################
 def p_termino(p):
-	'''termino : factor'''
+	'''termino : factor te2'''
 	print "termino"
 
-def p_termino1(p):
-	'''termino : factor t2'''
-	print "termino"
-
-def p_t2(p):
-	'''t2 : MULT termino'''
-	#print "t2"
-
-def p_t21(p):
-	'''t2 : DIV termino'''
-	#print "t2"
+def p_te2(p):
+	'''te2 : MULT termino 
+	| DIV termino
+	| empty'''	
 ######################FACTOR####################################
 def p_factor(p):
-	'''factor : LKEY expresion RKEY'''
+	'''factor : LKEY expresion RKEY
+	| f2'''
 	print "factor"
+	if p[1] == '{':
+		p[0] = p[2]
+	else:
+		p[0] = p[1]
 
-def p_factor1(p):
-	'''factor : f2'''
-	print "factor"
-	
 def p_f2(p):
-	'''f2 : SUMA varcte'''
-	#print "f2"
+	'''f2 : SUMA varcte
+	| RESTA varcte
+	| varcte'''
+	if p[1] == '+' or p[1] == '-':
+		p[0] = p[2]
+	else:
+		p[0] = p[1]
+	print p[0]
 
-def p_f21(p):
-	'''f2 : RESTA varcte'''
-	#print "f2"
 
-def p_f22(p):
-	'''f2 : varcte'''
-	#print "f2"
+
+
+
 ######################CONTENIDO DE UN ESTATUTO##################################
 
 def p_estatuto(p):
-	'''estatuto : asignacion'''
+	'''estatuto : asignacion
+	| print
+	| condicion
+	| ciclowhile
+	| ciclodowhile
+	| ciclofor
+	| read
+	| declaracion
+	| comentario'''
+#	| potencia
+#	| raiz
 	print "estatuto"
 
-def p_estatuto1(p):
-	'''estatuto : print'''
-	print "estatuto"
-
-def p_estatuto2(p):
-	'''estatuto : condicion'''
-	print "estatuto"
-
-def p_estatuto3(p):
-	'''estatuto : ciclowhile'''
-	print "estatuto"
-
-def p_estatuto4(p):
-	'''estatuto : ciclodowhile'''
-	print "estatuto"
-
-def p_estatuto5(p):
-	'''estatuto : ciclofor'''
-	print "estatuto"
-
-def p_estatuto6(p):
-	'''estatuto : read'''
-	print "estatuto"
-
-def p_estatuto7(p):
-	'''estatuto : declaracion'''
-	print "estatuto"
-
-def p_estatuto8(p):
-	'''estatuto : comentario'''
-	print "estatuto"
-
-def p_estatuto9(p):
-	'''estatuto : potencia'''
-	print "estatuto"
-
-def p_estatuto10(p):
-	'''estatuto : raiz'''
-	print "estatuto"
 #####################COMENTARIO######################################
 
 def p_comentatio(p):
@@ -398,20 +336,14 @@ def p_comentatio(p):
 ######################VARIABLE CONSTANTE#####################################
 
 def p_varcte(p):
-	'''varcte : ID'''
+	'''varcte : ID
+	| ENTERO
+	| FLOTANTE
+	| CADENA
+	| CARACTER'''
+	p[0]=p[1] 
 	print "varcte"
 
-def p_varcte1(p):
-	'''varcte : ENTERO'''
-	print "varcte"
-
-def p_varcte2(p):
-	'''varcte : FLOTANTE'''
-	print "varcte"
-
-def p_varstring(p):
-	'''varstring : CADENA'''
-	print "varstring"
 
 #####################CICLOS Y OTRAS FUNCIONES####################################
 def p_ciclowhile(p):
@@ -430,18 +362,24 @@ def p_ciclofor(p):
 	'''ciclofor : FOR LPARENT asignacion expresion asignacion RPARENT bloque'''
 	print "ciclo for"
 
-def p_potencia(p):
-	'''potencia : POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
-	print "potencia"
+#def p_potencia(p):
+#	'''potencia : POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+#	print "potencia"
 
-def p_raiz(p):
-	'''raiz : SQRT LPARENT varcte RPARENT PUNTOCOMA'''
-	print "raiz"
+#def p_raiz(p):
+#	'''raiz : SQRT LPARENT varcte RPARENT PUNTOCOMA'''
+#	print "raiz"
 ###################ERROR#####################################
 
 def p_error(p):
 	print "error de sintaxis", p
 	print "error en la linea" +str(p.lineno)
+
+
+##################EMPTY########################################
+def p_empty(p):
+	'''empty :'''
+	pass
 
 ###############BUSCAR ARCHIVO DE PRUEBAS###################################
 
@@ -477,17 +415,8 @@ fp.close()
 
 parser = yacc.yacc()
 result = parser.parse(cadena)
-
-#Esta funcion la debemos de llamar cuando se terminan de declarar variables no al final del programa, urgente corregir-dm
-#AddGlobalVariable()
-
-#Probando mi implementacion de tabla de simbolos -dm
-print("probando los enteros")
-for x in global_int:
-    print (x)
-    for y in global_int[x]:
-        print (y,':',global_int[x][y])
-
+print global_string
+print global_int
 
 print result
 
