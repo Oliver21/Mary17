@@ -146,7 +146,7 @@ def AddGlobalVariable(type,identifier):
 	global global_string
 	global global_char
 	global global_char_count
-	print(type + " " + identifier)
+	#print(type + " " + identifier)
 	#itero a lo largo de la pila para agregar todas las variables que pueda haber en ella
 	if SearchGlobalVariable(identifier):
 		print("error: la variable ya ha sido declarada")
@@ -305,7 +305,7 @@ def p_f2(p):
 		p[0] = p[2]
 	else:
 		p[0] = p[1]
-	print p[0]
+	#print p[0]
 
 
 
@@ -322,7 +322,19 @@ def p_estatuto(p):
 	| ciclofor
 	| read
 	| declaracion
-	| comentario'''
+	| comentario
+	| cuadrado
+	| triangulo
+	| casa
+	| rectangulo
+	| cubo
+	| trapecio
+	| estrella
+	| mueve
+	| levanta
+	| apoya
+	| dimension
+	| function'''
 #	| potencia
 #	| raiz
 	print "estatuto"
@@ -374,8 +386,65 @@ def p_ciclofor(p):
 def p_error(p):
 	print "error de sintaxis", p
 	print "error en la linea" +str(p.lineno)
+	
+################FUNCIONES DIIBUJAR###############################
 
 
+def p_cuadrado(p):
+	'''cuadrado : CUADRADO LPARENT varcte RPARENT PUNTOCOMA'''
+	print "Dibuja cuadrado"
+	
+def p_triangulo(p):
+	'''triangulo : TRIANGULO LPARENT varcte RPARENT PUNTOCOMA'''
+	print "Dibuja triangulo"
+	
+def p_rectangulo(p):
+	'''rectangulo : RECTANGULO LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+	print "Dibuja rectangulo"
+
+def p_casa(p):
+	'''casa : CASA LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+	print "Dibuja casa"
+
+def p_estrella(p):
+	'''estrella : ESTRELLA LPARENT varcte RPARENT PUNTOCOMA'''
+	print "Dibuja estrella"
+
+def p_cubo(p):
+	'''cubo : CUBO LPARENT varcte RPARENT PUNTOCOMA'''
+	print "Dibuja cubo"
+
+def p_mueve(p):
+	'''mueve : MUEVE LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+	print "Mueve"
+	
+def p_levanta(p):
+	'''levanta : LEVANTA LPARENT RPARENT PUNTOCOMA'''
+	print "Levanta lapiz"
+	
+def p_apoya(p):
+	'''apoya : APOYA LPARENT RPARENT PUNTOCOMA'''
+	print "Apoya lapiz"
+	
+def p_trapecio(p):
+	'''trapecio : TRAPECIO LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+	print "Dibuja trapecio"
+	
+def p_dimension(p):
+	'''dimension : DIMENSION LPARENT varcte RPARENT PUNTOCOMA'''
+	print "Asigna dimension"
+	
+def p_function(p):
+	'''function : tipo ID LPARENT funct2'''
+	print "Declara una funcion"
+	
+def p_funct2(p):
+	'''funct2 : tipo varcte funct3'''
+	
+def p_funtion3(p):
+	'''funct3 : COMA funct2
+	| RPARENT bloque'''
+		
 ##################EMPTY########################################
 def p_empty(p):
 	'''empty :'''

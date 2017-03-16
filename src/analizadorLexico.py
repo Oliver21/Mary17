@@ -14,7 +14,8 @@ import sys
 #'COMSIMPLE', 'COMDOBLE', 'ENTERO', 'FLOTANTE', 'CARACTER', 'CADENA'
 #	]
 
-reservadas = ['INT','FLOAT','IF','ELSE','VAR','PRINT','PROGRAM', 'DO', 'WHILE', 'CHAR', 'STRING', 'BEGIN', 'END', 'FOR', 'FUNCTION', 'BOOL', 'READ', 'POW', 'SQRT']
+reservadas = ['INT','FLOAT','IF','ELSE','VAR','PRINT','PROGRAM', 'DO', 'WHILE', 'CHAR', 'STRING', 'BEGIN', 'END', 'FOR', 'FUNCTION', 'BOOL', 'READ', 'POW', 'SQRT', 'CUADRADO', 'TRIANGULO', 'RECTANGULO', 'CASA', 'TRAPECIO', 'ESTRELLA', 'CIRCULO', 'LEVANTA',
+'APOYA', 'CUBO', 'MUEVE', 'DIMENSION']
 
 #reservadas = {
 #	'begin':'BEGIN',
