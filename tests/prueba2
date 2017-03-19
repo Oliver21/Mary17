@@ -43,6 +43,13 @@ program pProgramaPrueba:
 	int iperro (int ix, int ik, string sp){
 	ia = ib;
 	}
+
+	int inumero (int 1231, string "caca", char "c"){
+	ia = ib;
+	}
+
+	int itest2 (int iEc) {}
+
 	
 	
 	

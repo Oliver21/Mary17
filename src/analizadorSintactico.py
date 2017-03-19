@@ -70,6 +70,10 @@ class Env:
 		return None
 
 
+#definicion de la tabla de funciones
+global_functions_table = {}
+
+
 #definimos la pila de variables y tipos de datos
 Stack_Variables = Stack()
 Stack_Types = Stack()
@@ -436,6 +440,7 @@ def p_dimension(p):
 	
 def p_function(p):
 	'''function : tipo ID LPARENT funct2'''
+	global_functions_table[p[2]] = {'type':p[1],'parameters': []}
 	print "Declara una funcion"
 	
 def p_funct2(p):
@@ -443,7 +448,7 @@ def p_funct2(p):
 	
 def p_funtion3(p):
 	'''funct3 : COMA funct2
-	| RPARENT bloque'''
+	| RPARENT bloque'''	
 		
 ##################EMPTY########################################
 def p_empty(p):
@@ -486,6 +491,8 @@ parser = yacc.yacc()
 result = parser.parse(cadena)
 print global_string
 print global_int
+print global_float
+print global_functions_table
 
 print result
 
