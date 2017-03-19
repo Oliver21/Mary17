@@ -307,10 +307,6 @@ def p_f2(p):
 		p[0] = p[1]
 	#print p[0]
 
-
-
-
-
 ######################CONTENIDO DE UN ESTATUTO##################################
 
 def p_estatuto(p):
@@ -334,7 +330,8 @@ def p_estatuto(p):
 	| levanta
 	| apoya
 	| dimension
-	| function'''
+	| function
+	| llamafuncion'''
 #	| potencia
 #	| raiz
 	print "estatuto"
@@ -433,17 +430,45 @@ def p_trapecio(p):
 def p_dimension(p):
 	'''dimension : DIMENSION LPARENT varcte RPARENT PUNTOCOMA'''
 	print "Asigna dimension"
-	
+
+##########################DECLARA UNA FUNCION##########################
 def p_function(p):
-	'''function : tipo ID LPARENT funct2'''
+	'''function : tipo ID LPARENT funct11'''
 	print "Declara una funcion"
 	
+def p_funct11(p):
+	'''funct11 : function4
+	| funct2'''
+	
 def p_funct2(p):
-	'''funct2 : tipo varcte funct3'''
+	'''funct2 : tipo ID funct3'''
 	
 def p_funtion3(p):
 	'''funct3 : COMA funct2
-	| RPARENT bloque'''
+	| function4'''
+	
+def p_function4(p):
+	'''function4 : RPARENT bloque'''
+	
+##################LLAMA UNA FUNCION###############################
+def p_llamafuncion(p):
+	'''llamafuncion : ID LPARENT llamaf11'''
+	print "Llama a una funcion"
+	
+def p_llamaf11(p):
+	'''llamaf11 : llamaf2
+	| llamaf4'''
+	
+def p_llamaf2(p):
+	'''llamaf2 : ID llamaf3
+	| varcte llamaf3'''
+
+def p_llamaf3(p):
+	'''llamaf3 : COMA llamaf2
+	| llamaf4'''
+	
+def p_llamaf4(p):
+	'''llamaf4 : RPARENT PUNTOCOMA'''
 		
 ##################EMPTY########################################
 def p_empty(p):
@@ -488,4 +513,7 @@ print global_string
 print global_int
 
 print result
+
+#cubo [[],[],[],[]]
+
 
