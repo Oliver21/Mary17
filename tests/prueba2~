@@ -43,6 +43,9 @@ program pProgramaPrueba:
 	int iperro (int ix, int ik, string sp){
 	ia = ib;
 	}
+	int ivacia (){}
+	
+	fvacia ( );
 	
 	
 	

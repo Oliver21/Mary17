@@ -50,6 +50,9 @@ program pProgramaPrueba:
 
 	int itest2 (int iEc) {}
 
+	int ivacia (){}
+	
+	fvacia ( );
 	
 	
 	
