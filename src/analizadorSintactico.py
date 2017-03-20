@@ -8,6 +8,7 @@ import codecs
 import re
 from analizadorLexico import tokens
 from sys import stdin
+from collections import Iterable
 
 precedence = (
 	('right', 'IGUAL'),
@@ -40,6 +41,15 @@ class Stack:
          return len(self.items)
 
 
+#Funcion que convierte listas anidadas en un
+def dimensiona(lis):
+     for i in lis:
+         if isinstance(i, Iterable) and not isinstance(i, basestring) and not isinstance(i, tuple):
+             for x in dimensiona(i):
+                 yield x
+         else:        
+             yield i
+
 
 
 #definimos la clase para la tabla por enviroment
@@ -49,21 +59,21 @@ class Env:
 	#Este atributo es un objeto de la misma clase Env
 	#Representa el scope anterior 
 	prev = None
-	def __init__(ant):
-		prev = ant
+	def __init__(self,ant):
+		self.prev = ant
 
 #funcion que nos sirve para insertar un nuevo simbolo a la tabla
-	def put(identifier, content):
-			dict[identifier] = content.copy()
+	def put(self, identifier, content):
+			self.dict[identifier] = content.copy()
 
 #funcion que itera por las tablas para encontrar un simbolo
 #empieza por el scope actual y regresa una tabla o None si no encuentra la variable
 
-	def get(identifier):
-		e = self.table
+	def get(self, identifier):
+		e = self.dict
 		while e != None:
 			if identifier in e:
-  				return [identifier]
+  				return e[identifier]
   				break
 			else:
 				e = e.prev
@@ -73,10 +83,10 @@ class Env:
 #definicion de la tabla de funciones
 global_functions_table = {}
 
+#definicion de la tabla global de variables
+top = Env(None)
+saved = Env(None)
 
-#definimos la pila de variables y tipos de datos
-Stack_Variables = Stack()
-Stack_Types = Stack()
 
 #definicion de variables globales y espacios disponibles
 global_int = {}
@@ -180,38 +190,59 @@ def AddGlobalVariable(type,identifier):
 		else:
 			print("error: tipo de variable incorrecto");
 
+
+
 ####################CONTENIDO DE UN PROGRAMA###################################
 def p_program(p):
 	'''program : PROGRAM ID DOSPUNTOS p2'''
 	#p[0] = program(p[4], "program")
+	global top
+	top = None
 	print "programa"
 
 def p_p2(p):
-	'''p2 : declaracion p3'''
+	'''p2 : bloque'''
+	#'''p2 : p3'''
 	#p[0] = p2(p[1], "p2")
 	#print "p2"
 
-def p_p3(p):
-	'''p3 : p2
-	| bloque'''
+#def p_p3(p):
+	#'''p3 : p2
+	#| bloque'''
 
 ########################CONTENIDO DE UN BLOQUE######################################
 
 
 def p_bloque(p):
 	'''bloque : LKEY b2'''
+	global top
+	global saved
+	saved = top
+	print saved.dict
+	top = Env(top)
+	print top.dict
 	print "bloque"
+
+
 
 def p_b2(p):
 	'''b2 : b3
-	| RKEY'''
+	| b5'''
 
 def p_b3(p):
 	'''b3 : estatuto b4'''
 
 def p_b4(p):
 	'''b4 : b3
-	| RKEY'''
+	| b5'''
+
+def p_b5(p):
+	'''b5 : RKEY'''
+	global top
+	global saved
+	#top = saved
+
+
 
 ###########################CONTENIDO DE UNA EXPRESION#################################
 def p_expresion(p):
@@ -241,8 +272,10 @@ def p_exp2(p):
 ####################DECLARACION DE VARIABLES#############################
 def p_declaracion(p):
 	'''declaracion : tipo ID PUNTOCOMA'''
-	#p_creartabla(p)
-	AddGlobalVariable(p[1],p[2])
+	#AddGlobalVariable(p[1],p[2])
+	global top
+	varContent  = {'type':p[1]}
+	top.put(p[2],varContent)
 	print "declaracion"
 
 ######################TIPO DE VARIABLES######################################
@@ -438,19 +471,35 @@ def p_dimension(p):
 ##########################DECLARA UNA FUNCION##########################
 def p_function(p):
 	'''function : tipo ID LPARENT funct11'''
-	#global_functions_table[p[2]] = {'type':p[1],'parameters': []}
+	if p[4] != None:
+		global_functions_table[p[2]] = {'type':p[1],'parameters': list(dimensiona(p[4]))}
+	else:
+		global_functions_table[p[2]] = {'type':p[1],'parameters': [] }
 	print "Declara una funcion"
 	
 def p_funct11(p):
-	'''funct11 : function4
-	| funct2'''
+	'''funct11 : function4'''
+
+def p_funct111(p):
+	'''funct11 : funct2'''
+	p[0] = p[1]
 	
 def p_funct2(p):
 	'''funct2 : tipo ID funct3'''
+	p[0] = []
+	p[0].append((p[1],p[2]))
+	if p[3] != None:
+		p[0].append(p[3])
 	
 def p_funtion3(p):
-	'''funct3 : COMA funct2
-	| function4'''
+	'''funct3 : COMA funct2'''
+	p[0] = p[2]
+
+
+def p_function31(p):
+	'''funct3 : function4'''
+	p[0] = p[1]
+
 	
 def p_function4(p):
 	'''function4 : RPARENT bloque'''
@@ -514,9 +563,7 @@ fp.close()
 
 parser = yacc.yacc()
 result = parser.parse(cadena)
-print global_string
-print global_int
-print global_float
+
 print global_functions_table
 
 print result

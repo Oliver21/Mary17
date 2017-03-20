@@ -1,4 +1,5 @@
 program pProgramaPrueba:
+{
 	int ivariable1;
 	int ivariable2;
 	float fvariable3;
@@ -7,16 +8,14 @@ program pProgramaPrueba:
 	bool bvariable6;
 	char cvariable7;
 	string string8;
-
-{
 	ivariable1 = ivariable1 + ivariable2;
 	ivariable3 = 10;
 	ivariable4 = "diego";
 
 	while ( ix < 10 ) {
 		fd = 1;
+		int icaca;
 	}
-
 	do {
 		fx = 3;
 	} while (iy < 5);
@@ -42,21 +41,13 @@ program pProgramaPrueba:
 	
 	int iperro (int ix, int ik, string sp){
 	ia = ib;
+	float fFeo;
 	}
 
-	int inumero (int 1231, string "caca", char "c"){
+
+	int iBarney (int iQue, string sPaso, char cAmigito){
 	ia = ib;
 	}
-
-	int itest2 (int iEc) {}
-
-	int ivacia (){}
 	
-	fvacia ( );
-	
-	
-	
-	
-	
-
+	int iVacia(){}
 }
