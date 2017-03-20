@@ -568,6 +568,16 @@ print global_functions_table
 
 print result
 
-#cubo [[],[],[],[]]
+cubo =  [['INT', 'INT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['INT', 'FLOAT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['INT', 'CHAR', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['INT', 'STRING', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['INT', 'BOOL', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['FLOAT', 'INT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['FLOAT', 'FLOAT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['FLOAT', 'CHAR', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['FLOAT', 'STRING', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['FLOAT', 'BOOL', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['CHAR', 'INT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],]
 
 

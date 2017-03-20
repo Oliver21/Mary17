@@ -101,7 +101,7 @@ def t_FLOTANTE(t):
 def t_CARACTER(t):
 	r'[\"][a-zA-Z][\"]'
 	return t
-
+	
 def t_CADENA(t):
 	r'["]([^"])+["]'
 	return t
