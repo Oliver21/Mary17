@@ -521,16 +521,46 @@ print global_functions_table
 
 print result
 
-cubo =  [['INT', 'INT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['INT', 'FLOAT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['INT', 'CHAR', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['INT', 'STRING', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['INT', 'BOOL', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['FLOAT', 'INT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['FLOAT', 'FLOAT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['FLOAT', 'CHAR', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['FLOAT', 'STRING', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['FLOAT', 'BOOL', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['CHAR', 'INT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],]
+
+#int int
+#int float
+#int char
+#int string
+#int bool
+#float int
+#float float
+#float char
+#float string
+#float bool
+#char int
+#char float
+#char char
+#char string
+#char bool
+#string int
+#string float
+#string char
+#string string
+#string bool
+#bool int
+#bool float
+#bool char
+#bool string
+#bool bool
+########   +       -      *      /         &&       ||      <       >      <>       ==      =
+cubo =  [['INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['FLOAT', 'FLOAT', 'FLOAT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['FLOAT', 'FLOAT', 'FLOAT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'FLOAT'],
+	['INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],]
 
 
