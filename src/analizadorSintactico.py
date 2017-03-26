@@ -200,8 +200,17 @@ def p_program(p):
 	top = None
 	print "programa"
 
+
 def p_p2(p):
-	'''p2 : bloque'''
+	'''p2 : function p3'''
+	
+def p_p3(p):
+	'''p3 : p2
+	| bloque'''
+	
+	
+#def p_p2(p):
+#	'''p2 : bloque'''
 	#'''p2 : p3'''
 	#p[0] = p2(p[1], "p2")
 	#print "p2"
@@ -367,7 +376,6 @@ def p_estatuto(p):
 	| levanta
 	| apoya
 	| dimension
-	| function
 	| llamafuncion'''
 #	| potencia
 #	| raiz
@@ -375,9 +383,9 @@ def p_estatuto(p):
 
 #####################COMENTARIO######################################
 
-def p_comentatio(p):
+def p_comentario(p):
 	'''comentario : COMENTARIO'''
-	print "Comentario"
+	print "Este es un comentario"
 
 ######################VARIABLE CONSTANTE#####################################
 
