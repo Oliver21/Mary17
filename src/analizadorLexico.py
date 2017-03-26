@@ -84,9 +84,9 @@ def t_newline(t):
 	r'\n+'
 	t.lexer.lineno += len(t.value)
 
-def t_COMENTARIO(t):
-	r'[/][/]([^"])+[/][/]'
-	return t
+def t_COMMENT(t):
+	r'\/\/.*'
+	pass
 
 def t_ENTERO(t):
 	r'[0-9]+'
@@ -101,7 +101,7 @@ def t_FLOTANTE(t):
 def t_CARACTER(t):
 	r'[\"][a-zA-Z][\"]'
 	return t
-
+	
 def t_CADENA(t):
 	r'["]([^"])+["]'
 	return t
