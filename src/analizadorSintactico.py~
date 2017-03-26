@@ -287,6 +287,12 @@ def p_declaracion(p):
 	top.put(p[2],varContent)
 	print "declaracion"
 
+
+####################DECLARACION DE ARREGLO VARIABLES#############################
+def p_declaracionarr(p):
+	'''declaracionarr : tipo ID LBRACKET varcte RBRACKET LBRACKET varcte RBRACKET PUNTOCOMA'''
+	print "declaracion arreglo"
+	
 ######################TIPO DE VARIABLES######################################
 def p_tipo(p):
 	'''tipo : INT
@@ -301,6 +307,11 @@ def p_tipo(p):
 def p_asignacion(p):
 	'''asignacion : ID IGUAL expresion PUNTOCOMA'''
 	print "asignacion"
+	
+##################ASIGNACION A ARREGLOS DE VARIABLES###################################
+def p_asignacionarr(p):
+	'''asignacionarr : ID LBRACKET varcte RBRACKET LBRACKET varcte RBRACKET IGUAL expresion PUNTOCOMA'''
+	print "asignacion a arreglo"
 #########################ESCRITURA####################################
 def p_print(p):
 	'''print : PRINT LPARENT pr2'''
@@ -357,6 +368,7 @@ def p_f2(p):
 
 def p_estatuto(p):
 	'''estatuto : asignacion
+	| asignacionarr
 	| print
 	| condicion
 	| ciclowhile
@@ -364,6 +376,7 @@ def p_estatuto(p):
 	| ciclofor
 	| read
 	| declaracion
+	| declaracionarr
 	| comentario
 	| cuadrado
 	| triangulo

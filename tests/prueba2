@@ -13,6 +13,7 @@ int iVacia(){}
 {
 	int ivariable1;
 	int ivariable2;
+	int iarreglo1 [2][4];
 	float fvariable3;
 	float fvariable4;
 	bool bvariable5;
@@ -25,6 +26,7 @@ int iVacia(){}
 
 	while ( ix < 10 ) {
 		fd = 1;
+		iarreglo1[1][1] = 4;
 		int icaca;
 	}
 	do {
