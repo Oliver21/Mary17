@@ -290,7 +290,7 @@ def p_declaracion(p):
 
 ####################DECLARACION DE ARREGLO VARIABLES#############################
 def p_declaracionarr(p):
-	'''declaracionarr : tipo ID LBRACKET varcte RBRACKET LBRACKET varcte RBRACKET PUNTOCOMA'''
+	'''declaracionarr : tipo ID LBRACKET exp RBRACKET LBRACKET exp RBRACKET PUNTOCOMA'''
 	print "declaracion arreglo"
 	
 ######################TIPO DE VARIABLES######################################
@@ -310,7 +310,7 @@ def p_asignacion(p):
 	
 ##################ASIGNACION A ARREGLOS DE VARIABLES###################################
 def p_asignacionarr(p):
-	'''asignacionarr : ID LBRACKET varcte RBRACKET LBRACKET varcte RBRACKET IGUAL expresion PUNTOCOMA'''
+	'''asignacionarr : ID LBRACKET exp RBRACKET LBRACKET exp RBRACKET IGUAL expresion PUNTOCOMA'''
 	print "asignacion a arreglo"
 #########################ESCRITURA####################################
 def p_print(p):
@@ -403,13 +403,17 @@ def p_comentario(p):
 ######################VARIABLE CONSTANTE#####################################
 
 def p_varcte(p):
-	'''varcte : ID
+	'''varcte : ID vcte2
 	| ENTERO
 	| FLOTANTE
 	| CADENA
 	| CARACTER'''
 	p[0]=p[1] 
 	print "varcte"
+	
+def p_vcte2(p):
+	'''vcte2 : LBRACKET exp RBRACKET LBRACKET exp RBRACKET
+	| empty'''
 
 
 #####################CICLOS Y OTRAS FUNCIONES####################################
@@ -446,31 +450,31 @@ def p_error(p):
 
 
 def p_cuadrado(p):
-	'''cuadrado : CUADRADO LPARENT varcte RPARENT PUNTOCOMA'''
+	'''cuadrado : CUADRADO LPARENT exp RPARENT PUNTOCOMA'''
 	print "Dibuja cuadrado"
 	
 def p_triangulo(p):
-	'''triangulo : TRIANGULO LPARENT varcte RPARENT PUNTOCOMA'''
+	'''triangulo : TRIANGULO LPARENT exp RPARENT PUNTOCOMA'''
 	print "Dibuja triangulo"
 	
 def p_rectangulo(p):
-	'''rectangulo : RECTANGULO LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+	'''rectangulo : RECTANGULO LPARENT exp COMA exp RPARENT PUNTOCOMA'''
 	print "Dibuja rectangulo"
 
 def p_casa(p):
-	'''casa : CASA LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+	'''casa : CASA LPARENT exp COMA exp RPARENT PUNTOCOMA'''
 	print "Dibuja casa"
 
 def p_estrella(p):
-	'''estrella : ESTRELLA LPARENT varcte RPARENT PUNTOCOMA'''
+	'''estrella : ESTRELLA LPARENT exp RPARENT PUNTOCOMA'''
 	print "Dibuja estrella"
 
 def p_cubo(p):
-	'''cubo : CUBO LPARENT varcte RPARENT PUNTOCOMA'''
+	'''cubo : CUBO LPARENT exp RPARENT PUNTOCOMA'''
 	print "Dibuja cubo"
 
 def p_mueve(p):
-	'''mueve : MUEVE LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+	'''mueve : MUEVE LPARENT exp COMA exp RPARENT PUNTOCOMA'''
 	print "Mueve"
 	
 def p_levanta(p):
@@ -482,11 +486,11 @@ def p_apoya(p):
 	print "Apoya lapiz"
 	
 def p_trapecio(p):
-	'''trapecio : TRAPECIO LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+	'''trapecio : TRAPECIO LPARENT exp COMA exp RPARENT PUNTOCOMA'''
 	print "Dibuja trapecio"
 	
 def p_dimension(p):
-	'''dimension : DIMENSION LPARENT varcte RPARENT PUNTOCOMA'''
+	'''dimension : DIMENSION LPARENT exp RPARENT PUNTOCOMA'''
 	print "Asigna dimension"
 
 ##########################DECLARA UNA FUNCION##########################

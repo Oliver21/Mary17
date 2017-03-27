@@ -13,7 +13,7 @@ int iVacia(){}
 {
 	int ivariable1;
 	int ivariable2;
-	int iarreglo1 [2][4];
+	int iarreglo1 [3+3][4];
 	float fvariable3;
 	float fvariable4;
 	bool bvariable5;
@@ -22,6 +22,7 @@ int iVacia(){}
 	string string8;
 	ivariable1 = ivariable1 + ivariable2;
 	ivariable3 = 10;
+	ivariable3 = iarreglo1[1][1] * iarreglo1[2][2];
 	ivariable4 = "diego";
 
 	while ( ix < 10 ) {
@@ -44,7 +45,7 @@ int iVacia(){}
 	//Aqui se usan las funciones de dibujar//
 
 
-	cuadrado(5);
+	cuadrado(5+4);
 	rectangulo (8 , 2);
 	levanta();
 	dimension (9);
