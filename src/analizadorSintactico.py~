@@ -200,8 +200,17 @@ def p_program(p):
 	top = None
 	print "programa"
 
+
 def p_p2(p):
-	'''p2 : bloque'''
+	'''p2 : function p3'''
+	
+def p_p3(p):
+	'''p3 : p2
+	| bloque'''
+	
+	
+#def p_p2(p):
+#	'''p2 : bloque'''
 	#'''p2 : p3'''
 	#p[0] = p2(p[1], "p2")
 	#print "p2"
@@ -278,6 +287,12 @@ def p_declaracion(p):
 	top.put(p[2],varContent)
 	print "declaracion"
 
+
+####################DECLARACION DE ARREGLO VARIABLES#############################
+def p_declaracionarr(p):
+	'''declaracionarr : tipo ID LBRACKET varcte RBRACKET LBRACKET varcte RBRACKET PUNTOCOMA'''
+	print "declaracion arreglo"
+	
 ######################TIPO DE VARIABLES######################################
 def p_tipo(p):
 	'''tipo : INT
@@ -292,6 +307,11 @@ def p_tipo(p):
 def p_asignacion(p):
 	'''asignacion : ID IGUAL expresion PUNTOCOMA'''
 	print "asignacion"
+	
+##################ASIGNACION A ARREGLOS DE VARIABLES###################################
+def p_asignacionarr(p):
+	'''asignacionarr : ID LBRACKET varcte RBRACKET LBRACKET varcte RBRACKET IGUAL expresion PUNTOCOMA'''
+	print "asignacion a arreglo"
 #########################ESCRITURA####################################
 def p_print(p):
 	'''print : PRINT LPARENT pr2'''
@@ -348,6 +368,7 @@ def p_f2(p):
 
 def p_estatuto(p):
 	'''estatuto : asignacion
+	| asignacionarr
 	| print
 	| condicion
 	| ciclowhile
@@ -355,6 +376,7 @@ def p_estatuto(p):
 	| ciclofor
 	| read
 	| declaracion
+	| declaracionarr
 	| comentario
 	| cuadrado
 	| triangulo
@@ -367,7 +389,6 @@ def p_estatuto(p):
 	| levanta
 	| apoya
 	| dimension
-	| function
 	| llamafuncion'''
 #	| potencia
 #	| raiz
@@ -375,9 +396,9 @@ def p_estatuto(p):
 
 #####################COMENTARIO######################################
 
-def p_comentatio(p):
+def p_comentario(p):
 	'''comentario : COMENTARIO'''
-	print "Comentario"
+	print "Este es un comentario"
 
 ######################VARIABLE CONSTANTE#####################################
 
@@ -419,7 +440,7 @@ def p_ciclofor(p):
 
 def p_error(p):
 	print "error de sintaxis", p
-	print "error en la linea" +str(p.lineno())
+	print "error en la linea" +str(p.lineno)
 	
 ################FUNCIONES DIIBUJAR###############################
 
@@ -554,12 +575,10 @@ def buscarPrograma(directorio):
 	print "Has seleccionado \"%s\" \n" %files[int(numArchivo)-1]
 	return files[int(numArchivo)-1]	
 
-# directorio = '../tests/'
-# archivo = buscarPrograma(directorio)
-# test = directorio+archivo
-# test = '../tests/' + buscarPrograma(directorio)
-
-fp = codecs.open('../tests/' + buscarPrograma('../tests/'),"r","utf-8")
+directorio = '../tests/'
+archivo = buscarPrograma(directorio)
+test = directorio+archivo
+fp = codecs.open(test,"r","utf-8")
 cadena = fp.read()
 fp.close()
 
@@ -570,16 +589,66 @@ print global_functions_table
 
 print result
 
-cubo =  [['INT', 'INT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['INT', 'FLOAT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['INT', 'CHAR', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['INT', 'STRING', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['INT', 'BOOL', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['FLOAT', 'INT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['FLOAT', 'FLOAT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['FLOAT', 'CHAR', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['FLOAT', 'STRING', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['FLOAT', 'BOOL', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['CHAR', 'INT', 'INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],]
+
+#int int
+#int float
+#int char
+#int string
+#int bool
+#float int
+#float float
+#float char
+#float string
+#float bool
+#char int
+#char float
+#char char
+#char string
+#char bool
+#string int
+#string float
+#string char
+#string string
+#string bool
+#bool int
+#bool float
+#bool char
+#bool string
+#bool bool
+########   +       -      *      /         &&       ||      <       >      <>       ==      =
+cubo =  [['INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['FLOAT', 'FLOAT', 'FLOAT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['FLOAT', 'FLOAT', 'FLOAT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'FLOAT'],
+	['FLOAT', 'FLOAT', 'FLOAT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'FLOAT'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['STRING', 'CHAR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'CHAR'],
+	['STRING', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['STRING', 'STRING', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'STRING'],
+	['STRING', 'STRING', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'STRING'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
+	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL'],]
+	
+# 0-INT  1-FLOAT  2-CHAR  3-STRING  4-BOOL
+#  0+      1-     2*     3/     4&&     5||    6<     7>    8<>     9==    10=	
+print "AQUI VA EL CUBO"
+var1 = 3 #STRING 
+var2 = 2 #CHAR
+
+
+print cubo[((var1*5)+(var2))][1]
 
 
