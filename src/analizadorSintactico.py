@@ -419,7 +419,7 @@ def p_ciclofor(p):
 
 def p_error(p):
 	print "error de sintaxis", p
-	print "error en la linea" +str(p.lineno)
+	print "error en la linea" +str(p.lineno())
 	
 ################FUNCIONES DIIBUJAR###############################
 
@@ -554,10 +554,12 @@ def buscarPrograma(directorio):
 	print "Has seleccionado \"%s\" \n" %files[int(numArchivo)-1]
 	return files[int(numArchivo)-1]	
 
-directorio = '../tests/'
-archivo = buscarPrograma(directorio)
-test = directorio+archivo
-fp = codecs.open(test,"r","utf-8")
+# directorio = '../tests/'
+# archivo = buscarPrograma(directorio)
+# test = directorio+archivo
+# test = '../tests/' + buscarPrograma(directorio)
+
+fp = codecs.open('../tests/' + buscarPrograma('../tests/'),"r","utf-8")
 cadena = fp.read()
 fp.close()
 
