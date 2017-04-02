@@ -15,7 +15,7 @@ import sys
 #	]
 
 reservadas = ['INT','FLOAT','IF','ELSE','VAR','PRINT','PROGRAM', 'DO', 'WHILE', 'CHAR', 'STRING', 'BEGIN', 'END', 'FOR', 'FUNCTION', 'BOOL', 'READ', 'POW', 'SQRT', 'CUADRADO', 'TRIANGULO', 'RECTANGULO', 'CASA', 'TRAPECIO', 'ESTRELLA', 'CIRCULO', 'LEVANTA',
-'APOYA', 'CUBO', 'MUEVE', 'DIMENSION']
+'APOYA', 'CUBO', 'MUEVE', 'DIMENSION', 'VOID']
 
 #reservadas = {
 #	'begin':'BEGIN',
@@ -88,14 +88,14 @@ def t_COMENTARIO(t):
 	r'\/\/.*'
 	pass
 
-def t_ENTERO(t):
-	r'[0-9]+'
-	t.value = int(t.value)
-	return t
-
 def t_FLOTANTE(t):
-	r'[0-9]+ [\.] [0-9]+'
+	r'[0-9]+([.][0-9]+)'
 	t.value = float(t.value)
+	return t
+	
+def t_ENTERO(t):
+	r'[\-]?[0-9]+'
+	t.value = int(t.value)
 	return t
 
 def t_CARACTER(t):
