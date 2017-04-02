@@ -279,19 +279,36 @@ def p_exp2(p):
 	| empty'''	
 
 ####################DECLARACION DE VARIABLES#############################
-def p_declaracion(p):
-	'''declaracion : tipo ID PUNTOCOMA'''
+#def p_declaracion(p):
+#	'''declaracion : tipo ID PUNTOCOMA'''
 	#AddGlobalVariable(p[1],p[2])
-	global top
-	varContent  = {'type':p[1]}
-	top.put(p[2],varContent)
-	print "declaracion"
+#	global top
+#	varContent  = {'type':p[1]}
+#	top.put(p[2],varContent)
+#	print "declaracion"
+	
+
+def p_declaracion(p):
+	'''declaracion : tipo ID decla1'''
+	print "Declaracion"
+
+def p_decla1(p):
+	'''decla1 : declafinal
+	| LBRACKET exp decla2'''
+	
+def p_decla2(p):
+	'''decla2 : RBRACKET declafinal
+	| COMA exp decla2'''
+	print "declaracion arreglo"
+	
+def p_declafinal(p):
+	'''declafinal : PUNTOCOMA'''
 
 
 ####################DECLARACION DE ARREGLO VARIABLES#############################
-def p_declaracionarr(p):
-	'''declaracionarr : tipo ID LBRACKET varcte RBRACKET LBRACKET varcte RBRACKET PUNTOCOMA'''
-	print "declaracion arreglo"
+#def p_declaracionarr(p):
+#	'''declaracionarr : tipo ID LBRACKET exp RBRACKET LBRACKET exp RBRACKET PUNTOCOMA'''
+#	print "declaracion arreglo"
 	
 ######################TIPO DE VARIABLES######################################
 def p_tipo(p):
@@ -304,14 +321,31 @@ def p_tipo(p):
 	print "tipo"
 
 ##################ASIGNACION A VARIABLES###################################
+#def p_asignacion(p):
+#	'''asignacion : ID IGUAL expresion PUNTOCOMA'''
+#	print "asignacion"
+
 def p_asignacion(p):
-	'''asignacion : ID IGUAL expresion PUNTOCOMA'''
+	'''asignacion : ID asig2'''
 	print "asignacion"
 	
+def p_asig2(p):
+	'''asig2 : LBRACKET exp asig3
+	| asigfinal'''
+
+def p_asig3(p):
+	'''asig3 : COMA exp asig3
+	| RBRACKET asigfinal'''
+	print "asignacion arreglo"
+
+def p_asigfinal(p):
+	'''asigfinal : IGUAL expresion PUNTOCOMA'''
+
+	
 ##################ASIGNACION A ARREGLOS DE VARIABLES###################################
-def p_asignacionarr(p):
-	'''asignacionarr : ID LBRACKET varcte RBRACKET LBRACKET varcte RBRACKET IGUAL expresion PUNTOCOMA'''
-	print "asignacion a arreglo"
+#def p_asignacionarr(p):
+#	'''asignacionarr : ID LBRACKET exp RBRACKET LBRACKET exp RBRACKET IGUAL expresion PUNTOCOMA'''
+#	print "asignacion a arreglo"
 #########################ESCRITURA####################################
 def p_print(p):
 	'''print : PRINT LPARENT pr2'''
@@ -346,29 +380,42 @@ def p_te2(p):
 	| empty'''	
 ######################FACTOR####################################
 def p_factor(p):
-	'''factor : LKEY expresion RKEY
-	| f2'''
+	'''factor : LPARENT expresion RPARENT
+	| f2
+	| f3
+	| f6'''
 	print "factor"
 	if p[1] == '{':
 		p[0] = p[2]
 	else:
 		p[0] = p[1]
 
+#llamar a una constante
 def p_f2(p):
-	'''f2 : SUMA varcte
-	| RESTA varcte
-	| varcte'''
-	if p[1] == '+' or p[1] == '-':
-		p[0] = p[2]
-	else:
-		p[0] = p[1]
+	'''f2 : varcte'''
+	p[0] = p[1]
 	#print p[0]
+
+#llamar a un id
+def p_f3(p):
+	'''f3 : ID f4'''
+
+def p_f4(p):
+	'''f4 : LBRACKET exp f5
+	| empty'''
+	
+def p_f5(p):
+	'''f5 : COMA exp f5
+	| RBRACKET'''
+	
+#llamar a una funcion
+def p_f6(p):
+	'''f6 : llamafuncion'''
 
 ######################CONTENIDO DE UN ESTATUTO##################################
 
 def p_estatuto(p):
 	'''estatuto : asignacion
-	| asignacionarr
 	| print
 	| condicion
 	| ciclowhile
@@ -376,7 +423,6 @@ def p_estatuto(p):
 	| ciclofor
 	| read
 	| declaracion
-	| declaracionarr
 	| comentario
 	| cuadrado
 	| triangulo
@@ -389,7 +435,8 @@ def p_estatuto(p):
 	| levanta
 	| apoya
 	| dimension
-	| llamafuncion'''
+	| llamafuncion
+	| if'''
 #	| potencia
 #	| raiz
 	print "estatuto"
@@ -403,8 +450,7 @@ def p_comentario(p):
 ######################VARIABLE CONSTANTE#####################################
 
 def p_varcte(p):
-	'''varcte : ID
-	| ENTERO
+	'''varcte : ENTERO
 	| FLOTANTE
 	| CADENA
 	| CARACTER'''
@@ -428,6 +474,14 @@ def p_read(p):
 def p_ciclofor(p):
 	'''ciclofor : FOR LPARENT asignacion expresion asignacion RPARENT bloque'''
 	print "ciclo for"
+	
+def p_if(p):
+	'''if : IF LPARENT expresion RPARENT bloque if2'''
+	print "Ciclo If"
+
+def p_if2(p):
+	'''if2 : empty
+	| ELSE bloque'''
 
 #def p_potencia(p):
 #	'''potencia : POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
@@ -446,31 +500,31 @@ def p_error(p):
 
 
 def p_cuadrado(p):
-	'''cuadrado : CUADRADO LPARENT varcte RPARENT PUNTOCOMA'''
+	'''cuadrado : CUADRADO LPARENT exp RPARENT PUNTOCOMA'''
 	print "Dibuja cuadrado"
 	
 def p_triangulo(p):
-	'''triangulo : TRIANGULO LPARENT varcte RPARENT PUNTOCOMA'''
+	'''triangulo : TRIANGULO LPARENT exp RPARENT PUNTOCOMA'''
 	print "Dibuja triangulo"
 	
 def p_rectangulo(p):
-	'''rectangulo : RECTANGULO LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+	'''rectangulo : RECTANGULO LPARENT exp COMA exp RPARENT PUNTOCOMA'''
 	print "Dibuja rectangulo"
 
 def p_casa(p):
-	'''casa : CASA LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+	'''casa : CASA LPARENT exp COMA exp RPARENT PUNTOCOMA'''
 	print "Dibuja casa"
 
 def p_estrella(p):
-	'''estrella : ESTRELLA LPARENT varcte RPARENT PUNTOCOMA'''
+	'''estrella : ESTRELLA LPARENT exp RPARENT PUNTOCOMA'''
 	print "Dibuja estrella"
 
 def p_cubo(p):
-	'''cubo : CUBO LPARENT varcte RPARENT PUNTOCOMA'''
+	'''cubo : CUBO LPARENT exp RPARENT PUNTOCOMA'''
 	print "Dibuja cubo"
 
 def p_mueve(p):
-	'''mueve : MUEVE LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+	'''mueve : MUEVE LPARENT exp COMA exp RPARENT PUNTOCOMA'''
 	print "Mueve"
 	
 def p_levanta(p):
@@ -482,16 +536,17 @@ def p_apoya(p):
 	print "Apoya lapiz"
 	
 def p_trapecio(p):
-	'''trapecio : TRAPECIO LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
+	'''trapecio : TRAPECIO LPARENT exp COMA exp RPARENT PUNTOCOMA'''
 	print "Dibuja trapecio"
 	
 def p_dimension(p):
-	'''dimension : DIMENSION LPARENT varcte RPARENT PUNTOCOMA'''
+	'''dimension : DIMENSION LPARENT exp RPARENT PUNTOCOMA'''
 	print "Asigna dimension"
 
 ##########################DECLARA UNA FUNCION##########################
 def p_function(p):
-	'''function : tipo ID LPARENT funct11'''
+	'''function : tipo ID LPARENT funct11
+	| VOID ID LPARENT funct11'''
 	if p[4] != None:
 		global_functions_table[p[2]] = {'type':p[1],'parameters': list(dimensiona(p[4]))}
 	else:
@@ -535,15 +590,14 @@ def p_llamaf11(p):
 	| llamaf4'''
 	
 def p_llamaf2(p):
-	'''llamaf2 : ID llamaf3
-	| varcte llamaf3'''
+	'''llamaf2 : exp llamaf3'''
 
 def p_llamaf3(p):
 	'''llamaf3 : COMA llamaf2
 	| llamaf4'''
 	
 def p_llamaf4(p):
-	'''llamaf4 : RPARENT PUNTOCOMA'''
+	'''llamaf4 : RPARENT'''
 		
 ##################EMPTY########################################
 def p_empty(p):
