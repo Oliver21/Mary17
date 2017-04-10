@@ -13,7 +13,7 @@ from collections import Iterable
 precedence = (
 	('right', 'IGUAL'),
 	('left', 'LT', 'GT'),
-	('left', 'SUMA', 'RESTA'),
+	('left', 'SUMA', 'RESTA'),	
 	('left', 'MULT', 'DIV'),
 	('left', 'LBRACKET', 'RBRACKET'),
 	('left', 'LPARENT', 'RPARENT'),
@@ -55,12 +55,13 @@ def dimensiona(lis):
 #definimos la clase para la tabla por enviroment
 #Nos servira para simular el creado de tablas por scope
 class Env:
-	dict = {}
+	dict
 	#Este atributo es un objeto de la misma clase Env
 	#Representa el scope anterior 
 	prev = None
 	def __init__(self,ant):
 		self.prev = ant
+		dict = {}
 
 #funcion que nos sirve para insertar un nuevo simbolo a la tabla
 	def put(self, identifier, content):
@@ -196,7 +197,7 @@ def AddGlobalVariable(type,identifier):
 def p_program(p):
 	'''program : PROGRAM ID DOSPUNTOS p2'''
 	#p[0] = program(p[4], "program")
-	global top
+	#top es la tabla de variables del scope actual
 	top = None
 	print "programa"
 
@@ -220,19 +221,13 @@ def p_p3(p):
 	#| bloque'''
 
 ########################CONTENIDO DE UN BLOQUE######################################
-
-
 def p_bloque(p):
 	'''bloque : LKEY b2'''
-	global top
 	global saved
+	global top
 	saved = top
-	print saved.dict
 	top = Env(top)
-	print top.dict
 	print "bloque"
-
-
 
 def p_b2(p):
 	'''b2 : b3
@@ -249,9 +244,7 @@ def p_b5(p):
 	'''b5 : RKEY'''
 	global top
 	global saved
-	#top = saved
-
-
+	top = saved
 
 ###########################CONTENIDO DE UNA EXPRESION#################################
 def p_expresion(p):
