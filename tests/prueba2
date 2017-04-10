@@ -1,12 +1,11 @@
 program pProgramaPrueba:
-
+	int iprimerVariable;
 	int iperro (int ix, int ik, string sp){
+		float fFeo;		
 		ia = ib;
-		float fFeo;
 	}
-
-
-	int iBarney (int iQue, string sPaso, char cAmigito){
+	
+	int iBarney (int iQue, string sPaso, char cAmigito){	
 		ia = ib;
 	}
 
@@ -38,9 +37,9 @@ program pProgramaPrueba:
 	ivariable4 = "diego";
 
 	while ( ix < 10 ) {
+		int icaca;
 		fd = 1;
 		iarreglo1[1, 1] = (4+5)+(1);
-		int icaca;
 	}
 	do {
 		fx = 3;

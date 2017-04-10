@@ -41,7 +41,7 @@ tokens = reservadas + ['ID', 'MULT', 'DIV', 'SUMA', 'RESTA', 'LPARENT', 'RPARENT
 'RAIZ', 'POTENCIA'	
 	]
 
-t_ignore = '\t'
+t_ignore = '\t '	
 t_SUMA = r'\+'
 t_RESTA = r'\-'
 t_MULT = r'\*'
@@ -63,8 +63,9 @@ t_LKEY = r'\{'
 t_RKEY = r'\}'
 
 
-def t_ccode_nonspace(t):
-	r'\s+'
+#def t_ccode_nonspace(t):
+#	r'\s+'
+#	pass
 
 def t_ID(t):
 	r'[i|f|c|s|b|p] [a-zA-Z0-9_]+'
@@ -89,7 +90,7 @@ def t_COMENTARIO(t):
 	pass
 
 def t_FLOTANTE(t):
-	r'[0-9]+([.][0-9]+)'
+	r'[\-]?[0-9]+([.][0-9]+)'
 	t.value = float(t.value)
 	return t
 	

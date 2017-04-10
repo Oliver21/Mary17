@@ -201,14 +201,21 @@ def p_program(p):
 	top = None
 	print "programa"
 
-
 def p_p2(p):
-	'''p2 : function p3'''
+	'''p2 : p3
+	| p4
+	| p5'''
 	
 def p_p3(p):
-	'''p3 : p2
-	| bloque'''
+	'''p3 : declaracion p3
+	| p4'''
 	
+def p_p4(p):
+	'''p4 : function p4
+	| p5'''
+	
+def p_p5(p):
+	'''p5 : bloque'''	
 	
 #def p_p2(p):
 #	'''p2 : bloque'''
@@ -222,30 +229,27 @@ def p_p3(p):
 
 ########################CONTENIDO DE UN BLOQUE######################################
 def p_bloque(p):
-	'''bloque : LKEY b2'''
+
+	'''bloque : LKEY b3 b4 b5'''
 	global saved
 	global top
 	saved = top
 	top = Env(top)
 	print "bloque"
 
-def p_b2(p):
-	'''b2 : b3
-	| b5'''
-
 def p_b3(p):
-	'''b3 : estatuto b4'''
+	'''b3 : declaracion b3
+	| empty'''
 
 def p_b4(p):
-	'''b4 : b3
-	| b5'''
+	'''b4 : estatuto b4
+	| empty'''
 
 def p_b5(p):
 	'''b5 : RKEY'''
 	global top
 	global saved
 	top = saved
-
 ###########################CONTENIDO DE UNA EXPRESION#################################
 def p_expresion(p):
 	'''expresion : exp e2 '''
@@ -316,7 +320,7 @@ def p_tipo(p):
 ##################ASIGNACION A VARIABLES###################################
 #def p_asignacion(p):
 #	'''asignacion : ID IGUAL expresion PUNTOCOMA'''
-#	print "asignacion"
+#	 "asignacion"
 
 def p_asignacion(p):
 	'''asignacion : ID asig2'''
@@ -415,7 +419,6 @@ def p_estatuto(p):
 	| ciclodowhile
 	| ciclofor
 	| read
-	| declaracion
 	| comentario
 	| cuadrado
 	| triangulo
