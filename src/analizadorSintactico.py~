@@ -9,6 +9,8 @@ import re
 from analizadorLexico import tokens
 from sys import stdin
 from collections import Iterable
+from Cuadruplo import *
+from Cubo import *
 
 precedence = (
 	('right', 'IGUAL'),
@@ -644,66 +646,13 @@ print global_functions_table
 
 print result
 
+#Prueba de cuadruplos
+x = Cuadruplo (5, 1, 2, 9)
+print x.pos2
 
-#int int
-#int float
-#int char
-#int string
-#int bool
-#float int
-#float float
-#float char
-#float string
-#float bool
-#char int
-#char float
-#char char
-#char string
-#char bool
-#string int
-#string float
-#string char
-#string string
-#string bool
-#bool int
-#bool float
-#bool char
-#bool string
-#bool bool
-########   +       -      *      /         &&       ||      <       >      <>       ==      =
-cubo =  [['INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['FLOAT', 'FLOAT', 'FLOAT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['FLOAT', 'FLOAT', 'FLOAT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'FLOAT'],
-	['FLOAT', 'FLOAT', 'FLOAT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'FLOAT'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['STRING', 'CHAR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'CHAR'],
-	['STRING', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['STRING', 'STRING', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'STRING'],
-	['STRING', 'STRING', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'STRING'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL'],]
-	
-# 0-INT  1-FLOAT  2-CHAR  3-STRING  4-BOOL
-#  0+      1-     2*     3/     4&&     5||    6<     7>    8<>     9==    10=	
-print "AQUI VA EL CUBO"
-var1 = 3 #STRING 
-var2 = 2 #CHAR
+#prueba de cubo
+y = validacion("CHAR", "INT", "*")
+print y
 
-
-print cubo[((var1*5)+(var2))][1]
 
 
