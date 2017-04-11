@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #MARY17
 #Oliver Alejandro Martinez Quiroz A01280416
 #Diego Alejandro Mayorga Morales A00813211
@@ -54,30 +55,36 @@ def dimensiona(lis):
 
 #definimos la clase para la tabla por enviroment
 #Nos servira para simular el creado de tablas por scope
+class Variable:
+	def __init__(self, type, identifier, memory, size):
+		self.type = type
+		self.memory = memory
+		self.identifier = identifier
+		self.size = size
+
 class Env:
-	dict
 	#Este atributo es un objeto de la misma clase Env
 	#Representa el scope anterior 
 	prev = None
 	def __init__(self,ant):
 		self.prev = ant
-		dict = {}
+		self.dict = {}
 
 #funcion que nos sirve para insertar un nuevo simbolo a la tabla
 	def put(self, identifier, content):
-			self.dict[identifier] = content.copy()
+			self.dict[identifier] = content
 
 #funcion que itera por las tablas para encontrar un simbolo
 #empieza por el scope actual y regresa una tabla o None si no encuentra la variable
 
 	def get(self, identifier):
-		e = self.dict
+		e = self
 		while e != None:
-			if identifier in e:
-  				return e[identifier]
-  				break
-			else:
-				e = e.prev
+			for k in e.dict:
+				if identifier == k:
+	  				return e.dict[k]
+	  				break
+			e = e.prev
 		return None
 
 
@@ -87,7 +94,7 @@ global_functions_table = {}
 #definicion de la tabla global de variables
 top = Env(None)
 saved = Env(None)
-
+decFunciones = False
 
 #definicion de variables globales y espacios disponibles
 global_int = {}
@@ -195,11 +202,16 @@ def AddGlobalVariable(type,identifier):
 
 ####################CONTENIDO DE UN PROGRAMA###################################
 def p_program(p):
-	'''program : PROGRAM ID DOSPUNTOS p2'''
+	'''program : PROGRAM ID initTop DOSPUNTOS p2'''
 	#p[0] = program(p[4], "program")
-	#top es la tabla de variables del scope actual
-	top = None
 	print "programa"
+
+def p_initTop(p):
+	'''initTop : empty'''
+	#top es la tabla de variables del scope actual
+	global top
+	top = Env(None)
+
 
 def p_p2(p):
 	'''p2 : p3
@@ -208,7 +220,7 @@ def p_p2(p):
 	
 def p_p3(p):
 	'''p3 : declaracion p3
-	| p4'''
+	|  p4'''
 	
 def p_p4(p):
 	'''p4 : function p4
@@ -230,12 +242,20 @@ def p_p5(p):
 ########################CONTENIDO DE UN BLOQUE######################################
 def p_bloque(p):
 
-	'''bloque : LKEY b3 b4 b5'''
+	'''bloque : LKEY  iniEnv b3 b4 b5'''
+
+def p_iniEnv(p):
+	'''iniEnv : empty'''
+	global decFunciones
 	global saved
 	global top
-	saved = top
-	top = Env(top)
+	if(not decFunciones):
+		saved = top
+		top = Env(top)
+		print "{"
+		print "Entra"
 	print "bloque"
+
 
 def p_b3(p):
 	'''b3 : declaracion b3
@@ -249,7 +269,10 @@ def p_b5(p):
 	'''b5 : RKEY'''
 	global top
 	global saved
-	top = saved
+	global decFunciones
+	if(not decFunciones):
+		top = saved
+		print "}"
 ###########################CONTENIDO DE UNA EXPRESION#################################
 def p_expresion(p):
 	'''expresion : exp e2 '''
@@ -287,7 +310,13 @@ def p_exp2(p):
 
 def p_declaracion(p):
 	'''declaracion : tipo ID decla1'''
+	var = Variable(p[1],p[2],0,0)
+	global top
+	global decFunciones
+	if not decFunciones:  
+		top.put(p[2],var)
 	print "Declaracion"
+
 
 def p_decla1(p):
 	'''decla1 : declafinal
@@ -324,6 +353,11 @@ def p_tipo(p):
 
 def p_asignacion(p):
 	'''asignacion : ID asig2'''
+	global decFunciones
+	global top
+	if not decFunciones:
+		print(p[1])
+		#print(top.get(p[1]).identifier + ":" + top.get(p[1]).type)
 	print "asignacion"
 	
 def p_asig2(p):
@@ -346,7 +380,7 @@ def p_asigfinal(p):
 #########################ESCRITURA####################################
 def p_print(p):
 	'''print : PRINT LPARENT pr2'''
-	print "esritura"
+	print "escritura"
 
 def p_pr2(p):
 	'''pr2 : expresion pr3
@@ -490,7 +524,7 @@ def p_if2(p):
 
 def p_error(p):
 	print "error de sintaxis", p
-	print "error en la linea" +str(p.lineno())
+	print "error en la linea" +str(p)
 	
 ################FUNCIONES DIIBUJAR###############################
 
@@ -574,7 +608,17 @@ def p_function31(p):
 
 	
 def p_function4(p):
-	'''function4 : RPARENT bloque'''
+	'''function4 : RPARENT noinitFunc bloque initFunc'''
+
+def p_noinitFunc(p):
+	'''noinitFunc : empty'''
+	global decFunciones
+	decFunciones = True
+
+def p_initFunc(p):
+	'''initFunc : empty'''
+	global decFunciones
+	decFunciones = False
 	
 ##################LLAMA UNA FUNCION###############################
 def p_llamafuncion(p):

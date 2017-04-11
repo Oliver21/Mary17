@@ -1,6 +1,7 @@
 program pProgramaPrueba:
 	int iprimerVariable;
-	int iperro (int ix, int ik, string sp){
+	int isegundaVariable;
+	int iperro  (int ix, int ik, string sp){
 		float fFeo;		
 		ia = ib;
 	}
@@ -20,7 +21,6 @@ program pProgramaPrueba:
 	}
 
 	void iVacia(){}
-	
 {
 	int ivariable1;
 	int ivariable2;
@@ -35,6 +35,7 @@ program pProgramaPrueba:
 	ivariable3 = -10;
 	ivariable3 = iarreglo1[3] * iarreglo2[2,5,3+5,2];
 	ivariable4 = "diego";
+	
 
 	while ( ix < 10 ) {
 		int icaca;
