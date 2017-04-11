@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #MARY17
 #Oliver Alejandro Martinez Quiroz A01280416
 #Diego Alejandro Mayorga Morales A00813211
