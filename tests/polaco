@@ -1,0 +1,4 @@
+program polaco:
+{
+	ia = ic + (id + ie) + in + ij * ik + ip - iz / ix;
+}

@@ -41,6 +41,10 @@ class Stack:
 
      def size(self):
          return len(self.items)
+     
+     def imprime(self):
+	 for i, val in enumerate(self.items):
+	 	print val,
 
 
 #Funcion que convierte listas anidadas en un
@@ -195,6 +199,8 @@ def AddGlobalVariable(type,identifier):
 
 #########DEFINIMOS UNA LISTA VACIA PARA CUADRUPLOS#########################
 cuadru=[]
+POper=Stack()
+PilaO=Stack()
 
 #Prueba de cuadruplos
 #x = Cuadruplo (1,3,2,5)
@@ -280,13 +286,31 @@ def p_e3(p):
 
 ##################EXP###################################
 def p_exp(p):
-	'''exp : termino exp2'''
+	'''exp : termino tagsacops exp2'''
 	#print "exp"
 
 def p_exp2(p):
-	'''exp2 : SUMA exp 
-	| RESTA exp
-	| empty'''	
+	'''exp2 : SUMA  tagop exp 
+	| RESTA tagop exp
+	| empty'''
+		
+def p_tagop(p):
+	'''tagop : empty'''
+	POper.push(p[-1])
+	print "Se agrego a la pila sum"
+	
+def p_tagsacops(p):
+	'''tagsacops : empty'''
+	if POper.isEmpty():
+		pass
+	else:
+		while POper.peek() == "+" or POper.peek() == "-" or POper.peek() == "*" or POper.peek() == "/":
+			PilaO.push(POper.pop())
+			if POper.isEmpty():
+				break
+		
+	
+		
 
 ####################DECLARACION DE VARIABLES#############################
 #def p_declaracion(p):
@@ -381,19 +405,37 @@ def p_c2(p):
 
 ########################TERMINO#################################
 def p_termino(p):
-	'''termino : factor te2'''
+	'''termino : factor tagsacopm te2'''
 	#print "termino"
 
 def p_te2(p):
 	'''te2 : MULT termino 
 	| DIV termino
-	| empty'''	
+	| empty'''
+	if p[1] == None:
+		pass
+		#print "Ya no hay operaciones"
+	else:
+		POper.push(p[1])
+		print "Se agrego a la pila mult"
+		
+def p_tagsacopm(p):
+	'''tagsacopm : empty'''
+	if POper.isEmpty():
+		pass
+	else:
+		while POper.peek() == "*" or POper.peek() == "/":
+			print POper.peek()
+			PilaO.push(POper.pop())
+			if POper.isEmpty():
+				break	
 ######################FACTOR####################################
 def p_factor(p):
-	'''factor : LPARENT expresion RPARENT
+	'''factor : LPARENT tagfondofalso expresion RPARENT tagsacafondo
 	| f2
 	| f3
-	| f6'''
+	| f6
+	| f7'''
 	#print "factor"
 	if p[1] == '{':
 		p[0] = p[2]
@@ -408,19 +450,47 @@ def p_f2(p):
 
 #llamar a un id
 def p_f3(p):
-	'''f3 : ID f4'''
+	'''f3 : ID'''
+	PilaO.push(p[1])
+	print "SE AGREGO ID AL VECTOR POLACO"
+	
+def p_tagfondofalso(p):
+	'''tagfondofalso : empty'''
+	POper.push(p[-1])
+	
+def p_tagsacafondo(p):
+	'''tagsacafondo : empty'''
+	while POper.peek() == "+" or POper.peek() == "-" or POper.peek() == "*" or POper.peek() == "/":
+		PilaO.push(POper.pop())
+		if POper.isEmpty():
+			break
+	POper.pop()
+	
+#def p_f4(p):
+#	'''f4 : empty'''
 
-def p_f4(p):
-	'''f4 : LBRACKET exp f5
-	| empty'''
+
+#def p_f4(p):
+#	'''f4 : LBRACKET exp f5
+#	| empty'''
 	
-def p_f5(p):
-	'''f5 : COMA exp f5
+#def p_f5(p):
+#	'''f5 : COMA exp f5
+#	| RBRACKET'''
+
+#llamar a un arreglo
+def p_f7(p):
+	'''f7 : ID LBRACKET exp f8'''
+	print "OPERACION CON DIMENSIONES"
+	
+def p_f8(p):
+	'''f8 : COMA exp f8
 	| RBRACKET'''
-	
+
 #llamar a una funcion
 def p_f6(p):
 	'''f6 : llamafuncion'''
+	print "OPERACION CON FUNCIONES"
 
 ######################CONTENIDO DE UN ESTATUTO##################################
 
@@ -652,12 +722,17 @@ print global_functions_table
 
 print result
 
-########CUADRUPLOS#################################################################
+########CUADRUPLOS#################################################################	
 print "---------------------------------------------------------------------"
 print "Cuadruplos generados"
 for i in cuadru:
 	print i.pos1, i.pos2, i.pos3, i.pos4
 #print cuadru[0].pos1, cuadru[0].pos2, cuadru[0].pos3, cuadru[0].pos4
+print "VECTOR POLACO"
+PilaO.imprime()
+print
+print "PILA OPERADORES"
+POper.imprime()
 ####################################################################################
 
 
