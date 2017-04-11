@@ -12,6 +12,7 @@ program pProgramaPrueba:
 
 
 	int factorial (int in){
+	int iola;
 	  if (in < 2){
 	  iresultado = 1;
 	  }

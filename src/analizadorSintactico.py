@@ -10,6 +10,8 @@ import re
 from analizadorLexico import tokens
 from sys import stdin
 from collections import Iterable
+from Cuadruplo import *
+from Cubo import *
 
 precedence = (
 	('right', 'IGUAL'),
@@ -199,12 +201,18 @@ def AddGlobalVariable(type,identifier):
 			print("error: tipo de variable incorrecto");
 
 
+#########DEFINIMOS UNA LISTA VACIA PARA CUADRUPLOS#########################
+cuadru=[]
+
+#Prueba de cuadruplos
+#x = Cuadruplo (1,3,2,5)
+#print x.pos1, x.pos2, x.pos3, x.pos4
 
 ####################CONTENIDO DE UN PROGRAMA###################################
 def p_program(p):
-	'''program : PROGRAM ID initTop DOSPUNTOS p2'''
+	'''program : PROGRAM  cuadrupro ID initTop DOSPUNTOS p2'''
 	#p[0] = program(p[4], "program")
-	print "programa"
+	#print "programa"
 
 def p_initTop(p):
 	'''initTop : empty'''
@@ -227,17 +235,17 @@ def p_p4(p):
 	| p5'''
 	
 def p_p5(p):
-	'''p5 : bloque'''	
+	'''p5 : cuadrupro2 bloque'''	
 	
-#def p_p2(p):
-#	'''p2 : bloque'''
-	#'''p2 : p3'''
-	#p[0] = p2(p[1], "p2")
-	#print "p2"
-
-#def p_p3(p):
-	#'''p3 : p2
-	#| bloque'''
+def p_cuadrupro(p):
+	'''cuadrupro : empty'''
+	x = Cuadruplo(pos1 = "GoTo")
+	cuadru.append(x)
+	#print x.pos1, x.pos2, x.pos3, x.pos4
+	
+def p_cuadrupro2(p):
+	'''cuadrupro2 : empty'''
+	cuadru[0].pos4 = len(cuadru)
 
 ########################CONTENIDO DE UN BLOQUE######################################
 def p_bloque(p):
@@ -276,7 +284,7 @@ def p_b5(p):
 ###########################CONTENIDO DE UNA EXPRESION#################################
 def p_expresion(p):
 	'''expresion : exp e2 '''
-	print "expresion"
+	#print "expresion"
 
 
 def p_e2(p):
@@ -291,7 +299,7 @@ def p_e3(p):
 ##################EXP###################################
 def p_exp(p):
 	'''exp : termino exp2'''
-	print "exp"
+	#print "exp"
 
 def p_exp2(p):
 	'''exp2 : SUMA exp 
@@ -315,7 +323,7 @@ def p_declaracion(p):
 	global decFunciones
 	if not decFunciones:  
 		top.put(p[2],var)
-	print "Declaracion"
+	#print "Declaracion"
 
 
 def p_decla1(p):
@@ -325,7 +333,7 @@ def p_decla1(p):
 def p_decla2(p):
 	'''decla2 : RBRACKET declafinal
 	| COMA exp decla2'''
-	print "declaracion arreglo"
+	#print "declaracion arreglo"
 	
 def p_declafinal(p):
 	'''declafinal : PUNTOCOMA'''
@@ -344,7 +352,7 @@ def p_tipo(p):
 	| STRING
 	| BOOL'''
 	p[0] = p[1]
-	print "tipo"
+	#print "tipo"
 
 ##################ASIGNACION A VARIABLES###################################
 #def p_asignacion(p):
@@ -358,7 +366,7 @@ def p_asignacion(p):
 	if not decFunciones:
 		print(p[1])
 		#print(top.get(p[1]).identifier + ":" + top.get(p[1]).type)
-	print "asignacion"
+	#print "asignacion"
 	
 def p_asig2(p):
 	'''asig2 : LBRACKET exp asig3
@@ -367,7 +375,7 @@ def p_asig2(p):
 def p_asig3(p):
 	'''asig3 : COMA exp asig3
 	| RBRACKET asigfinal'''
-	print "asignacion arreglo"
+	#print "asignacion arreglo"
 
 def p_asigfinal(p):
 	'''asigfinal : IGUAL expresion PUNTOCOMA'''
@@ -380,7 +388,7 @@ def p_asigfinal(p):
 #########################ESCRITURA####################################
 def p_print(p):
 	'''print : PRINT LPARENT pr2'''
-	print "escritura"
+	#print "esritura"
 
 def p_pr2(p):
 	'''pr2 : expresion pr3
@@ -393,7 +401,7 @@ def p_pr3(p):
 ######################CONDICION###############################
 def p_condicion(p):	
 	'''condicion : IF LKEY expresion RKEY bloque c2'''
-	print "condicion"
+	#print "condicion"
 
 def p_c2(p):
 	'''c2 : ELSE bloque PUNTOCOMA
@@ -403,7 +411,7 @@ def p_c2(p):
 ########################TERMINO#################################
 def p_termino(p):
 	'''termino : factor te2'''
-	print "termino"
+	#print "termino"
 
 def p_te2(p):
 	'''te2 : MULT termino 
@@ -415,7 +423,7 @@ def p_factor(p):
 	| f2
 	| f3
 	| f6'''
-	print "factor"
+	#print "factor"
 	if p[1] == '{':
 		p[0] = p[2]
 	else:
@@ -469,13 +477,13 @@ def p_estatuto(p):
 	| if'''
 #	| potencia
 #	| raiz
-	print "estatuto"
+	#print "estatuto"
 
 #####################COMENTARIO######################################
 
 def p_comentario(p):
 	'''comentario : COMENTARIO'''
-	print "Este es un comentario"
+	#print "Este es un comentario"
 
 ######################VARIABLE CONSTANTE#####################################
 
@@ -485,29 +493,29 @@ def p_varcte(p):
 	| CADENA
 	| CARACTER'''
 	p[0]=p[1] 
-	print "varcte"
+	#print "varcte"
 
 
 #####################CICLOS Y OTRAS FUNCIONES####################################
 def p_ciclowhile(p):
 	'''ciclowhile : WHILE LPARENT expresion RPARENT bloque'''
-	print "ciclo While"
+	#print "ciclo While"
 
 def p_ciclodowhile(p):
 	'''ciclodowhile : DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA'''
-	print "ciclo do while"
+	#print "ciclo do while"
 
 def p_read(p):
 	'''read : ID IGUAL READ LPARENT RPARENT PUNTOCOMA'''
-	print "lectura"
+	#print "lectura"
 
 def p_ciclofor(p):
 	'''ciclofor : FOR LPARENT asignacion expresion asignacion RPARENT bloque'''
-	print "ciclo for"
+	#print "ciclo for"
 	
 def p_if(p):
 	'''if : IF LPARENT expresion RPARENT bloque if2'''
-	print "Ciclo If"
+	#print "Ciclo If"
 
 def p_if2(p):
 	'''if2 : empty
@@ -531,47 +539,47 @@ def p_error(p):
 
 def p_cuadrado(p):
 	'''cuadrado : CUADRADO LPARENT exp RPARENT PUNTOCOMA'''
-	print "Dibuja cuadrado"
+	#print "Dibuja cuadrado"
 	
 def p_triangulo(p):
 	'''triangulo : TRIANGULO LPARENT exp RPARENT PUNTOCOMA'''
-	print "Dibuja triangulo"
+	#print "Dibuja triangulo"
 	
 def p_rectangulo(p):
 	'''rectangulo : RECTANGULO LPARENT exp COMA exp RPARENT PUNTOCOMA'''
-	print "Dibuja rectangulo"
+	#print "Dibuja rectangulo"
 
 def p_casa(p):
 	'''casa : CASA LPARENT exp COMA exp RPARENT PUNTOCOMA'''
-	print "Dibuja casa"
+	#print "Dibuja casa"
 
 def p_estrella(p):
 	'''estrella : ESTRELLA LPARENT exp RPARENT PUNTOCOMA'''
-	print "Dibuja estrella"
+	#print "Dibuja estrella"
 
 def p_cubo(p):
 	'''cubo : CUBO LPARENT exp RPARENT PUNTOCOMA'''
-	print "Dibuja cubo"
+	#print "Dibuja cubo"
 
 def p_mueve(p):
 	'''mueve : MUEVE LPARENT exp COMA exp RPARENT PUNTOCOMA'''
-	print "Mueve"
+	#print "Mueve"
 	
 def p_levanta(p):
 	'''levanta : LEVANTA LPARENT RPARENT PUNTOCOMA'''
-	print "Levanta lapiz"
+	#print "Levanta lapiz"
 	
 def p_apoya(p):
 	'''apoya : APOYA LPARENT RPARENT PUNTOCOMA'''
-	print "Apoya lapiz"
+	#print "Apoya lapiz"
 	
 def p_trapecio(p):
 	'''trapecio : TRAPECIO LPARENT exp COMA exp RPARENT PUNTOCOMA'''
-	print "Dibuja trapecio"
+	#print "Dibuja trapecio"
 	
 def p_dimension(p):
 	'''dimension : DIMENSION LPARENT exp RPARENT PUNTOCOMA'''
-	print "Asigna dimension"
+	#print "Asigna dimension"
 
 ##########################DECLARA UNA FUNCION##########################
 def p_function(p):
@@ -581,7 +589,7 @@ def p_function(p):
 		global_functions_table[p[2]] = {'type':p[1],'parameters': list(dimensiona(p[4]))}
 	else:
 		global_functions_table[p[2]] = {'type':p[1],'parameters': [] }
-	print "Declara una funcion"
+	#print "Declara una funcion"
 	
 def p_funct11(p):
 	'''funct11 : function4'''
@@ -623,7 +631,7 @@ def p_initFunc(p):
 ##################LLAMA UNA FUNCION###############################
 def p_llamafuncion(p):
 	'''llamafuncion : ID LPARENT llamaf11'''
-	print "Llama a una funcion"
+	#print "Llama a una funcion"
 	
 def p_llamaf11(p):
 	'''llamaf11 : llamaf2
@@ -685,66 +693,12 @@ print global_functions_table
 
 print result
 
-
-#int int
-#int float
-#int char
-#int string
-#int bool
-#float int
-#float float
-#float char
-#float string
-#float bool
-#char int
-#char float
-#char char
-#char string
-#char bool
-#string int
-#string float
-#string char
-#string string
-#string bool
-#bool int
-#bool float
-#bool char
-#bool string
-#bool bool
-########   +       -      *      /         &&       ||      <       >      <>       ==      =
-cubo =  [['INT', 'INT', 'INT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['FLOAT', 'FLOAT', 'FLOAT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'INT'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['FLOAT', 'FLOAT', 'FLOAT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'FLOAT'],
-	['FLOAT', 'FLOAT', 'FLOAT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'FLOAT'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['STRING', 'CHAR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'CHAR'],
-	['STRING', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['STRING', 'STRING', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'STRING'],
-	['STRING', 'STRING', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL', 'BOOL', 'STRING'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
-	['ERROR', 'ERROR', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'ERROR', 'ERROR', 'BOOL', 'BOOL', 'BOOL'],]
-	
-# 0-INT  1-FLOAT  2-CHAR  3-STRING  4-BOOL
-#  0+      1-     2*     3/     4&&     5||    6<     7>    8<>     9==    10=	
-print "AQUI VA EL CUBO"
-var1 = 3 #STRING 
-var2 = 2 #CHAR
-
-
-print cubo[((var1*5)+(var2))][1]
+########CUADRUPLOS#################################################################
+print "---------------------------------------------------------------------"
+print "Cuadruplos generados"
+for i in cuadru:
+	print i.pos1, i.pos2, i.pos3, i.pos4
+#print cuadru[0].pos1, cuadru[0].pos2, cuadru[0].pos3, cuadru[0].pos4
+####################################################################################
 
 
