@@ -318,7 +318,7 @@ def p_tagsacalog(p):
 			operandoIzquierdo = PilaO.pop()
 			tipoIzquierdo = PTypes.pop()
 			operador = POper.pop()
-			resultType = validacion(tipoDerecho, tipoIzquierdo, operador)
+			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 			if resultType == "ERROR":
 				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
 				sys.exit(0)
@@ -509,6 +509,7 @@ def p_asig3(p):
 
 def p_asigfinal(p):
 	'''asigfinal : IGUAL expresion PUNTOCOMA'''
+	#POper.push(p[1])
 
 	
 ##################ASIGNACION A ARREGLOS DE VARIABLES###################################
@@ -544,14 +545,15 @@ def p_termino(p):
 	#print "termino"
 
 def p_te2(p):
-	'''te2 : MULT termino 
-	| DIV termino
+	'''te2 : MULT tagm termino 
+	| DIV tagm termino
 	| empty'''
-	if p[1] == None:
-		pass
-		#print "Ya no hay operaciones"
-	else:
-		POper.push(p[1])
+	
+	
+	
+def p_tagm(p):
+	'''tagm : empty'''
+	POper.push(p[-1])
 		#print "Se agrego a la pila mult"
 		
 def p_tagsacopm(p):
@@ -565,7 +567,7 @@ def p_tagsacopm(p):
 			operandoIzquierdo = PilaO.pop()
 			tipoIzquierdo = PTypes.pop()
 			operador = POper.pop()
-			resultType = validacion(tipoDerecho, tipoIzquierdo, operador)
+			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 			if resultType == "ERROR":
 				print "INCOMPATIBILIDAD DE TIPOS"
 			else:	
