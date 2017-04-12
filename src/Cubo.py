@@ -23,7 +23,7 @@
 #bool char
 #bool string
 #bool bool
-#           +         -         *        /       &&       ||       <        >        <=       >=       <>       ==       =
+#           +         -         *        /       &&       ||       <        >        <=       >=       !=       ==       =
 cubo =  [['INT',   'INT',    'INT',   'FLOAT', 'ERROR', 'ERROR', 'BOOL',  'BOOL',  'BOOL',  'BOOL',  'BOOL',  'BOOL',  'INT'],
 	['FLOAT',  'FLOAT',  'FLOAT', 'FLOAT', 'ERROR', 'ERROR', 'BOOL',  'BOOL',  'BOOL',  'BOOL',  'BOOL',  'BOOL',  'INT'],
 	['ERROR',  'ERROR',  'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR', 'ERROR'],
