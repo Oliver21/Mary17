@@ -129,8 +129,8 @@ class MemManager:
 
 	def save(self,type,value):
 		cont = 0
-		for key in self.memory[type]:
-			if not self.memory[type][key] == cont:
+		for key, val in self.memory[type].iteritems():
+			if not key == cont:
 				break
 			cont = cont + 1
 		self.memory[type][cont] = value
@@ -142,9 +142,11 @@ class MemManager:
 		else:
 			return None
 
-MemManagerPrueba = MemManager()
-print MemManagerPrueba.save("INT",0)
+MemManagerPrueba = MemManager()	
 print MemManagerPrueba.save("INT",1)
+print MemManagerPrueba.save("INT",1)
+print MemManagerPrueba.save("INT",2)
+print MemManagerPrueba.save("INT",3)
 
 print MemManagerPrueba.memory
 
@@ -400,25 +402,27 @@ def p_tagsacops(p):
 	
 
 def p_declaracion(p):
-	'''declaracion : tipo ID decla1'''
+	'''declaracion : tipo ID savevar decla1'''
+	#print "Declaracion"
+def p_savevar(p):
+	'''savevar : empty'''
 	global top
 	global MemManagerGlobal
 	global MemManagerLocal
 	if top.prev == None and not decFunciones:
-		pos = MemManagerGlobal.save(p[1],p[2])
-		var = Variable(p[1],p[2],pos,1)
+		pos = MemManagerGlobal.save(p[-2],p[-1])
+		var = Variable(p[-2],p[-1],pos,1)
 		print MemManagerGlobal.memory
 	elif not decFunciones:
-		pos = MemManagerLocal.save(p[1],p[2])
-		var = Variable(p[1],p[2],pos,1)
+		pos = MemManagerLocal.save(p[-2],p[-1])
+		var = Variable(p[-2],p[-1],pos,1)
 		print MemManagerLocal.memory
 	else:
-		pos = MemManagerLocal.save(p[1],p[2])
-		var = Variable(p[1],p[2],pos,1)
+		pos = MemManagerLocal.save(p[-2],p[-1])
+		var = Variable(p[-2],p[-1],pos,1)
 		print MemManagerLocal.memory
-	top.put(p[2],var)
-	#print "Declaracion"
-
+	print pos
+	top.put(p[-1],var)
 
 def p_decla1(p):
 	'''decla1 : declafinal
@@ -565,6 +569,7 @@ def p_f2(p):
 def p_f3(p):
 	'''f3 : ID'''
 	PilaO.push(p[1])
+	print p[1]
 	PTypes.push(top.get(p[1]).type)
 	#print "SE AGREGO ID AL VECTOR POLACO"
 	
@@ -871,29 +876,27 @@ cadena = fp.read()
 fp.close()
 
 parser = yacc.yacc()
-result = parser.parse(cadena)
+parser.parse(cadena)
 
-
-print result
 
 
 print MemManagerGlobal.memory
 print MemManagerLocal.memory
 ########CUADRUPLOS#################################################################
 
-print "---------------------------------------------------------------------"
-print "--------------------CUADRUPLOS GENERADOS--------------------"
-for i in cuadru:
-	print i.pos1, i.pos2, i.pos3, i.pos4
+#print "---------------------------------------------------------------------"
+#print "--------------------CUADRUPLOS GENERADOS--------------------"
+#for i in cuadru:
+	#print i.pos1, i.pos2, i.pos3, i.pos4
 #print cuadru[0].pos1, cuadru[0].pos2, cuadru[0].pos3, cuadru[0].pos4
-print "-------------PilaO (Pila de operandos)----------------------"
-PilaO.imprime()
-print
-print "-------------PTypes (Pila de tipos)-------------------------"
-PTypes.imprime()
-print
-print "-------------POper (Pila de operadores)----------------------"
-POper.imprime()
+#print "-------------PilaO (Pila de operandos)----------------------"
+#PilaO.imprime()
+#print
+#print "-------------PTypes (Pila de tipos)-------------------------"
+#PTypes.imprime()
+#print
+#print "-------------POper (Pila de operadores)----------------------"
+#POper.imprime()
 ####################################################################################
 
 
