@@ -93,7 +93,7 @@ def revisaOperador(op):
 		op = 8
 	elif op == ">=":
 		op = 9
-	elif op == "<>":
+	elif op == "!=":
 		op = 10
 	elif op == "==":
 		op = 11

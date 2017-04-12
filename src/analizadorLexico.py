@@ -37,7 +37,7 @@ reservadas = ['INT','FLOAT','IF','ELSE','VAR','PRINT','PROGRAM', 'DO', 'WHILE', 
 #reservadas = list(reservadas.values())
 
 tokens = reservadas + ['ID', 'MULT', 'DIV', 'SUMA', 'RESTA', 'LPARENT', 'RPARENT', 'COMA',
-'PUNTOCOMA', 'DOSPUNTOS', 'PUNTO', 'LBRACKET', 'RBRACKET', 'LKEY', 'RKEY', 'IGUAL', 'LT', 'GT',
+'PUNTOCOMA', 'DOSPUNTOS', 'PUNTO', 'LBRACKET', 'RBRACKET', 'LKEY', 'RKEY', 'IGUAL', 'LT', 'GT', 'LE', 'GE', 'DIF', 'SAME',
 'COMSIMPLE', 'COMDOBLE', 'ENTERO', 'FLOTANTE', 'CARACTER', 'CADENA', 'NOESNADA', 'COMENTARIO', 'BOLEANO',
 'RAIZ', 'POTENCIA'	
 	]
@@ -56,6 +56,10 @@ t_PUNTO = r'\.'
 t_IGUAL = r'\='
 t_LT = r'<'
 t_GT = r'>'
+t_LE = r'<='
+t_GE = r'>='
+t_DIF = r'!='
+t_SAME = r'=='
 t_COMSIMPLE = r'\''
 t_COMDOBLE = r'\"'
 t_LBRACKET = r'\['

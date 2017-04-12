@@ -12,6 +12,7 @@ from sys import stdin
 from collections import Iterable
 from Cuadruplo import *
 from Cubo import *
+import sys
 
 precedence = (
 	('right', 'IGUAL'),
@@ -209,7 +210,8 @@ def AddGlobalVariable(type,identifier):
 cuadru=[]
 POper=Stack()
 PilaO=Stack()
-
+PTypes=Stack()
+temporal = 1
 #Prueba de cuadruplos
 #x = Cuadruplo (1,3,2,5)
 #print x.pos1, x.pos2, x.pos3, x.pos4
@@ -298,9 +300,46 @@ def p_e2(p):
 	| empty'''
 
 def p_e3(p):
-	'''e3 : GT exp
-	| LT exp
-	| LT GT exp'''
+	'''e3 : GT tagrel exp tagsacrel
+	| LT tagrel exp tagsacrel
+	| LE tagrel exp tagsacrel
+	| GE tagrel exp tagsacrel
+	| DIF tagrel exp tagsacrel
+	| SAME tagrel exp tagsacrel'''
+	
+def p_tagrel(p):
+	'''tagrel : empty'''
+	POper.push(p[-1])
+	
+	
+def p_tagsacrel(p):
+	'''tagsacrel : empty'''
+	if POper.isEmpty():
+		pass
+	else:
+		while POper.peek()==">" or POper.peek()=="<" or POper.peek()=="<=" or POper.peek()==">=" or POper.peek()=="==" or POper.peek()=="!=" or POper.peek() == "+" or POper.peek() == "-" or POper.peek() == "*" or POper.peek() == "/":
+			operandoDerecho = PilaO.pop()
+			tipoDerecho = PTypes.pop()
+			operandoIzquierdo = PilaO.pop()
+			tipoIzquierdo = PTypes.pop()
+			operador = POper.pop()
+			resultType = validacion(tipoDerecho, tipoIzquierdo, operador)
+			if resultType == "ERROR":
+				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
+				sys.exit(0)
+			else:
+				global temporal
+				result = "t" + str(temporal)
+				temporal = temporal + 1
+				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
+				cuadru.append(quad)
+				PilaO.push(result)
+				PTypes.push(resultType)
+				
+				
+			#PilaO.push(POper.pop())
+			if POper.isEmpty():
+				break
 
 ##################EXP###################################
 def p_exp(p):
@@ -323,7 +362,26 @@ def p_tagsacops(p):
 		pass
 	else:
 		while POper.peek() == "+" or POper.peek() == "-" or POper.peek() == "*" or POper.peek() == "/":
-			PilaO.push(POper.pop())
+			operandoDerecho = PilaO.pop()
+			tipoDerecho = PTypes.pop()
+			operandoIzquierdo = PilaO.pop()
+			tipoIzquierdo = PTypes.pop()
+			operador = POper.pop()
+			resultType = validacion(tipoDerecho, tipoIzquierdo, operador)
+			if resultType == "ERROR":
+				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
+				sys.exit(0)
+			else:
+				global temporal
+				result = "t" + str(temporal)
+				temporal = temporal + 1
+				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
+				cuadru.append(quad)
+				PilaO.push(result)
+				PTypes.push(resultType)
+				
+				
+			#PilaO.push(POper.pop())
 			if POper.isEmpty():
 				break
 		
@@ -454,10 +512,27 @@ def p_tagsacopm(p):
 		pass
 	else:
 		while POper.peek() == "*" or POper.peek() == "/":
-			print POper.peek()
-			PilaO.push(POper.pop())
+			operandoDerecho = PilaO.pop()
+			tipoDerecho = PTypes.pop()
+			operandoIzquierdo = PilaO.pop()
+			tipoIzquierdo = PTypes.pop()
+			operador = POper.pop()
+			resultType = validacion(tipoDerecho, tipoIzquierdo, operador)
+			if resultType == "ERROR":
+				print "INCOMPATIBILIDAD DE TIPOS"
+			else:	
+				global temporal
+				result = "t" + str(temporal)
+				temporal = temporal + 1
+				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
+				cuadru.append(quad)
+				PilaO.push(result)
+				PTypes.push(resultType)
+				
+				
+			#PilaO.push(POper.pop())
 			if POper.isEmpty():
-				break	
+				break
 ######################FACTOR####################################
 def p_factor(p):
 	'''factor : LPARENT tagfondofalso expresion RPARENT tagsacafondo
@@ -481,6 +556,7 @@ def p_f2(p):
 def p_f3(p):
 	'''f3 : ID'''
 	PilaO.push(p[1])
+	PTypes.push(top.get(p[1]).type)
 	print "SE AGREGO ID AL VECTOR POLACO"
 	
 def p_tagfondofalso(p):
@@ -765,7 +841,7 @@ print result
 
 ########CUADRUPLOS#################################################################	
 print "---------------------------------------------------------------------"
-print "Cuadruplos generados"
+print "--------------------CUADRUPLOS GENERADOS--------------------"
 for i in cuadru:
 	print i.pos1, i.pos2, i.pos3, i.pos4
 #print cuadru[0].pos1, cuadru[0].pos2, cuadru[0].pos3, cuadru[0].pos4
@@ -774,6 +850,9 @@ PilaO.imprime()
 print
 print "PILA OPERADORES"
 POper.imprime()
+print
+print "PILA DE TIPOS"
+PTypes.imprime()
 ####################################################################################
 
 
