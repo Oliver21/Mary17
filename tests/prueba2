@@ -6,22 +6,27 @@ program pProgramaPrueba:
 		ia = ib;
 	}
 	
-	int iBarney (int iQue, string sPaso, char cAmigito){	
+	int iBarney (int iQue, string sPaso, char cAmigito){
+		float fFeo2;	
 		ia = ib;
 	}
 
 
 	int factorial (int in){
+	float fFeo3;
 	int iola;
 	  if (in < 2){
+	  float fFeo;
+	  int caca;
 	  iresultado = 1;
 	  }
 	  else{
+	  float fFeo;
 	    iresultado = in * factorial(in - 1);
 	    }
 	}
 
-	void iVacia(){}
+	void iVacia(){float fFeo;}
 {
 	int ivariable1;
 	int ivariable2;
