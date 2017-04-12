@@ -490,13 +490,19 @@ def p_tipo(p):
 #	 "asignacion"
 
 def p_asignacion(p):
-	'''asignacion : ID asig2'''
+	'''asignacion : ID meteid asig2'''
 	global decFunciones
 	global top
 	if not decFunciones:
 		print(p[1])
 		#print(top.get(p[1]).identifier + ":" + top.get(p[1]).type)
 	#print "asignacion"
+
+def p_meteid(p):
+	'''meteid :  empty'''
+	PilaO.push(p[-1])
+	PTypes.push(top.get(p[-1]).type)
+	
 	
 def p_asig2(p):
 	'''asig2 : LBRACKET exp asig3
@@ -508,8 +514,34 @@ def p_asig3(p):
 	#print "asignacion arreglo"
 
 def p_asigfinal(p):
-	'''asigfinal : IGUAL expresion PUNTOCOMA'''
+	'''asigfinal : IGUAL tagmeteig expresion tagig PUNTOCOMA'''
 	#POper.push(p[1])
+	
+def p_tagmeteig(p):
+	'''tagmeteig : empty'''
+	POper.push(p[-1])
+
+
+def p_tagig(p):
+	'''tagig : empty'''
+	operandoDerecho = PilaO.pop()
+	tipoDerecho = PTypes.pop()
+	operandoIzquierdo = PilaO.pop()
+	tipoIzquierdo = PTypes.pop()
+	operador = POper.pop()
+	resultType = validacion(tipoDerecho, tipoIzquierdo, operador)
+	if resultType == "ERROR":
+		print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
+		sys.exit(0)
+	else:
+		#global temporal
+		#result = "t" + str(temporal)
+		#temporal = temporal + 1
+		quad = Cuadruplo(pos1 = operador, pos2=operandoDerecho, pos4=operandoIzquierdo)
+		cuadru.append(quad)
+		#PilaO.push(result)
+		#PTypes.push(resultType)
+	
 
 	
 ##################ASIGNACION A ARREGLOS DE VARIABLES###################################
@@ -522,13 +554,16 @@ def p_print(p):
 	#print "esritura"
 
 def p_pr2(p):
-	'''pr2 : expresion pr3
-	| CADENA pr3'''
+	'''pr2 : expresion pr3'''
 	#print "es2"
 
 def p_pr3(p):
-	'''pr3 : pr2
-	| RPARENT PUNTOCOMA'''
+	'''pr3 : tagimprime RPARENT PUNTOCOMA'''
+	
+def p_tagimprime(p):
+	'''tagimprime : empty'''
+	quad = Cuadruplo(pos1 = "PRINT", pos4=PilaO.pop())
+	cuadru.append(quad)
 ######################CONDICION###############################
 def p_condicion(p):	
 	'''condicion : IF LKEY expresion RKEY bloque c2'''
@@ -724,7 +759,7 @@ def p_ciclodowhile(p):
 	#print "ciclo do while"
 
 def p_read(p):
-	'''read : ID IGUAL READ LPARENT RPARENT PUNTOCOMA'''
+	'''read : READ LPARENT RPARENT PUNTOCOMA'''
 	#print "lectura"
 
 def p_ciclofor(p):
@@ -749,8 +784,8 @@ def p_if2(p):
 ###################ERROR#####################################
 
 def p_error(p):
-	print "error de sintaxis", p
-	print "error en la linea" +str(p)
+	print "error de sintaxis en la linea " + str(p.lineno)
+	print p
 	
 ################FUNCIONES DIIBUJAR###############################
 
@@ -920,14 +955,14 @@ print "--------------------CUADRUPLOS GENERADOS--------------------"
 for i in cuadru:
 	print i.pos1, i.pos2, i.pos3, i.pos4
 #print cuadru[0].pos1, cuadru[0].pos2, cuadru[0].pos3, cuadru[0].pos4
-print "-------------PilaO (Pila de operandos)----------------------"
-PilaO.imprime()
-print
-print "-------------PTypes (Pila de tipos)-------------------------"
-PTypes.imprime()
-print
-print "-------------POper (Pila de operadores)----------------------"
-POper.imprime()
+#print "-------------PilaO (Pila de operandos)----------------------"
+#PilaO.imprime()
+#print
+#print "-------------PTypes (Pila de tipos)-------------------------"
+#PTypes.imprime()
+#print
+#print "-------------POper (Pila de operadores)----------------------"
+#POper.imprime()
 ####################################################################################
 
 

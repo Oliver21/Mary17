@@ -1,3 +1,4 @@
+
 program polaco:
 	int ia;
 	int ic;
@@ -16,9 +17,9 @@ program polaco:
 		ia = ij + 5.5;
 	}
 {
-	ia = buno && (itotal == (ic + id + ie + in + ij * ik + ip - iz / ix) + ic);
+	bdos = buno && (itotal == (ic + id + ie + in + ij * ik + ip - iz / ix) + ic);
 	//ia = ic != id;
-	ic = buno == bdos;
+	bdos = buno == bdos;
 	ia = 4.3 * 1 + 9 + 8 * 2 / 3 + 1 * 5 * (5 + 1 + 5 - 3) + 1;
-	
+	print ("d");
 }
