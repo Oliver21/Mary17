@@ -2,7 +2,6 @@
 #MARY17
 #Oliver Alejandro Martinez Quiroz A01280416
 #Diego Alejandro Mayorga Morales A00813211
-
 import ply.yacc as yacc
 import os
 import codecs
@@ -12,10 +11,12 @@ from sys import stdin
 from collections import Iterable
 from Cuadruplo import *
 from Cubo import *
+import sys
 
 precedence = (
 	('right', 'IGUAL'),
-	('left', 'LT', 'GT'),
+	('left', 'AND', 'OR'),
+	('left', 'LT', 'GT', 'LE', 'GE', 'SAME', 'DIF'),
 	('left', 'SUMA', 'RESTA'),	
 	('left', 'MULT', 'DIV'),
 	('left', 'LBRACKET', 'RBRACKET'),
@@ -42,6 +43,10 @@ class Stack:
 
      def size(self):
          return len(self.items)
+     
+     def imprime(self):
+	 for i, val in enumerate(self.items):
+	 	print val,
 
 
 #La clase Funcion funciona como template para la entrada de variables
@@ -152,7 +157,10 @@ MemManagerLocal = MemManager()
 
 #########DEFINIMOS UNA LISTA VACIA PARA CUADRUPLOS#########################
 cuadru=[]
-
+POper=Stack()
+PilaO=Stack()
+PTypes=Stack()
+temporal = 1
 #Prueba de cuadruplos
 #x = Cuadruplo (1,3,2,5)
 #print x.pos1, x.pos2, x.pos3, x.pos4
@@ -231,14 +239,67 @@ def p_b5(p):
 	global FuncToBuild
 	if(not decFunciones):
 		top = saved
+<<<<<<< HEAD
 	else:
 		FuncToBuild.LocalTable = top
 		top = saved
 
 ###########################CONTENIDO DE UNA EXPRESION#################################
+=======
+		print "}"
+		
+		
+############################CONTENIDO DE UNA EXPRESION################################
+>>>>>>> ea598feef2baf91451e8b8b3352ace666ecd7aeb
 def p_expresion(p):
-	'''expresion : exp e2 '''
-	#print "expresion"
+	'''expresion : expresion2 expre'''
+	
+def p_expre(p):
+	'''expre : expre2
+	| empty'''
+	
+def p_expre2(p):
+	'''expre2 : AND tagmetelog expresion tagsacalog
+	| OR tagmetelog expresion tagsacalog'''
+	
+def p_tagmetelog(p):
+	'''tagmetelog : empty'''
+	POper.push(p[-1])
+	
+def p_tagsacalog(p):
+	'''tagsacalog : empty'''
+	if POper.isEmpty():
+		pass
+	else:
+		while POper.peek()=="&&" or POper.peek()=="||" or POper.peek()==">" or POper.peek()=="<" or POper.peek()=="<=" or POper.peek()==">=" or POper.peek()=="==" or POper.peek()=="!=" or POper.peek() == "+" or POper.peek() == "-" or POper.peek() == "*" or POper.peek() == "/":
+			operandoDerecho = PilaO.pop()
+			tipoDerecho = PTypes.pop()
+			operandoIzquierdo = PilaO.pop()
+			tipoIzquierdo = PTypes.pop()
+			operador = POper.pop()
+			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
+			if resultType == "ERROR":
+				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
+				sys.exit(0)
+			else:
+				global temporal
+				result = "t" + str(temporal)
+				temporal = temporal + 1
+				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
+				cuadru.append(quad)
+				PilaO.push(result)
+				PTypes.push(resultType)
+				
+				
+			#PilaO.push(POper.pop())
+			if POper.isEmpty():
+				break
+
+	
+###########################CONTENIDO DE UNA EXPRESION2#################################
+def p_expresion2(p):
+	'''expresion2 : exp e2 '''
+	#print "expresion2"
 
 
 def p_e2(p):
@@ -246,19 +307,93 @@ def p_e2(p):
 	| empty'''
 
 def p_e3(p):
-	'''e3 : GT exp
-	| LT exp
-	| LT GT exp'''
+	'''e3 : GT tagrel exp tagsacrel
+	| LT tagrel exp tagsacrel
+	| LE tagrel exp tagsacrel
+	| GE tagrel exp tagsacrel
+	| DIF tagrel exp tagsacrel
+	| SAME tagrel exp tagsacrel'''
+	
+def p_tagrel(p):
+	'''tagrel : empty'''
+	POper.push(p[-1])
+	
+	
+def p_tagsacrel(p):
+	'''tagsacrel : empty'''
+	if POper.isEmpty():
+		pass
+	else:
+		while POper.peek()==">" or POper.peek()=="<" or POper.peek()=="<=" or POper.peek()==">=" or POper.peek()=="==" or POper.peek()=="!=" or POper.peek() == "+" or POper.peek() == "-" or POper.peek() == "*" or POper.peek() == "/":
+			operandoDerecho = PilaO.pop()
+			tipoDerecho = PTypes.pop()
+			operandoIzquierdo = PilaO.pop()
+			tipoIzquierdo = PTypes.pop()
+			operador = POper.pop()
+			resultType = validacion(tipoDerecho, tipoIzquierdo, operador)
+			if resultType == "ERROR":
+				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
+				sys.exit(0)
+			else:
+				global temporal
+				result = "t" + str(temporal)
+				temporal = temporal + 1
+				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
+				cuadru.append(quad)
+				PilaO.push(result)
+				PTypes.push(resultType)
+				
+				
+			#PilaO.push(POper.pop())
+			if POper.isEmpty():
+				break
 
 ##################EXP###################################
 def p_exp(p):
-	'''exp : termino exp2'''
+	'''exp : termino tagsacops exp2'''
 	#print "exp"
 
 def p_exp2(p):
-	'''exp2 : SUMA exp 
-	| RESTA exp
-	| empty'''	
+	'''exp2 : SUMA  tagop exp 
+	| RESTA tagop exp
+	| empty'''
+		
+def p_tagop(p):
+	'''tagop : empty'''
+	POper.push(p[-1])
+	#print "Se agrego a la pila sum"
+	
+def p_tagsacops(p):
+	'''tagsacops : empty'''
+	if POper.isEmpty():
+		pass
+	else:
+		while POper.peek() == "+" or POper.peek() == "-" or POper.peek() == "*" or POper.peek() == "/":
+			operandoDerecho = PilaO.pop()
+			tipoDerecho = PTypes.pop()
+			operandoIzquierdo = PilaO.pop()
+			tipoIzquierdo = PTypes.pop()
+			operador = POper.pop()
+			resultType = validacion(tipoDerecho, tipoIzquierdo, operador)
+			if resultType == "ERROR":
+				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
+				sys.exit(0)
+			else:
+				global temporal
+				result = "t" + str(temporal)
+				temporal = temporal + 1
+				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
+				cuadru.append(quad)
+				PilaO.push(result)
+				PTypes.push(resultType)
+				
+				
+			#PilaO.push(POper.pop())
+			if POper.isEmpty():
+				break
+		
+	
+		
 
 ####################DECLARACION DE VARIABLES#############################
 #def p_declaracion(p):
@@ -339,6 +474,7 @@ def p_asig3(p):
 
 def p_asigfinal(p):
 	'''asigfinal : IGUAL expresion PUNTOCOMA'''
+	#POper.push(p[1])
 
 	
 ##################ASIGNACION A ARREGLOS DE VARIABLES###################################
@@ -370,19 +506,55 @@ def p_c2(p):
 
 ########################TERMINO#################################
 def p_termino(p):
-	'''termino : factor te2'''
+	'''termino : factor tagsacopm te2'''
 	#print "termino"
 
 def p_te2(p):
-	'''te2 : MULT termino 
-	| DIV termino
-	| empty'''	
+	'''te2 : MULT tagm termino 
+	| DIV tagm termino
+	| empty'''
+	
+	
+	
+def p_tagm(p):
+	'''tagm : empty'''
+	POper.push(p[-1])
+		#print "Se agrego a la pila mult"
+		
+def p_tagsacopm(p):
+	'''tagsacopm : empty'''
+	if POper.isEmpty():
+		pass
+	else:
+		while POper.peek() == "*" or POper.peek() == "/":
+			operandoDerecho = PilaO.pop()
+			tipoDerecho = PTypes.pop()
+			operandoIzquierdo = PilaO.pop()
+			tipoIzquierdo = PTypes.pop()
+			operador = POper.pop()
+			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
+			if resultType == "ERROR":
+				print "INCOMPATIBILIDAD DE TIPOS"
+			else:	
+				global temporal
+				result = "t" + str(temporal)
+				temporal = temporal + 1
+				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
+				cuadru.append(quad)
+				PilaO.push(result)
+				PTypes.push(resultType)
+				
+				
+			#PilaO.push(POper.pop())
+			if POper.isEmpty():
+				break
 ######################FACTOR####################################
 def p_factor(p):
-	'''factor : LPARENT expresion RPARENT
+	'''factor : LPARENT tagfondofalso expresion RPARENT tagsacafondo
 	| f2
 	| f3
-	| f6'''
+	| f6
+	| f7'''
 	#print "factor"
 	if p[1] == '{':
 		p[0] = p[2]
@@ -392,24 +564,53 @@ def p_factor(p):
 #llamar a una constante
 def p_f2(p):
 	'''f2 : varcte'''
-	p[0] = p[1]
-	#print p[0]
+	#p[0] = p[1]
+	#print p[1]
 
 #llamar a un id
 def p_f3(p):
-	'''f3 : ID f4'''
+	'''f3 : ID'''
+	PilaO.push(p[1])
+	PTypes.push(top.get(p[1]).type)
+	#print "SE AGREGO ID AL VECTOR POLACO"
+	
+def p_tagfondofalso(p):
+	'''tagfondofalso : empty'''
+	POper.push(p[-1])
+	
+def p_tagsacafondo(p):
+	'''tagsacafondo : empty'''
+	while POper.peek() == "+" or POper.peek() == "-" or POper.peek() == "*" or POper.peek() == "/":
+		PilaO.push(POper.pop())
+		if POper.isEmpty():
+			break
+	POper.pop()
+	
+#def p_f4(p):
+#	'''f4 : empty'''
 
-def p_f4(p):
-	'''f4 : LBRACKET exp f5
-	| empty'''
+
+#def p_f4(p):
+#	'''f4 : LBRACKET exp f5
+#	| empty'''
 	
-def p_f5(p):
-	'''f5 : COMA exp f5
+#def p_f5(p):
+#	'''f5 : COMA exp f5
+#	| RBRACKET'''
+
+#llamar a un arreglo
+def p_f7(p):
+	'''f7 : ID LBRACKET exp f8'''
+	print "OPERACION CON DIMENSIONES"
+	
+def p_f8(p):
+	'''f8 : COMA exp f8
 	| RBRACKET'''
-	
+
 #llamar a una funcion
 def p_f6(p):
 	'''f6 : llamafuncion'''
+	print "OPERACION CON FUNCIONES"
 
 ######################CONTENIDO DE UN ESTATUTO##################################
 
@@ -448,12 +649,34 @@ def p_comentario(p):
 ######################VARIABLE CONSTANTE#####################################
 
 def p_varcte(p):
-	'''varcte : ENTERO
-	| FLOTANTE
-	| CADENA
-	| CARACTER'''
-	p[0]=p[1] 
-	#print "varcte"
+	'''varcte : ENTERO tagint
+	| FLOTANTE tagfloat
+	| CADENA tagcad
+	| CARACTER tagcar'''
+	
+def p_tagint(p):
+	'''tagint : empty'''
+	PilaO.push(p[-1])
+	PTypes.push("INT")
+	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
+	
+def p_tagfloat(p):
+	'''tagfloat : empty'''
+	PilaO.push(p[-1])
+	PTypes.push("FLOAT")
+	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
+	
+def p_tagcad(p):
+	'''tagcad : empty'''
+	PilaO.push(p[-1])
+	PTypes.push("STRING")
+	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
+	
+def p_tagcar(p):
+	'''tagcar : empty'''
+	PilaO.push(p[-1])
+	PTypes.push("CHAR")
+	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 
 
 #####################CICLOS Y OTRAS FUNCIONES####################################
@@ -659,14 +882,29 @@ result = parser.parse(cadena)
 
 print result
 
+<<<<<<< HEAD
 print MemManagerGlobal.memory
 print MemManagerLocal.memory
 ########CUADRUPLOS#################################################################
+=======
+
+#analizador=lex.lex()
+#analizador.input(cadena)
+########CUADRUPLOS#################################################################	
+>>>>>>> ea598feef2baf91451e8b8b3352ace666ecd7aeb
 print "---------------------------------------------------------------------"
-print "Cuadruplos generados"
+print "--------------------CUADRUPLOS GENERADOS--------------------"
 for i in cuadru:
 	print i.pos1, i.pos2, i.pos3, i.pos4
 #print cuadru[0].pos1, cuadru[0].pos2, cuadru[0].pos3, cuadru[0].pos4
+print "-------------PilaO (Pila de operandos)----------------------"
+PilaO.imprime()
+print
+print "-------------PTypes (Pila de tipos)-------------------------"
+PTypes.imprime()
+print
+print "-------------POper (Pila de operadores)----------------------"
+POper.imprime()
 ####################################################################################
 
 
