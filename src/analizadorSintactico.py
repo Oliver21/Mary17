@@ -239,18 +239,12 @@ def p_b5(p):
 	global FuncToBuild
 	if(not decFunciones):
 		top = saved
-<<<<<<< HEAD
 	else:
 		FuncToBuild.LocalTable = top
 		top = saved
-
-###########################CONTENIDO DE UNA EXPRESION#################################
-=======
-		print "}"
 		
 		
 ############################CONTENIDO DE UNA EXPRESION################################
->>>>>>> ea598feef2baf91451e8b8b3352ace666ecd7aeb
 def p_expresion(p):
 	'''expresion : expresion2 expre'''
 	
@@ -882,16 +876,11 @@ result = parser.parse(cadena)
 
 print result
 
-<<<<<<< HEAD
+
 print MemManagerGlobal.memory
 print MemManagerLocal.memory
 ########CUADRUPLOS#################################################################
-=======
 
-#analizador=lex.lex()
-#analizador.input(cadena)
-########CUADRUPLOS#################################################################	
->>>>>>> ea598feef2baf91451e8b8b3352ace666ecd7aeb
 print "---------------------------------------------------------------------"
 print "--------------------CUADRUPLOS GENERADOS--------------------"
 for i in cuadru:
