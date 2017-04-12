@@ -44,19 +44,18 @@ class Stack:
          return len(self.items)
 
 
-#Funcion que convierte listas anidadas en un
-def dimensiona(lis):
-     for i in lis:
-         if isinstance(i, Iterable) and not isinstance(i, basestring) and not isinstance(i, tuple):
-             for x in dimensiona(i):
-                 yield x
-         else:        
-             yield i
+#La clase Funcion funciona como template para la entrada de variables
+class Funcion:
+	def __init__(self, type, identifier):
+		self.type = type
+		self.numParam = None
+		self.numLocal = None
+		self.identifier = identifier
+		self.Cont = None
+		self.FunctionTable = None
+		self.LocalTable = None
 
-
-
-#definimos la clase para la tabla por enviroment
-#Nos servira para simular el creado de tablas por scope
+#La clase Variable funciona como template para la entrada de variables
 class Variable:
 	def __init__(self, type, identifier, memory, size):
 		self.type = type
@@ -64,6 +63,8 @@ class Variable:
 		self.identifier = identifier
 		self.size = size
 
+#definimos la clase para la tabla por enviroment
+#Nos servira para simular el creado de tablas por scope
 class Env:
 	#Este atributo es un objeto de la misma clase Env
 	#Representa el scope anterior 
@@ -89,117 +90,65 @@ class Env:
 			e = e.prev
 		return None
 
-
 #definicion de la tabla de funciones
 global_functions_table = {}
+class FunctionTable:
+	def __init__(self):
+		self.dict = {}
 
-#definicion de la tabla global de variables
-top = Env(None)
-saved = Env(None)
+#funcion que nos sirve para insertar una nueva entrada a la tabla
+	def put(self, identifier, content):
+			self.dict[identifier] = content
+
+#funcion que itera por las tablas para encontrar un simbolo
+#regresa una funcion o None si no encuentra la funcion
+	def get(self, identifier):
+		for k in self.dict:
+			if identifier == k:
+  				return self.dict[k]
+  				break
+		return None
+
+#definicion de funciones globales que necesitamos acceder en cualquier momento de la ejecuccion
+top = None
+saved = None
 decFunciones = False
-
-#definicion de variables globales y espacios disponibles
-global_int = {}
-global_int_count = 0
-global_float = {}
-global_float_count = 200
-global_bool = {}
-global_bool_count = 400 
-global_string = {}
-global_string_count = 600
-global_char = {}
-global_char_count = 800
+TablaFunciones = FunctionTable()
+FuncToBuild = None
+EnvParam = None
 
 
-#definicion de variables locales y espacios disponibles
-def local():
-	local_int = {}
-	local_int_count = 1000
-	local_float = {}
-	local_float_count = 1200
-	local_bool = {}
-	local_bool_count = 1400 
-	local_string = {}
-	local_string_count = 1600
-	local_char = {}
-	local_char_count = 1800
+class MemManager:
+	def __init__(self):
+		self.memory = {"INT":{}, "FLOAT": {}, "STRING":{}, "CHAR":{}, "BOOL":{}}
 
+	def save(self,type,value):
+		cont = 0
+		for key in self.memory[type]:
+			if not self.memory[type][key] == cont:
+				break
+			cont = cont + 1
+		self.memory[type][cont] = value
+		return cont
 
-#Funcion que busca una variable decladarada global
-def SearchGlobalVariable(identifier):
-	global global_int
-	if identifier in global_int:
-		return True
-	elif identifier in global_float:
-		return True
-	elif identifier in global_bool:
-		return True
-	elif identifier in global_string:
-		return True
-	elif identifier in global_char:
-		return True
-	else :
-		return False
-
-#Funcion que busca una variable decladarada local
-def SearchLocalVariable(identifier):
-	if identifier in local_int:
-		return True
-	elif identifier in local_float:
-		return True
-	elif identifier in local_bool:
-		return True
-	elif identifier in local_string:
-		return True
-	elif identifier in local_char:
-		return True
-	else :
-		return False
-
-
-#Funcion que agrega una variable local si su nombre no esta asignado aun
-def AddGlobalVariable(type,identifier):
-	#Se necesita especificar que las variables que usare son las que declare globalmente
-	global global_float_count
-	global global_int_count
-	global global_int
-	global global_float
-	global global_bool
-	global global_bool_count
-	global global_string_count
-	global global_string
-	global global_char
-	global global_char_count
-	#print(type + " " + identifier)
-	#itero a lo largo de la pila para agregar todas las variables que pueda haber en ella
-	if SearchGlobalVariable(identifier):
-		print("error: la variable ya ha sido declarada")
-	else:
-		#Se agrega la variable a su diccionario dependiendo de su tipo
-		variable = {}
-		if type == 'INT':
-			variable['position'] = global_int_count
-			global_int_count = global_int_count + 1
-			global_int[identifier] = variable.copy()
-		elif type == 'FLOAT':
-			variable['position'] = global_float_count
-			global_float_count = global_float_count + 1
-			global_float[identifier] = variable.copy()
-		elif type == 'STRING':
-			variable['position'] = global_string_count
-			global_string_count = global_string_count + 1
-			global_string[identifier] = variable.copy()
-		elif type == 'CHAR':
-			variable['position'] = global_char_count
-			global_char_count = global_char_count + 1
-			global_char[identifier] = variable.copy()
-		elif type == 'BOOL':
-			variable['position'] = global_bool_count
-			global_bool_count = global_bool_count + 1
-			global_bool[identifier] = variable.copy()
+	def find(self,type,position):
+		if position in self.memory[type]:
+			return self.memory[type][position]
 		else:
-			print("error: tipo de variable incorrecto");
+			return None
 
+MemManagerPrueba = MemManager()
+print MemManagerPrueba.save("INT",0)
+print MemManagerPrueba.save("INT",1)
+
+print MemManagerPrueba.memory
+
+
+
+
+#Inicializamos muestros administradores de memoria
+MemManagerGlobal = MemManager()
+MemManagerLocal = MemManager()
 
 #########DEFINIMOS UNA LISTA VACIA PARA CUADRUPLOS#########################
 cuadru=[]
@@ -257,12 +206,13 @@ def p_iniEnv(p):
 	global decFunciones
 	global saved
 	global top
-	if(not decFunciones):
-		saved = top
+	saved = top
+	if not decFunciones:
 		top = Env(top)
-		print "{"
-		print "Entra"
-	print "bloque"
+	else:
+		top = Env(None)
+
+	#print "bloque"
 
 
 def p_b3(p):
@@ -278,9 +228,13 @@ def p_b5(p):
 	global top
 	global saved
 	global decFunciones
+	global FuncToBuild
 	if(not decFunciones):
 		top = saved
-		print "}"
+	else:
+		FuncToBuild.LocalTable = top
+		top = saved
+
 ###########################CONTENIDO DE UNA EXPRESION#################################
 def p_expresion(p):
 	'''expresion : exp e2 '''
@@ -318,11 +272,22 @@ def p_exp2(p):
 
 def p_declaracion(p):
 	'''declaracion : tipo ID decla1'''
-	var = Variable(p[1],p[2],0,0)
 	global top
-	global decFunciones
-	if not decFunciones:  
-		top.put(p[2],var)
+	global MemManagerGlobal
+	global MemManagerLocal
+	if top.prev == None and not decFunciones:
+		pos = MemManagerGlobal.save(p[1],p[2])
+		var = Variable(p[1],p[2],pos,1)
+		print MemManagerGlobal.memory
+	elif not decFunciones:
+		pos = MemManagerLocal.save(p[1],p[2])
+		var = Variable(p[1],p[2],pos,1)
+		print MemManagerLocal.memory
+	else:
+		pos = MemManagerLocal.save(p[1],p[2])
+		var = Variable(p[1],p[2],pos,1)
+		print MemManagerLocal.memory
+	top.put(p[2],var)
 	#print "Declaracion"
 
 
@@ -361,11 +326,6 @@ def p_tipo(p):
 
 def p_asignacion(p):
 	'''asignacion : ID asig2'''
-	global decFunciones
-	global top
-	if not decFunciones:
-		print(p[1])
-		#print(top.get(p[1]).identifier + ":" + top.get(p[1]).type)
 	#print "asignacion"
 	
 def p_asig2(p):
@@ -567,7 +527,7 @@ def p_mueve(p):
 	
 def p_levanta(p):
 	'''levanta : LEVANTA LPARENT RPARENT PUNTOCOMA'''
-	#print "Levanta lapiz"
+		#print "Levanta lapiz"
 	
 def p_apoya(p):
 	'''apoya : APOYA LPARENT RPARENT PUNTOCOMA'''
@@ -583,36 +543,43 @@ def p_dimension(p):
 
 ##########################DECLARA UNA FUNCION##########################
 def p_function(p):
-	'''function : tipo ID LPARENT funct11
-	| VOID ID LPARENT funct11'''
-	if p[4] != None:
-		global_functions_table[p[2]] = {'type':p[1],'parameters': list(dimensiona(p[4]))}
-	else:
-		global_functions_table[p[2]] = {'type':p[1],'parameters': [] }
+	'''function : tipo ID buildFunc LPARENT funct11
+	| VOID ID buildFunc LPARENT funct11'''
 	#print "Declara una funcion"
+
+def p_buildFunc(p):
+	'''buildFunc : empty''' 
+	global FuncToBuild
+	FuncToBuild = Funcion(p[-2], p[-1])
+	print FuncToBuild.identifier
+
 	
 def p_funct11(p):
 	'''funct11 : function4'''
 
 def p_funct111(p):
-	'''funct11 : funct2'''
-	p[0] = p[1]
+	'''funct11 : initParamTable funct2'''
+
+def p_initParamTable(p):
+	'''initParamTable : empty'''
+	global EnvParam
+	EnvParam = Env(None)
 	
 def p_funct2(p):
-	'''funct2 : tipo ID funct3'''
-	p[0] = []
-	p[0].append((p[1],p[2]))
-	if p[3] != None:
-		p[0].append(p[3])
+	'''funct2 : tipo ID initParams funct3'''
+
+def p_initParams(p):
+	'''initParams : empty'''
+	global EnvParam
+	var = Variable(p[-2],p[-1],0,0)
+	EnvParam.put(p[-1],var)
 	
 def p_funtion3(p):
 	'''funct3 : COMA funct2'''
-	p[0] = p[2]
 
 
 def p_function31(p):
 	'''funct3 : function4'''
-	p[0] = p[1]
 
 	
 def p_function4(p):
@@ -622,6 +589,7 @@ def p_noinitFunc(p):
 	'''noinitFunc : empty'''
 	global decFunciones
 	decFunciones = True
+	FuncToBuild.FunctionTable = EnvParam
 
 def p_initFunc(p):
 	'''initFunc : empty'''
@@ -653,7 +621,6 @@ def p_empty(p):
 	pass
 
 ###############BUSCAR ARCHIVO DE PRUEBAS###################################
-
 def buscarPrograma(directorio):
 	ficheros = []
 	numArchivo = ''
@@ -689,10 +656,11 @@ fp.close()
 parser = yacc.yacc()
 result = parser.parse(cadena)
 
-print global_functions_table
 
 print result
 
+print MemManagerGlobal.memory
+print MemManagerLocal.memory
 ########CUADRUPLOS#################################################################
 print "---------------------------------------------------------------------"
 print "Cuadruplos generados"
