@@ -162,6 +162,7 @@ cuadru=[]
 POper=Stack()
 PilaO=Stack()
 PTypes=Stack()
+PSaltos=Stack()
 temporal = 1
 #Prueba de cuadruplos
 #x = Cuadruplo (1,3,2,5)
@@ -736,12 +737,36 @@ def p_ciclofor(p):
 	#print "ciclo for"
 	
 def p_if(p):
-	'''if : IF LPARENT expresion RPARENT bloque if2'''
+	'''if : IF LPARENT expresion tagif RPARENT bloque if2'''
 	#print "Ciclo If"
 
 def p_if2(p):
-	'''if2 : empty
-	| ELSE bloque'''
+	'''if2 : tagterminaif
+	| ELSE tagelse bloque tagterminaif'''
+	
+def p_tagif(p):
+	'''tagif : empty'''
+	if not PTypes.pop() == "BOOL":
+		print "Error en la condicion evaluada en el IF"
+		sys.exit()
+	else:
+		result = PilaO.pop()
+		quad = Cuadruplo(pos1="GotoF", pos2=result)
+		cuadru.append(quad)
+		PSaltos.push(len(cuadru)-1)
+		
+def p_tagelse(p):
+	'''tagelse : empty'''
+	end = PSaltos.pop()
+	cuadru[end].pos4=(len(cuadru)+1)
+	quad = Cuadruplo(pos1="Goto")
+	cuadru.append(quad)
+	PSaltos.push(len(cuadru)-1)
+		
+def p_tagterminaif(p):
+	'''tagterminaif : empty'''
+	end = PSaltos.pop()
+	cuadru[end].pos4=len(cuadru)
 
 #def p_potencia(p):
 #	'''potencia : POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
@@ -924,10 +949,13 @@ print MemManagerGlobal.memory
 print MemManagerLocal.memory
 ########CUADRUPLOS#################################################################
 
-#print "---------------------------------------------------------------------"
-#print "--------------------CUADRUPLOS GENERADOS--------------------"
-#for i in cuadru:
-	#print i.pos1, i.pos2, i.pos3, i.pos4
+print "---------------------------------------------------------------------"
+print "--------------------CUADRUPLOS GENERADOS--------------------"
+q = 0
+for i in cuadru:
+	print str(q) + " | ",
+	print i.pos1, i.pos2, i.pos3, i.pos4
+	q = q + 1 
 #print cuadru[0].pos1, cuadru[0].pos2, cuadru[0].pos3, cuadru[0].pos4
 #print "-------------PilaO (Pila de operandos)----------------------"
 #PilaO.imprime()
