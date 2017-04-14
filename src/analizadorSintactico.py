@@ -24,6 +24,15 @@ precedence = (
 	('left', 'LKEY', 'RKEY')	
 )
 
+#definicion de funciones globales que necesitamos acceder en cualquier momento de la ejecuccion
+top = None
+saved = None
+Localfunc = None
+decFunciones = False
+TablaFunciones = None
+FuncToBuild = None
+EnvParam = None
+
 #definimos una estructura de datos tipo pila que nos servira para manejar los tipos y los identificadores de las variables
 class Stack:
      def __init__(self):
@@ -93,6 +102,11 @@ class Env:
 	  				break
 			e = e.prev
 		return None
+#funcion que nos permite liberar la memoria de las variables para su reuso
+	def release(self):
+		global UnivMemManager
+		for i in self.dict:
+			UnivMemManager.release(self.dict[i].memory)
 
 #definicion de la tabla de funciones
 global_functions_table = {}
@@ -127,15 +141,6 @@ class FunctionTable:
   				return self.dict[k]
   				break
 		return None
-
-#definicion de funciones globales que necesitamos acceder en cualquier momento de la ejecuccion
-top = None
-saved = None
-Localfunc = None
-decFunciones = False
-TablaFunciones = FunctionTable()
-FuncToBuild = None
-EnvParam = None
 
 
 class MemManager:
@@ -235,8 +240,9 @@ def p_initTop(p):
 	'''initTop : empty'''
 	#top es la tabla de variables del scope actual
 	global top
+	global TablaFunciones 
+	TablaFunciones = FunctionTable()
 	top = Env(None)
-
 
 def p_p2(p):
 	'''p2 : p3
@@ -467,9 +473,12 @@ def p_savevar(p):
 	'''savevar : empty'''
 	global top
 	global UnivMemManager
+	global Localfunc
 	pos = UnivMemManager.save(p[-2],p[-1])
 	var = Variable(p[-2],p[-1],pos,1)
 	top.put(p[-1],var)
+	if decFunciones:
+		Localfunc.put(p[-1],var)
 
 def p_decla1(p):
 	'''decla1 : declafinal
@@ -919,8 +928,6 @@ def p_function(p):
 def p_buildFunc(p):
 	'''buildFunc : empty''' 
 	global FuncToBuild
-	global Localfunc
-	Localfunc = Env(top)
 	FuncToBuild = Funcion(p[-2], p[-1])
 
 	
@@ -940,9 +947,8 @@ def p_initParams(p):
 	'''initParams : empty'''
 	global Localfunc
 	global EnvParam
-	var = Variable(p[-2],p[-1],0,0)
-	Localfunc.put(p[-1],var)
 	EnvParam = Env(None)
+	var = Variable(p[-2],p[-1],0,0)
 	EnvParam.put(p[-1],var)
 	
 def p_funtion3(p):
@@ -954,16 +960,19 @@ def p_function31(p):
 
 	
 def p_function4(p):
-	'''function4 : RPARENT noinitFunc bloque initFunc'''
-
-def p_noinitFunc(p):
-	'''noinitFunc : empty'''
-	global decFunciones
-	decFunciones = True
-	FuncToBuild.ParamTable = EnvParam
+	'''function4 : RPARENT initFunc bloque noinitFunc'''
 
 def p_initFunc(p):
 	'''initFunc : empty'''
+	global decFunciones
+	global FuncToBuild
+	global Localfunc
+	decFunciones = True
+	FuncToBuild.ParamTable = EnvParam
+	Localfunc = Env(None)
+
+def p_noinitFunc(p):
+	'''noinitFunc : empty'''
 	global decFunciones
 	global Localfunc
 	global FuncToBuild
@@ -1033,7 +1042,8 @@ parser.parse(cadena)
 
 #UnivMemManager.asigna(8,"hahahaha")
 #print UnivMemManager.find(8)
-print UnivMemManager.memory
+print UnivMemManager.memory	
+print TablaFunciones.get("iBarney").LocalTable.get("ij").memory
 
 
 ###################################################################################
@@ -1047,7 +1057,6 @@ print UnivMemManager.memory
 #	print i.pos1, i.pos2, i.pos3, i.pos4
 #	q = q + 1 
 ###########################################################################
->>>>>>> a30f08f2ea878127d6eff910a063af49900bf943
 #print cuadru[0].pos1, cuadru[0].pos2, cuadru[0].pos3, cuadru[0].pos4
 #print "-------------PilaO (Pila de operandos)----------------------"
 #PilaO.imprime()

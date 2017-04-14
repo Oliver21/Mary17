@@ -172,9 +172,9 @@ Rule 149   funct2 -> tipo ID initParams funct3
 Rule 150   initParams -> empty
 Rule 151   funct3 -> COMA funct2
 Rule 152   funct3 -> function4
-Rule 153   function4 -> RPARENT noinitFunc bloque initFunc
-Rule 154   noinitFunc -> empty
-Rule 155   initFunc -> empty
+Rule 153   function4 -> RPARENT initFunc bloque noinitFunc
+Rule 154   initFunc -> empty
+Rule 155   noinitFunc -> empty
 Rule 156   llamafuncion -> ID LPARENT llamaf11
 Rule 157   llamaf11 -> llamaf2
 Rule 158   llamaf11 -> llamaf4
@@ -1046,7 +1046,7 @@ state 45
     (144) function -> VOID ID buildFunc LPARENT . funct11
     (146) funct11 -> . function4
     (147) funct11 -> . initParamTable funct2
-    (153) function4 -> . RPARENT noinitFunc bloque initFunc
+    (153) function4 -> . RPARENT initFunc bloque noinitFunc
     (148) initParamTable -> . empty
     (163) empty -> .
 
@@ -1067,7 +1067,7 @@ state 46
     (143) function -> tipo ID buildFunc LPARENT . funct11
     (146) funct11 -> . function4
     (147) funct11 -> . initParamTable funct2
-    (153) function4 -> . RPARENT noinitFunc bloque initFunc
+    (153) function4 -> . RPARENT initFunc bloque noinitFunc
     (148) initParamTable -> . empty
     (163) empty -> .
 
@@ -2080,13 +2080,13 @@ state 96
 
 state 97
 
-    (153) function4 -> RPARENT . noinitFunc bloque initFunc
-    (154) noinitFunc -> . empty
+    (153) function4 -> RPARENT . initFunc bloque noinitFunc
+    (154) initFunc -> . empty
     (163) empty -> .
 
     LKEY            reduce using rule 163 (empty -> .)
 
-    noinitFunc                     shift and go to state 142
+    initFunc                       shift and go to state 142
     empty                          shift and go to state 143
 
 state 98
@@ -3114,7 +3114,7 @@ state 141
 
 state 142
 
-    (153) function4 -> RPARENT noinitFunc . bloque initFunc
+    (153) function4 -> RPARENT initFunc . bloque noinitFunc
     (13) bloque -> . LKEY iniEnv b3 b4 b5
 
     LKEY            shift and go to state 24
@@ -3123,9 +3123,9 @@ state 142
 
 state 143
 
-    (154) noinitFunc -> empty .
+    (154) initFunc -> empty .
 
-    LKEY            reduce using rule 154 (noinitFunc -> empty .)
+    LKEY            reduce using rule 154 (initFunc -> empty .)
 
 
 state 144
@@ -4184,8 +4184,8 @@ state 193
 
 state 194
 
-    (153) function4 -> RPARENT noinitFunc bloque . initFunc
-    (155) initFunc -> . empty
+    (153) function4 -> RPARENT initFunc bloque . noinitFunc
+    (155) noinitFunc -> . empty
     (163) empty -> .
 
     VOID            reduce using rule 163 (empty -> .)
@@ -4196,7 +4196,7 @@ state 194
     BOOL            reduce using rule 163 (empty -> .)
     LKEY            reduce using rule 163 (empty -> .)
 
-    initFunc                       shift and go to state 248
+    noinitFunc                     shift and go to state 248
     empty                          shift and go to state 249
 
 state 195
@@ -5132,28 +5132,28 @@ state 247
 
 state 248
 
-    (153) function4 -> RPARENT noinitFunc bloque initFunc .
+    (153) function4 -> RPARENT initFunc bloque noinitFunc .
 
-    VOID            reduce using rule 153 (function4 -> RPARENT noinitFunc bloque initFunc .)
-    INT             reduce using rule 153 (function4 -> RPARENT noinitFunc bloque initFunc .)
-    FLOAT           reduce using rule 153 (function4 -> RPARENT noinitFunc bloque initFunc .)
-    CHAR            reduce using rule 153 (function4 -> RPARENT noinitFunc bloque initFunc .)
-    STRING          reduce using rule 153 (function4 -> RPARENT noinitFunc bloque initFunc .)
-    BOOL            reduce using rule 153 (function4 -> RPARENT noinitFunc bloque initFunc .)
-    LKEY            reduce using rule 153 (function4 -> RPARENT noinitFunc bloque initFunc .)
+    VOID            reduce using rule 153 (function4 -> RPARENT initFunc bloque noinitFunc .)
+    INT             reduce using rule 153 (function4 -> RPARENT initFunc bloque noinitFunc .)
+    FLOAT           reduce using rule 153 (function4 -> RPARENT initFunc bloque noinitFunc .)
+    CHAR            reduce using rule 153 (function4 -> RPARENT initFunc bloque noinitFunc .)
+    STRING          reduce using rule 153 (function4 -> RPARENT initFunc bloque noinitFunc .)
+    BOOL            reduce using rule 153 (function4 -> RPARENT initFunc bloque noinitFunc .)
+    LKEY            reduce using rule 153 (function4 -> RPARENT initFunc bloque noinitFunc .)
 
 
 state 249
 
-    (155) initFunc -> empty .
+    (155) noinitFunc -> empty .
 
-    VOID            reduce using rule 155 (initFunc -> empty .)
-    INT             reduce using rule 155 (initFunc -> empty .)
-    FLOAT           reduce using rule 155 (initFunc -> empty .)
-    CHAR            reduce using rule 155 (initFunc -> empty .)
-    STRING          reduce using rule 155 (initFunc -> empty .)
-    BOOL            reduce using rule 155 (initFunc -> empty .)
-    LKEY            reduce using rule 155 (initFunc -> empty .)
+    VOID            reduce using rule 155 (noinitFunc -> empty .)
+    INT             reduce using rule 155 (noinitFunc -> empty .)
+    FLOAT           reduce using rule 155 (noinitFunc -> empty .)
+    CHAR            reduce using rule 155 (noinitFunc -> empty .)
+    STRING          reduce using rule 155 (noinitFunc -> empty .)
+    BOOL            reduce using rule 155 (noinitFunc -> empty .)
+    LKEY            reduce using rule 155 (noinitFunc -> empty .)
 
 
 state 250
@@ -5169,7 +5169,7 @@ state 251
     (149) funct2 -> tipo ID initParams . funct3
     (151) funct3 -> . COMA funct2
     (152) funct3 -> . function4
-    (153) function4 -> . RPARENT noinitFunc bloque initFunc
+    (153) function4 -> . RPARENT initFunc bloque noinitFunc
 
     COMA            shift and go to state 294
     RPARENT         shift and go to state 97
