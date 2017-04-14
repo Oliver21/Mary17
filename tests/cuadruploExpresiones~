@@ -12,10 +12,11 @@ program polaco:
 	int itotal;
 	bool buno;
 	bool bdos;
-	int iBarney (int iQue, string sPaso, char cAmigito){
-		int ij;	
-		ij = ij + 5.5;
-	}
+	string iQue;
+	//int iBarney (string sPaso, char cAmigito){
+	//	int ij;	
+	//	ij = ij + 5.5;
+	//}
 {
 	bdos = buno && (itotal == (ic + id + ie + in + ij * ik + ip - iz / ix) + ic);
 	//ia = ic != id;

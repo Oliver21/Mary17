@@ -207,6 +207,9 @@ class MemManager:
 			return True
 		else:
 			return None
+			
+	def asigna(self,position, valor):
+		self.memory[position]= valor
 
 #Inicializamos muestro administrador de memorias
 UnivMemManager = MemManager()
@@ -331,8 +334,9 @@ def p_tagsacalog(p):
 				sys.exit(0)
 			else:
 				global temporal
-				result = "t" + str(temporal)
+				nombre = "t" + str(temporal)
 				temporal = temporal + 1
+				result = "mem-" + UnivMemManager.save(resultType, nombre)
 				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
 				cuadru.append(quad)
 				PilaO.push(result)
@@ -384,8 +388,9 @@ def p_tagsacrel(p):
 				sys.exit(0)
 			else:
 				global temporal
-				result = "t" + str(temporal)
+				nombre = "t" + str(temporal)
 				temporal = temporal + 1
+				result = "mem-" + UnivMemManager.save(resultType, nombre)
 				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
 				cuadru.append(quad)
 				PilaO.push(result)
@@ -428,8 +433,9 @@ def p_tagsacops(p):
 				sys.exit(0)
 			else:
 				global temporal
-				result = "t" + str(temporal)
+				nombre = "t" + str(temporal)
 				temporal = temporal + 1
+				result = "mem-" + UnivMemManager.save(resultType, nombre)
 				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
 				cuadru.append(quad)
 				PilaO.push(result)
@@ -503,13 +509,14 @@ def p_asignacion(p):
 	global decFunciones
 	global top
 	if not decFunciones:
-		print(p[1])
+		pass
 		#print(top.get(p[1]).identifier + ":" + top.get(p[1]).type)
 	#print "asignacion"
 
 def p_meteid(p):
-	'''meteid :  empty'''
-	PilaO.push(p[-1])
+	'''meteid :  empty''' 
+	#PilaO.push(p[-1])
+	PilaO.push("mem-"+top.get(p[-1]).memory)
 	PTypes.push(top.get(p[-1]).type)
 	
 	
@@ -607,8 +614,9 @@ def p_tagsacopm(p):
 				print "INCOMPATIBILIDAD DE TIPOS"
 			else:	
 				global temporal
-				result = "t" + str(temporal)
+				nombre = "t" + str(temporal)
 				temporal = temporal + 1
+				result = "mem-" + UnivMemManager.save(resultType, nombre)
 				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
 				cuadru.append(quad)
 				PilaO.push(result)
@@ -640,8 +648,8 @@ def p_f2(p):
 #llamar a un id
 def p_f3(p):
 	'''f3 : ID'''
-	PilaO.push(p[1])
-	print p[1]
+	#PilaO.push(p[1])
+	PilaO.push("mem-"+top.get(p[1]).memory)
 	PTypes.push(top.get(p[1]).type)
 	#print "SE AGREGO ID AL VECTOR POLACO"
 	
@@ -1023,6 +1031,8 @@ fp.close()
 parser = yacc.yacc()
 parser.parse(cadena)
 
+#UnivMemManager.asigna(8,"hahahaha")
+#print UnivMemManager.find(8)
 print UnivMemManager.memory
 
 
@@ -1033,9 +1043,11 @@ print UnivMemManager.memory
 #print "--------------------CUADRUPLOS GENERADOS--------------------"
 #q = 0
 #for i in cuadru:
-	#print str(q) + " | ",
-	#print i.pos1, i.pos2, i.pos3, i.pos4
-	#q = q + 1 
+#	print str(q) + " | ",
+#	print i.pos1, i.pos2, i.pos3, i.pos4
+#	q = q + 1 
+###########################################################################
+>>>>>>> a30f08f2ea878127d6eff910a063af49900bf943
 #print cuadru[0].pos1, cuadru[0].pos2, cuadru[0].pos3, cuadru[0].pos4
 #print "-------------PilaO (Pila de operandos)----------------------"
 #PilaO.imprime()
