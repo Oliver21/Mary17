@@ -533,15 +533,6 @@ def p_tagimprime(p):
 	'''tagimprime : empty'''
 	quad = Cuadruplo(pos1 = "PRINT", pos4=PilaO.pop())
 	cuadru.append(quad)
-######################CONDICION###############################
-def p_condicion(p):	
-	'''condicion : IF LKEY expresion RKEY bloque c2'''
-	#print "condicion"
-
-def p_c2(p):
-	'''c2 : ELSE bloque PUNTOCOMA
-	| PUNTOCOMA'''
-	#print "c2"
 
 ########################TERMINO#################################
 def p_termino(p):
@@ -657,7 +648,6 @@ def p_f6(p):
 def p_estatuto(p):
 	'''estatuto : asignacion
 	| print
-	| condicion
 	| ciclowhile
 	| ciclodowhile
 	| ciclofor
@@ -721,12 +711,56 @@ def p_tagcar(p):
 
 #####################CICLOS Y OTRAS FUNCIONES####################################
 def p_ciclowhile(p):
-	'''ciclowhile : WHILE LPARENT expresion RPARENT bloque'''
+	'''ciclowhile : WHILE taginiciawhile LPARENT expresion RPARENT tagwhile bloque tagregresawhile'''
 	#print "ciclo While"
+	
+def p_taginiciawhile(p):
+	'''taginiciawhile : empty'''
+	PSaltos.push(len(cuadru))
+	
+def p_tagwhile(p):
+	'''tagwhile : empty'''
+	expType = PTypes.pop()
+	if not expType == "BOOL":
+		print "Error en el tipo de expresion a analizar en el ciclo while"
+		sys.exit()
+	else:
+		result = PilaO.pop()
+		quad = Cuadruplo(pos1="GoToF", pos2=result)
+		cuadru.append(quad)
+		PSaltos.push(len(cuadru)-1)
+		
+def p_tagregresawhile(p):
+	'''tagregresawhile : empty'''
+	end = PSaltos.pop()
+	returne = PSaltos.pop()
+	quad = Cuadruplo(pos1="GoTo", pos4=returne)
+	cuadru.append(quad)
+	cuadru[end].pos4=len(cuadru)
 
+##################################CICLO DO WHILE###########################################################
 def p_ciclodowhile(p):
-	'''ciclodowhile : DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA'''
+	'''ciclodowhile : DO taginiciado bloque WHILE LPARENT expresion tagcondiciondo RPARENT PUNTOCOMA'''
 	#print "ciclo do while"
+
+
+def p_taginiciado(p):
+	'''taginiciado : empty'''
+	PSaltos.push(len(cuadru))
+	
+def p_tagcondiciondo(p):
+	'''tagcondiciondo : empty'''
+	expType = PTypes.pop()
+	if not expType == "BOOL":
+		print "Error en la expresion al analizar el ciclo do while"
+		sys.exit()
+	else:
+		result = PilaO.pop()
+		regresa = PSaltos.pop()
+		quad = Cuadruplo(pos1="GotoT", pos2=result, pos4=regresa)
+		cuadru.append(quad)
+
+#####################################################################################################################
 
 def p_read(p):
 	'''read : READ LPARENT RPARENT PUNTOCOMA'''
@@ -751,7 +785,7 @@ def p_tagif(p):
 		sys.exit()
 	else:
 		result = PilaO.pop()
-		quad = Cuadruplo(pos1="GotoF", pos2=result)
+		quad = Cuadruplo(pos1="GoToF", pos2=result)
 		cuadru.append(quad)
 		PSaltos.push(len(cuadru)-1)
 		
@@ -759,7 +793,7 @@ def p_tagelse(p):
 	'''tagelse : empty'''
 	end = PSaltos.pop()
 	cuadru[end].pos4=(len(cuadru)+1)
-	quad = Cuadruplo(pos1="Goto")
+	quad = Cuadruplo(pos1="GoTo")
 	cuadru.append(quad)
 	PSaltos.push(len(cuadru)-1)
 		
