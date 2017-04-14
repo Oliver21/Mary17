@@ -12,13 +12,50 @@ program polaco:
 	int itotal;
 	bool buno;
 	bool bdos;
-	int iBarney (int iQue, string sPaso, char cAmigito){	
-		ia = ij + 5.5;
+	int iBarney (int iQue, string sPaso, char cAmigito){
+		int ij;	
+		ij = ij + 5.5;
 	}
 {
-	ia = buno && (itotal == (ic + id + ie + in + ij * ik + ip - iz / ix) + ic);
+	bdos = buno && (itotal == (ic + id + ie + in + ij * ik + ip - iz / ix) + ic);
 	//ia = ic != id;
-	ic = buno == bdos;
+	bdos = buno == bdos;
 	ia = 4.3 * 1 + 9 + 8 * 2 / 3 + 1 * 5 * (5 + 1 + 5 - 3) + 1;
 	
+	if(4 < 5){
+		ia = 10 + 1;
+		ic = 4;
+		print("Esto esta dentro del ciclo if");
+	} else {
+		ia = 5 + 5;
+		print("Esto es parte del else");
+	}
+	print ("Esta linea esta despues del IF");
+	while (7<8){
+		print("Esto esta");
+		print("Dentro del ciclo");
+		print("while de afuera");
+			while (ia < 5*4*2+1*5){
+				print("Esto esta");
+				print("Dentro del ciclo");
+				print("while de adentro");
+		
+			}
+		print("Seguimos afuera");
+	}
+	print("Ya salimos del ciclo while");
+	
+	
+	do{
+	print("adentro del do while");
+	ia = 7 + 7 + ic;
+	print ("seguimos adentro del do while");
+	} while(1<2);	
+	print ("Salimos del do while");
+	
+	
 }
+
+
+
+

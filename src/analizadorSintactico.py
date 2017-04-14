@@ -216,6 +216,7 @@ cuadru=[]
 POper=Stack()
 PilaO=Stack()
 PTypes=Stack()
+PSaltos=Stack()
 temporal = 1
 #Prueba de cuadruplos
 #x = Cuadruplo (1,3,2,5)
@@ -498,8 +499,19 @@ def p_tipo(p):
 #	 "asignacion"
 
 def p_asignacion(p):
-	'''asignacion : ID asig2'''
+	'''asignacion : ID meteid asig2'''
+	global decFunciones
+	global top
+	if not decFunciones:
+		print(p[1])
+		#print(top.get(p[1]).identifier + ":" + top.get(p[1]).type)
 	#print "asignacion"
+
+def p_meteid(p):
+	'''meteid :  empty'''
+	PilaO.push(p[-1])
+	PTypes.push(top.get(p[-1]).type)
+	
 	
 def p_asig2(p):
 	'''asig2 : LBRACKET exp asig3
@@ -511,8 +523,34 @@ def p_asig3(p):
 	#print "asignacion arreglo"
 
 def p_asigfinal(p):
-	'''asigfinal : IGUAL expresion PUNTOCOMA'''
+	'''asigfinal : IGUAL tagmeteig expresion tagig PUNTOCOMA'''
 	#POper.push(p[1])
+	
+def p_tagmeteig(p):
+	'''tagmeteig : empty'''
+	POper.push(p[-1])
+
+
+def p_tagig(p):
+	'''tagig : empty'''
+	operandoDerecho = PilaO.pop()
+	tipoDerecho = PTypes.pop()
+	operandoIzquierdo = PilaO.pop()
+	tipoIzquierdo = PTypes.pop()
+	operador = POper.pop()
+	resultType = validacion(tipoDerecho, tipoIzquierdo, operador)
+	if resultType == "ERROR":
+		print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
+		sys.exit(0)
+	else:
+		#global temporal
+		#result = "t" + str(temporal)
+		#temporal = temporal + 1
+		quad = Cuadruplo(pos1 = operador, pos2=operandoDerecho, pos4=operandoIzquierdo)
+		cuadru.append(quad)
+		#PilaO.push(result)
+		#PTypes.push(resultType)
+	
 
 	
 ##################ASIGNACION A ARREGLOS DE VARIABLES###################################
@@ -525,22 +563,16 @@ def p_print(p):
 	#print "esritura"
 
 def p_pr2(p):
-	'''pr2 : expresion pr3
-	| CADENA pr3'''
+	'''pr2 : expresion pr3'''
 	#print "es2"
 
 def p_pr3(p):
-	'''pr3 : pr2
-	| RPARENT PUNTOCOMA'''
-######################CONDICION###############################
-def p_condicion(p):	
-	'''condicion : IF LKEY expresion RKEY bloque c2'''
-	#print "condicion"
-
-def p_c2(p):
-	'''c2 : ELSE bloque PUNTOCOMA
-	| PUNTOCOMA'''
-	#print "c2"
+	'''pr3 : tagimprime RPARENT PUNTOCOMA'''
+	
+def p_tagimprime(p):
+	'''tagimprime : empty'''
+	quad = Cuadruplo(pos1 = "PRINT", pos4=PilaO.pop())
+	cuadru.append(quad)
 
 ########################TERMINO#################################
 def p_termino(p):
@@ -656,7 +688,6 @@ def p_f6(p):
 def p_estatuto(p):
 	'''estatuto : asignacion
 	| print
-	| condicion
 	| ciclowhile
 	| ciclodowhile
 	| ciclofor
@@ -720,15 +751,59 @@ def p_tagcar(p):
 
 #####################CICLOS Y OTRAS FUNCIONES####################################
 def p_ciclowhile(p):
-	'''ciclowhile : WHILE LPARENT expresion RPARENT bloque'''
+	'''ciclowhile : WHILE taginiciawhile LPARENT expresion RPARENT tagwhile bloque tagregresawhile'''
 	#print "ciclo While"
+	
+def p_taginiciawhile(p):
+	'''taginiciawhile : empty'''
+	PSaltos.push(len(cuadru))
+	
+def p_tagwhile(p):
+	'''tagwhile : empty'''
+	expType = PTypes.pop()
+	if not expType == "BOOL":
+		print "Error en el tipo de expresion a analizar en el ciclo while"
+		sys.exit()
+	else:
+		result = PilaO.pop()
+		quad = Cuadruplo(pos1="GoToF", pos2=result)
+		cuadru.append(quad)
+		PSaltos.push(len(cuadru)-1)
+		
+def p_tagregresawhile(p):
+	'''tagregresawhile : empty'''
+	end = PSaltos.pop()
+	returne = PSaltos.pop()
+	quad = Cuadruplo(pos1="GoTo", pos4=returne)
+	cuadru.append(quad)
+	cuadru[end].pos4=len(cuadru)
 
+##################################CICLO DO WHILE###########################################################
 def p_ciclodowhile(p):
-	'''ciclodowhile : DO bloque WHILE LPARENT expresion RPARENT PUNTOCOMA'''
+	'''ciclodowhile : DO taginiciado bloque WHILE LPARENT expresion tagcondiciondo RPARENT PUNTOCOMA'''
 	#print "ciclo do while"
 
+
+def p_taginiciado(p):
+	'''taginiciado : empty'''
+	PSaltos.push(len(cuadru))
+	
+def p_tagcondiciondo(p):
+	'''tagcondiciondo : empty'''
+	expType = PTypes.pop()
+	if not expType == "BOOL":
+		print "Error en la expresion al analizar el ciclo do while"
+		sys.exit()
+	else:
+		result = PilaO.pop()
+		regresa = PSaltos.pop()
+		quad = Cuadruplo(pos1="GotoT", pos2=result, pos4=regresa)
+		cuadru.append(quad)
+
+#####################################################################################################################
+
 def p_read(p):
-	'''read : ID IGUAL READ LPARENT RPARENT PUNTOCOMA'''
+	'''read : READ LPARENT RPARENT PUNTOCOMA'''
 	#print "lectura"
 
 def p_ciclofor(p):
@@ -736,12 +811,36 @@ def p_ciclofor(p):
 	#print "ciclo for"
 	
 def p_if(p):
-	'''if : IF LPARENT expresion RPARENT bloque if2'''
+	'''if : IF LPARENT expresion tagif RPARENT bloque if2'''
 	#print "Ciclo If"
 
 def p_if2(p):
-	'''if2 : empty
-	| ELSE bloque'''
+	'''if2 : tagterminaif
+	| ELSE tagelse bloque tagterminaif'''
+	
+def p_tagif(p):
+	'''tagif : empty'''
+	if not PTypes.pop() == "BOOL":
+		print "Error en la condicion evaluada en el IF"
+		sys.exit()
+	else:
+		result = PilaO.pop()
+		quad = Cuadruplo(pos1="GoToF", pos2=result)
+		cuadru.append(quad)
+		PSaltos.push(len(cuadru)-1)
+		
+def p_tagelse(p):
+	'''tagelse : empty'''
+	end = PSaltos.pop()
+	cuadru[end].pos4=(len(cuadru)+1)
+	quad = Cuadruplo(pos1="GoTo")
+	cuadru.append(quad)
+	PSaltos.push(len(cuadru)-1)
+		
+def p_tagterminaif(p):
+	'''tagterminaif : empty'''
+	end = PSaltos.pop()
+	cuadru[end].pos4=len(cuadru)
 
 #def p_potencia(p):
 #	'''potencia : POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
@@ -753,8 +852,8 @@ def p_if2(p):
 ###################ERROR#####################################
 
 def p_error(p):
-	print "error de sintaxis", p
-	print "error en la linea" +str(p)
+	print "error de sintaxis en la linea " + str(p.lineno)
+	print p
 	
 ################FUNCIONES DIIBUJAR###############################
 
@@ -930,10 +1029,13 @@ print UnivMemManager.memory
 ###################################################################################
 ########CUADRUPLOS#################################################################
 
-#print "---------------------------------------------------------------------"
-#print "--------------------CUADRUPLOS GENERADOS--------------------"
-#for i in cuadru:
-	#print i.pos1, i.pos2, i.pos3, i.pos4
+print "---------------------------------------------------------------------"
+print "--------------------CUADRUPLOS GENERADOS--------------------"
+q = 0
+for i in cuadru:
+	print str(q) + " | ",
+	print i.pos1, i.pos2, i.pos3, i.pos4
+	q = q + 1 
 #print cuadru[0].pos1, cuadru[0].pos2, cuadru[0].pos3, cuadru[0].pos4
 #print "-------------PilaO (Pila de operandos)----------------------"
 #PilaO.imprime()
