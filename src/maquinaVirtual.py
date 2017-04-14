@@ -35,6 +35,9 @@ for i in cuadru:
 		#print "Aqui hay una suma"
 		valor2=damevalor(valor2)
 		valor3=damevalor(valor3)
+		if type(valor2) == str or type(valor3) == str:
+			valor2 = str(valor2)
+			valor3 = str(valor3)
 		resultado = valor2 + valor3
 		UnivMemManager.asigna(dameposicion(valor4),resultado)
 	elif valor1=="-":
@@ -61,22 +64,40 @@ for i in cuadru:
 		lugar=dameposicion(valor4)
 		UnivMemManager.asigna(lugar, valor2)
 	elif valor1=="<":
-		pass
+		valor2=damevalor(valor2)
+		valor3=damevalor(valor3)
+		resultado = valor2 < valor3
+		UnivMemManager.asigna(dameposicion(valor4),resultado)
 		#print "Aqui hay una <"
 	elif valor1==">":
-		pass
+		valor2=damevalor(valor2)
+		valor3=damevalor(valor3)
+		resultado = valor2 > valor3
+		UnivMemManager.asigna(dameposicion(valor4),resultado)
 		#print "Aqui hay una >"
 	elif valor1=="<=":
-		pass
+		valor2=damevalor(valor2)
+		valor3=damevalor(valor3)
+		resultado = valor2 <= valor3
+		UnivMemManager.asigna(dameposicion(valor4),resultado)
 		#print "Aqui hay una <="
 	elif valor1==">=":
-		pass
+		valor2=damevalor(valor2)
+		valor3=damevalor(valor3)
+		resultado = valor2 >= valor3
+		UnivMemManager.asigna(dameposicion(valor4),resultado)
 		#print "Aqui hay una >="
 	elif valor1=="==":
-		pass
+		valor2=damevalor(valor2)
+		valor3=damevalor(valor3)
+		resultado = valor2 == valor3
+		UnivMemManager.asigna(dameposicion(valor4),resultado)
 		#print "Aqui hay una =="
 	elif valor1=="!=":
-		pass
+		valor2=damevalor(valor2)
+		valor3=damevalor(valor3)
+		resultado = valor2 != valor3
+		UnivMemManager.asigna(dameposicion(valor4),resultado)
 		#print "Aqui hay una !="
 	elif valor1=="Goto":
 		pass
@@ -97,6 +118,7 @@ for i in cuadru:
 		#print "Aqui hay una print"
 		print damevalor(valor4)
 	elif valor1=="READ":
-		pass
+		entrada= raw_input()
+		print (entrada)
 		#print "Aqui hay una read"
 		
