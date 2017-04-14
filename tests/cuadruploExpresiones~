@@ -13,10 +13,13 @@ program polaco:
 	bool buno;
 	bool bdos;
 	string iQue;
-	//int iBarney (string sPaso, char cAmigito){
-	//	int ij;	
-	//	ij = ij + 5.5;
-	//}
+	int iBarney (string sPaso, char cAmigito){
+		int ij;	
+		ij = ij + 5.5;
+		if(3 > 2){
+		int caca;
+		}
+	}
 {
 	bdos = buno && (itotal == (ic + id + ie + in + ij * ik + ip - iz / ix) + ic);
 	//ia = ic != id;
