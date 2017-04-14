@@ -10,6 +10,8 @@ def damevalor(valor):
 		return revisado
 	elif revisado[0]=="\"":
 		return str(revisado[1:len(revisado)-1])
+	elif revisado[0]=="T" or revisado[0]=="F":
+		return bool(revisado)
 	else:
 		revisado=revisado
 		if revisado.find(".")==-1:
@@ -25,11 +27,12 @@ def dameposicion(valor):
 	
 
 print "-----------------MAQUINA VIRTUAL-------------------------------"
-for i in cuadru:
-	valor1=i.pos1
-	valor2=i.pos2
-	valor3=i.pos3
-	valor4=i.pos4
+i = 0
+while i < len(cuadru):
+	valor1=cuadru[i].pos1
+	valor2=cuadru[i].pos2
+	valor3=cuadru[i].pos3
+	valor4=cuadru[i].pos4
 	
 	if valor1=="+":
 		#print "Aqui hay una suma"
@@ -99,20 +102,18 @@ for i in cuadru:
 		resultado = valor2 != valor3
 		UnivMemManager.asigna(dameposicion(valor4),resultado)
 		#print "Aqui hay una !="
-	elif valor1=="Goto":
-		pass
-		#print "Aqui hay una !="
-	elif valor1=="Goto":
-		pass
-		#print "Aqui hay una goto"
 	elif valor1=="GoToT":
-		pass
+		if damevalor(valor2):
+			i = damevalor(valor4) - 1
 		#print "Aqui hay una gotot"
 	elif valor1=="GoToF":
-		pass
+		if damevalor(valor2):
+			pass
+		else:
+			i = damevalor(valor4) - 1
 		#print "Aqui hay una gotof"
 	elif valor1=="GoTo":
-		pass
+		i = damevalor(valor4) - 1
 		#print "Aqui hay una goto"
 	elif valor1=="PRINT":
 		#print "Aqui hay una print"
@@ -121,4 +122,19 @@ for i in cuadru:
 		entrada= raw_input()
 		print (entrada)
 		#print "Aqui hay una read"
+		
+	elif valor1=="||":
+		if damevalor(valor2) or damevalor(valor3):
+			UnivMemManager.asigna(dameposicion(valor4),True)
+		else:
+			UnivMemManager.asigna(dameposicion(valor4),False)
+		#print "Aqui hay una read"
+	elif valor1=="&&":
+		if damevalor(valor2) and damevalor(valor3):
+			UnivMemManager.asigna(dameposicion(valor4),True)
+		else:
+			UnivMemManager.asigna(dameposicion(valor4),False)
+		#print "Aqui hay una read"
+		
+	i = i+1
 		

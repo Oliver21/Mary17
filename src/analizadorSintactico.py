@@ -433,7 +433,7 @@ def p_tagsacops(p):
 			operandoIzquierdo = PilaO.pop()
 			tipoIzquierdo = PTypes.pop()
 			operador = POper.pop()
-			resultType = validacion(tipoDerecho, tipoIzquierdo, operador)
+			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 			if resultType == "ERROR":
 				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
 				sys.exit(0)
