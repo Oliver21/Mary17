@@ -1029,13 +1029,13 @@ print UnivMemManager.memory
 ###################################################################################
 ########CUADRUPLOS#################################################################
 
-print "---------------------------------------------------------------------"
-print "--------------------CUADRUPLOS GENERADOS--------------------"
-q = 0
-for i in cuadru:
-	print str(q) + " | ",
-	print i.pos1, i.pos2, i.pos3, i.pos4
-	q = q + 1 
+#print "---------------------------------------------------------------------"
+#print "--------------------CUADRUPLOS GENERADOS--------------------"
+#q = 0
+#for i in cuadru:
+	#print str(q) + " | ",
+	#print i.pos1, i.pos2, i.pos3, i.pos4
+	#q = q + 1 
 #print cuadru[0].pos1, cuadru[0].pos2, cuadru[0].pos3, cuadru[0].pos4
 #print "-------------PilaO (Pila de operandos)----------------------"
 #PilaO.imprime()
