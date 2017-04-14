@@ -54,10 +54,9 @@ class Funcion:
 	def __init__(self, type, identifier):
 		self.type = type
 		self.numParam = None
-		self.numLocal = None
 		self.identifier = identifier
 		self.Cont = None
-		self.FunctionTable = None
+		self.ParamTable = None
 		self.LocalTable = None
 
 #La clase Variable funciona como template para la entrada de variables
@@ -101,6 +100,21 @@ class FunctionTable:
 	def __init__(self):
 		self.dict = {}
 
+	def put(self,name,function):
+		if not name in self.dict:
+			self.dict[name] = function
+			return True
+		else:
+			return False
+
+	def get(self,name):
+		if name in self.dict:
+			return self.dict[name]
+		else:
+			return None
+
+
+
 #funcion que nos sirve para insertar una nueva entrada a la tabla
 	def put(self, identifier, content):
 			self.dict[identifier] = content
@@ -117,6 +131,7 @@ class FunctionTable:
 #definicion de funciones globales que necesitamos acceder en cualquier momento de la ejecuccion
 top = None
 saved = None
+Localfunc = None
 decFunciones = False
 TablaFunciones = FunctionTable()
 FuncToBuild = None
@@ -125,37 +140,76 @@ EnvParam = None
 
 class MemManager:
 	def __init__(self):
-		self.memory = {"INT":{}, "FLOAT": {}, "STRING":{}, "CHAR":{}, "BOOL":{}}
+		#self.memory = {"INT":{}, "FLOAT": {}, "STRING":{}, "CHAR":{}, "BOOL":{}}
+		self.memory = {}
 
-	def save(self,type,value):
-		cont = 0
-		for key, val in self.memory[type].iteritems():
-			if not key == cont:
-				break
-			cont = cont + 1
-		self.memory[type][cont] = value
-		return cont
+	def save(self, type, value):
+		if type == "INT":
+			cont = 0
+			for key, val in self.memory.iteritems():
+				if not cont in self.memory:
+					break
+				elif self.memory[cont] == None:
+					break
+				cont = cont + 1
+			self.memory[cont] = value
 
-	def find(self,type,position):
-		if position in self.memory[type]:
-			return self.memory[type][position]
+		if type == "FLOAT":
+			cont = 2000
+			for key, val in self.memory.iteritems():
+				if not cont in self.memory:
+					break
+				elif self.memory[cont] == None:
+					break
+				cont = cont + 1
+			self.memory[cont] = value
+
+		if type == "CHAR":
+			cont = 4000
+			for key, val in self.memory.iteritems():
+				if not cont in self.memory:
+					break
+				elif self.memory[cont] == None:
+					break
+				cont = cont + 1
+			self.memory[cont] = value
+
+		if type == "STRING":
+			cont = 6000
+			for key, val in self.memory.iteritems():
+				if not cont in self.memory:
+					break
+				elif self.memory[cont] == None:
+					break
+				cont = cont + 1
+			self.memory[cont] = value
+
+		if type == "BOOL":
+			cont = 8000
+			for key, val in self.memory.iteritems():
+				if not cont in self.memory:
+					break
+				elif self.memory[cont] == None:
+					break
+				cont = cont + 1
+			self.memory[cont] = value
+		return str(cont)
+
+	def find(self,position):
+		if position in self.memory:
+			return self.memory[position]
 		else:
 			return None
 
-MemManagerPrueba = MemManager()	
-print MemManagerPrueba.save("INT",1)
-print MemManagerPrueba.save("INT",1)
-print MemManagerPrueba.save("INT",2)
-print MemManagerPrueba.save("INT",3)
+	def release(self,position):
+		if position in self.memory:
+			self.memory[position] = None
+			return True
+		else:
+			return None
 
-print MemManagerPrueba.memory
-
-
-
-
-#Inicializamos muestros administradores de memoria
-MemManagerGlobal = MemManager()
-MemManagerLocal = MemManager()
+#Inicializamos muestro administrador de memorias
+UnivMemManager = MemManager()
 
 #########DEFINIMOS UNA LISTA VACIA PARA CUADRUPLOS#########################
 cuadru=[]
@@ -217,11 +271,7 @@ def p_iniEnv(p):
 	global saved
 	global top
 	saved = top
-	if not decFunciones:
-		top = Env(top)
-	else:
-		top = Env(None)
-
+	top = Env(top)
 	#print "bloque"
 
 
@@ -237,12 +287,13 @@ def p_b5(p):
 	'''b5 : RKEY'''
 	global top
 	global saved
+	global EnvParam
 	global decFunciones
-	global FuncToBuild
-	if(not decFunciones):
+	if not decFunciones:
 		top = saved
 	else:
 		FuncToBuild.LocalTable = top
+		Localfunc = top
 		top = saved
 		
 		
@@ -404,24 +455,13 @@ def p_tagsacops(p):
 def p_declaracion(p):
 	'''declaracion : tipo ID savevar decla1'''
 	#print "Declaracion"
+
 def p_savevar(p):
 	'''savevar : empty'''
 	global top
-	global MemManagerGlobal
-	global MemManagerLocal
-	if top.prev == None and not decFunciones:
-		pos = MemManagerGlobal.save(p[-2],p[-1])
-		var = Variable(p[-2],p[-1],pos,1)
-		print MemManagerGlobal.memory
-	elif not decFunciones:
-		pos = MemManagerLocal.save(p[-2],p[-1])
-		var = Variable(p[-2],p[-1],pos,1)
-		print MemManagerLocal.memory
-	else:
-		pos = MemManagerLocal.save(p[-2],p[-1])
-		var = Variable(p[-2],p[-1],pos,1)
-		print MemManagerLocal.memory
-	print pos
+	global UnivMemManager
+	pos = UnivMemManager.save(p[-2],p[-1])
+	var = Variable(p[-2],p[-1],pos,1)
 	top.put(p[-1],var)
 
 def p_decla1(p):
@@ -772,8 +812,9 @@ def p_function(p):
 def p_buildFunc(p):
 	'''buildFunc : empty''' 
 	global FuncToBuild
+	global Localfunc
+	Localfunc = Env(top)
 	FuncToBuild = Funcion(p[-2], p[-1])
-	print FuncToBuild.identifier
 
 	
 def p_funct11(p):
@@ -784,16 +825,17 @@ def p_funct111(p):
 
 def p_initParamTable(p):
 	'''initParamTable : empty'''
-	global EnvParam
-	EnvParam = Env(None)
 	
 def p_funct2(p):
 	'''funct2 : tipo ID initParams funct3'''
 
 def p_initParams(p):
 	'''initParams : empty'''
+	global Localfunc
 	global EnvParam
 	var = Variable(p[-2],p[-1],0,0)
+	Localfunc.put(p[-1],var)
+	EnvParam = Env(None)
 	EnvParam.put(p[-1],var)
 	
 def p_funtion3(p):
@@ -811,13 +853,17 @@ def p_noinitFunc(p):
 	'''noinitFunc : empty'''
 	global decFunciones
 	decFunciones = True
-	FuncToBuild.FunctionTable = EnvParam
+	FuncToBuild.ParamTable = EnvParam
 
 def p_initFunc(p):
 	'''initFunc : empty'''
 	global decFunciones
+	global Localfunc
+	global FuncToBuild
+	FuncToBuild.LocalTable = Localfunc
+	TablaFunciones.put(FuncToBuild.identifier,FuncToBuild)
 	decFunciones = False
-	
+
 ##################LLAMA UNA FUNCION###############################
 def p_llamafuncion(p):
 	'''llamafuncion : ID LPARENT llamaf11'''
@@ -878,10 +924,10 @@ fp.close()
 parser = yacc.yacc()
 parser.parse(cadena)
 
+print UnivMemManager.memory
 
 
-print MemManagerGlobal.memory
-print MemManagerLocal.memory
+###################################################################################
 ########CUADRUPLOS#################################################################
 
 #print "---------------------------------------------------------------------"

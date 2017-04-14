@@ -12,8 +12,10 @@ program polaco:
 	int itotal;
 	bool buno;
 	bool bdos;
-	int iBarney (int iQue, string sPaso, char cAmigito){
+	string iQue;
+	int iBarney (string sPaso, char cAmigito){
 		int ij;	
+		string iQue;
 		ia = ij + 5.5;
 	}
 {
