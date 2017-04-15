@@ -1,6 +1,6 @@
 program polaco:
-int iBarney (int iQue, string sPaso, char cAmigito){
-		float fFeo2;	
+int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
+		float fflotante;	
 		int ifuncion;
 		ifuncion= 8 + 3;
 		print ("Aqui esta adentro de la funcion");
@@ -38,13 +38,17 @@ int iBarney (int iQue, string sPaso, char cAmigito){
 	icontador2=0;
 	while(icontador2<5){
 	print("El contador interior es: " + icontador2);
-	if(icontador ==2 && icontador2==2){
+	if(icontador ==2 &&
+	 icontador2==2){
 	print("Alguno de los contadores es 2");
 	}
 	icontador2 = icontador2+1;
 	}
 	icontador = icontador+1;
 	}
+	cuadrado(-90,-30, 50);
+	triangulo(0,0,100);
+	mueve(-100,-100);
 	read();
 		
 }

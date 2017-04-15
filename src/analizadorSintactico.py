@@ -878,12 +878,23 @@ def p_error(p):
 
 
 def p_cuadrado(p):
-	'''cuadrado : CUADRADO LPARENT exp RPARENT PUNTOCOMA'''
+	'''cuadrado : CUADRADO LPARENT exp COMA exp COMA exp RPARENT tagcuadro PUNTOCOMA'''
 	#print "Dibuja cuadrado"
+
+def p_tagcuadro(p):
+	'''tagcuadro : empty'''
+	quad = Cuadruplo(pos1 = "CUADRADO", pos2=PilaO.pop(), pos3=PilaO.pop(), pos4=PilaO.pop())
+	cuadru.append(quad)
+	
 	
 def p_triangulo(p):
-	'''triangulo : TRIANGULO LPARENT exp RPARENT PUNTOCOMA'''
+	'''triangulo : TRIANGULO LPARENT exp COMA exp COMA exp RPARENT tagtriangulo PUNTOCOMA'''
 	#print "Dibuja triangulo"
+	
+def p_tagtriangulo(p):
+	'''tagtriangulo : empty'''
+	quad = Cuadruplo(pos1 = "TRIANGULO", pos2=PilaO.pop(), pos3=PilaO.pop(), pos4=PilaO.pop())
+	cuadru.append(quad)
 	
 def p_rectangulo(p):
 	'''rectangulo : RECTANGULO LPARENT exp COMA exp RPARENT PUNTOCOMA'''
@@ -902,8 +913,13 @@ def p_cubo(p):
 	#print "Dibuja cubo"
 
 def p_mueve(p):
-	'''mueve : MUEVE LPARENT exp COMA exp RPARENT PUNTOCOMA'''
+	'''mueve : MUEVE LPARENT exp COMA exp RPARENT tagmueve PUNTOCOMA'''
 	#print "Mueve"
+	
+def p_tagmueve(p):
+	'''tagmueve : empty'''
+	quad = Cuadruplo(pos1 = "MUEVE", pos2=PilaO.pop(), pos3=PilaO.pop())
+	cuadru.append(quad)
 	
 def p_levanta(p):
 	'''levanta : LEVANTA LPARENT RPARENT PUNTOCOMA'''

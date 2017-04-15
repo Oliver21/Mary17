@@ -1,6 +1,13 @@
 #!/usr/bin/python
 from analizadorSintactico import *
+from turtle import *
+import turtle
 
+
+tess = turtle.Turtle()
+setup(640, 480, 0, 0)
+title("Ejemplo de ventana")
+speed(1)
 
 def damevalor(valor):
 	revisado=str(valor)
@@ -121,20 +128,46 @@ while i < len(cuadru):
 	elif valor1=="READ":
 		entrada= raw_input()
 		print (entrada)
-		#print "Aqui hay una read"
-		
+		#print "Aqui hay una read"		
 	elif valor1=="||":
 		if damevalor(valor2) or damevalor(valor3):
 			UnivMemManager.asigna(dameposicion(valor4),True)
 		else:
 			UnivMemManager.asigna(dameposicion(valor4),False)
-		#print "Aqui hay una read"
 	elif valor1=="&&":
 		if damevalor(valor2) and damevalor(valor3):
 			UnivMemManager.asigna(dameposicion(valor4),True)
 		else:
 			UnivMemManager.asigna(dameposicion(valor4),False)
-		#print "Aqui hay una read"
+	elif valor1=="CUADRADO":
+		penup()
+		inicioy=damevalor(valor3)
+		iniciox=damevalor(valor4)
+		tamano=damevalor(valor2)
+		goto(iniciox, inicioy)
+		pendown()
+		goto(iniciox+tamano, inicioy)
+		goto(iniciox+tamano, inicioy+tamano)
+		goto(iniciox, inicioy+tamano)
+		goto(iniciox, inicioy)
+		
+	elif valor1=="TRIANGULO":
+		penup()
+		inicioy=damevalor(valor3)
+		iniciox=damevalor(valor4)
+		tamano=damevalor(valor2)
+		goto(iniciox, inicioy)
+		pendown()
+		goto(tamano+iniciox, inicioy)
+		goto(iniciox+(tamano/2), tamano+inicioy)
+		goto(iniciox, inicioy)
+		
+	elif valor1=="MUEVE":
+		muevey=damevalor(valor2)
+		muevex=damevalor(valor3)
+		goto(muevex, muevey)
+		
+		
 		
 	i = i+1
 		
