@@ -16,7 +16,7 @@ import sys
 #	]
 
 reservadas = ['INT','FLOAT','IF','ELSE','VAR','PRINT','PROGRAM', 'DO', 'WHILE', 'CHAR', 'STRING', 'BEGIN', 'END', 'FOR', 'FUNCTION', 'BOOL', 'READ', 'POW', 'SQRT', 'CUADRADO', 'TRIANGULO', 'RECTANGULO', 'CASA', 'TRAPECIO', 'ESTRELLA', 'CIRCULO', 'LEVANTA',
-'APOYA', 'CUBO', 'MUEVE', 'DIMENSION', 'VOID']
+'APOYA', 'CUBO', 'MUEVE', 'DIMENSION', 'VOID', 'TRUE', 'FALSE']
 
 #reservadas = {
 #	'begin':'BEGIN',

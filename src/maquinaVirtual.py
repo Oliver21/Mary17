@@ -2,12 +2,7 @@
 from analizadorSintactico import *
 from turtle import *
 import turtle
-
-
-tess = turtle.Turtle()
-setup(640, 480, 0, 0)
-title("Ejemplo de ventana")
-speed(1)
+import os
 
 def damevalor(valor):
 	revisado=str(valor)
@@ -17,8 +12,10 @@ def damevalor(valor):
 		return revisado
 	elif revisado[0]=="\"":
 		return str(revisado[1:len(revisado)-1])
-	elif revisado[0]=="T" or revisado[0]=="F":
-		return bool(revisado)
+	elif revisado[0]=="T":
+		return True
+	elif revisado[0]=="F":
+		return False
 	else:
 		revisado=revisado
 		if revisado.find(".")==-1:
@@ -30,7 +27,15 @@ def dameposicion(valor):
 	revisado=str(valor)
 	revisado=revisado[4:]
 	return int(revisado)
-	
+
+
+dibujo=False
+def tablero():
+	if dibujo==False:
+		tess = turtle.Turtle()
+		setup(940, 680, 0, 0)
+		title("MARY17")
+		speed(1)	
 	
 
 print "-----------------MAQUINA VIRTUAL-------------------------------"
@@ -126,8 +131,9 @@ while i < len(cuadru):
 		#print "Aqui hay una print"
 		print damevalor(valor4)
 	elif valor1=="READ":
-		entrada= raw_input()
-		print (entrada)
+		lectura=raw_input()
+		UnivMemManager.asigna(dameposicion(valor4),lectura)
+		#print (entrada)
 		#print "Aqui hay una read"		
 	elif valor1=="||":
 		if damevalor(valor2) or damevalor(valor3):
@@ -140,18 +146,64 @@ while i < len(cuadru):
 		else:
 			UnivMemManager.asigna(dameposicion(valor4),False)
 	elif valor1=="CUADRADO":
+		tablero()
 		penup()
 		inicioy=damevalor(valor3)
 		iniciox=damevalor(valor4)
 		tamano=damevalor(valor2)
 		goto(iniciox, inicioy)
 		pendown()
-		goto(iniciox+tamano, inicioy)
-		goto(iniciox+tamano, inicioy+tamano)
-		goto(iniciox, inicioy+tamano)
-		goto(iniciox, inicioy)
+		goto(iniciox+tamano, inicioy) #inferior derecha
+		goto(iniciox+tamano, inicioy+tamano) #superior derecha
+		goto(iniciox, inicioy+tamano) #superior izquierda
+		goto(iniciox, inicioy) #inferior izquierda
+		penup()
+		dibujo=True
 		
+	elif valor1=="CUBO":
+		tablero()
+		penup()
+		inicioy=damevalor(valor3)
+		iniciox=damevalor(valor4)
+		tamano=damevalor(valor2)
+		goto(iniciox, inicioy)
+		pendown()
+		goto(iniciox+tamano, inicioy) #inferior derecha
+		goto(iniciox+tamano, inicioy+tamano) #superior derecha
+		goto(iniciox, inicioy+tamano) #superior izquierda
+		goto(iniciox, inicioy) #inferior izquierda
+		penup()
+		iniciox2=iniciox+(tamano/2)
+		inicioy2=inicioy+(tamano/2)
+		goto(iniciox2, inicioy2)
+		pendown()
+		goto(iniciox2+tamano, inicioy2) #inferior derecha
+		goto(iniciox2+tamano, inicioy2+tamano) #superior derecha
+		goto(iniciox2, inicioy2+tamano) #superior izquierda
+		goto(iniciox2, inicioy2) #inferior izquierda
+		penup()
+		##############dibujamos diagonales##################
+		goto(iniciox2+tamano, inicioy2) #inferior derecha
+		pendown()
+		goto(iniciox+tamano, inicioy) #inferior derecha
+		penup()
+		goto(iniciox2+tamano, inicioy2+tamano) #superior derecha
+		pendown()
+		goto(iniciox+tamano, inicioy+tamano) #superior derecha
+		penup()
+		goto(iniciox2, inicioy2+tamano) #superior izquierda
+		pendown()
+		goto(iniciox, inicioy+tamano) #superior izquierda
+		penup()
+		goto(iniciox2, inicioy2) #inferior izquierda
+		pendown()
+		goto(iniciox, inicioy) #inferior izquierda
+		#############################################################
+		penup()
+		dibujo=True
+		 		
 	elif valor1=="TRIANGULO":
+		tablero()
 		penup()
 		inicioy=damevalor(valor3)
 		iniciox=damevalor(valor4)
@@ -161,13 +213,37 @@ while i < len(cuadru):
 		goto(tamano+iniciox, inicioy)
 		goto(iniciox+(tamano/2), tamano+inicioy)
 		goto(iniciox, inicioy)
+		penup()
+		dibujo=True
 		
 	elif valor1=="MUEVE":
+		tablero()
 		muevey=damevalor(valor2)
 		muevex=damevalor(valor3)
 		goto(muevex, muevey)
+		dibujo=True
+		
+	elif valor1=="APOYA":
+		tablero()
+		pendown()
+		dibujo=True
+		
+	elif valor1=="LEVANTA":
+		tablero()
+		penup()
+		dibujo=True
+		
+	elif valor1=="ESTRELLA":
+		tablero()
+		for i in range(50):
+    			forward(50)
+    			right(144)
+		done()
+		dibujo=True
 		
 		
 		
 	i = i+1
+if (dibujo):
+	raw_input("Press enter to continue")
 		

@@ -13,10 +13,24 @@ int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
 	string id;
 	string ie;
 	string iresultado;
+	string sentrada;
 	int icontador;
 	int icontador2;
+	int icontadorfibo;
+	int iterm1;
+	int iterm2;
+	int fibonaci;
+	int iposx;
+	int iposy;
 	bool bol;
-	bol = 5!=6;
+	bool sderecha;
+	bool sizquierda;
+	bool iderecha;
+	bool iizquierda;
+	bool bnoentro;
+	int ifo;
+	string snombre;
+	bol = 6!=6;
 	ib = 7;
 	ia=1;
 	ia = 4.3 * ib + 7 + 8 * 2 / 3 + 1 * 5 * (5 + 1 + 5 - 3) + 1;
@@ -46,9 +60,75 @@ int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
 	}
 	icontador = icontador+1;
 	}
-	cuadrado(-90,-30, 50);
-	triangulo(0,0,100);
-	mueve(-100,-100);
-	read();
+	
+	for (ifo = 0; ifo<10 ifo=ifo+3;){
+	print ("Dentro del for");
+	}
+	///////////////funciones especiales/////////////
+	//cubo(-90,-30, 100);
+	//cuadrado(0,0,30);
+	//triangulo(0,0,100);
+	//levanta();
+	//mueve(-100,-100);
+	//apoya();
+	//mueve(200,100);
+	///////////////////////////////////////////////
+	print("Cual es tu nombre");
+	snombre=read();
+	iposx=0;
+	iposy=0;
+	bnoentro=true;
+	iderecha=false;
+	iizquierda=false;
+	sderecha=true;
+	sizquierda=false;
+	icontadorfibo=1;
+	iterm1=0;
+	iterm2=1;
+	fibonaci=1;
+	print("AQUI VA FIBBONACI");
+	
+	while(fibonaci<500){
+	if(sderecha && bnoentro){
+	iposx=iposx-fibonaci;
+	iposy=iposy-fibonaci;
+	mueve(iposx,iposy);
+	bnoentro=false;
+	sderecha=false;
+	sizquierda=true;
+	}
+	if(sizquierda && bnoentro){
+	iposx=iposx+fibonaci;
+	iposy=iposy-fibonaci;
+	mueve(iposx,iposy);
+	bnoentro=false;
+	sizquierda=false;
+	iizquierda=true;
+	}
+	if(iderecha && bnoentro){
+	iposx=iposx-fibonaci;
+	iposy=iposy+fibonaci;
+	mueve(iposx,iposy);
+	bnoentro=false;
+	iderecha=false;
+	sderecha=true;
+	}
+	if(iizquierda && bnoentro){
+	iposx=iposx+fibonaci;
+	iposy=iposy+fibonaci;
+	mueve(iposx,iposy);
+	bnoentro=false;
+	iizquierda=false;
+	iderecha=true;
+	}		
+	bnoentro=true;
+	print(fibonaci);
+        fibonaci = iterm1 + iterm2;
+        iterm1 = iterm2;
+        iterm2 = fibonaci;
+        icontadorfibo = icontadorfibo+1;
+    }
+    print("tu nombre es: "+ snombre);
+	
 		
 }
