@@ -60,9 +60,11 @@ int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
 	}
 	icontador = icontador+1;
 	}
-	
-	for (ifo = 0; ifo<10 ifo=ifo+3;){
-	print ("Dentro del for");
+	for (ifo = 0; ifo<10 ifo=ifo+1;){
+		int ifo;
+		for(ifo = 0; ifo<2 ifo=ifo+1;){
+				print ("Esta es la " + ifo + " vez que entra al for");
+		}
 	}
 	///////////////funciones especiales/////////////
 	//cubo(-90,-30, 100);
@@ -88,11 +90,11 @@ int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
 	fibonaci=1;
 	print("AQUI VA FIBBONACI");
 	
-	while(fibonaci<500){
+	while(fibonaci<55){
 	if(sderecha && bnoentro){
 	iposx=iposx-fibonaci;
 	iposy=iposy-fibonaci;
-	mueve(iposx,iposy);
+	mueve(iposx*10,iposy*10);
 	bnoentro=false;
 	sderecha=false;
 	sizquierda=true;
@@ -100,7 +102,7 @@ int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
 	if(sizquierda && bnoentro){
 	iposx=iposx+fibonaci;
 	iposy=iposy-fibonaci;
-	mueve(iposx,iposy);
+	mueve(iposx*10,iposy*10);
 	bnoentro=false;
 	sizquierda=false;
 	iizquierda=true;
@@ -108,7 +110,7 @@ int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
 	if(iderecha && bnoentro){
 	iposx=iposx-fibonaci;
 	iposy=iposy+fibonaci;
-	mueve(iposx,iposy);
+	mueve(iposx*10,iposy*10);
 	bnoentro=false;
 	iderecha=false;
 	sderecha=true;
@@ -116,7 +118,7 @@ int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
 	if(iizquierda && bnoentro){
 	iposx=iposx+fibonaci;
 	iposy=iposy+fibonaci;
-	mueve(iposx,iposy);
+	mueve(iposx*10,iposy*10);
 	bnoentro=false;
 	iizquierda=false;
 	iderecha=true;
@@ -128,7 +130,5 @@ int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
         iterm2 = fibonaci;
         icontadorfibo = icontadorfibo+1;
     }
-    print("tu nombre es: "+ snombre);
-	
-		
+    print("tu nombre es: "+ snombre);	
 }

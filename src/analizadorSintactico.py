@@ -726,7 +726,8 @@ def p_estatuto(p):
 	| apoya
 	| dimension
 	| llamafuncion
-	| if'''
+	| if
+	| declaracion'''
 #	| potencia
 #	| raiz
 	#print "estatuto"
@@ -840,9 +841,33 @@ def p_read(p):
 	#print "lectura"
 
 def p_ciclofor(p):
-	'''ciclofor : FOR LPARENT asignacion expresion asignacion RPARENT bloque'''
+	'''ciclofor : FOR LPARENT asignacion expresion tagevaluafor asignacion RPARENT bloque tagasigna tagterminafor'''
 	#print "ciclo for"
 	
+def p_tagevaluafor(p):
+	'''tagevaluafor : empty'''
+	if not PTypes.pop() == "BOOL":
+		print "Error en la condicion evaluada en el IF"
+		sys.exit()
+	else:
+		result = PilaO.pop()
+		quad = Cuadruplo(pos1="GoToF", pos2=result)
+		cuadru.append(quad)
+		PSaltos.push(len(cuadru)-1)
+		PSaltos.push(len(cuadru)-2)
+
+def p_tagterminafor(p):
+	'''tagterminafor : empty'''
+	end = PSaltos.pop()
+	cuadru[end].pos4=len(cuadru)
+
+def p_tagasigna(p):
+	'''tagasigna : empty'''
+	end = PSaltos.pop()
+	quad = Cuadruplo(pos1="GoTo", pos4=end)
+	cuadru.append(quad)
+
+
 def p_if(p):
 	'''if : IF LPARENT expresion tagif RPARENT bloque if2'''
 	#print "Ciclo If"

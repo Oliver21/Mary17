@@ -244,6 +244,7 @@ while i < len(cuadru):
 		
 		
 	i = i+1
+
 if (dibujo):
 	raw_input("Press enter to continue")
 		
