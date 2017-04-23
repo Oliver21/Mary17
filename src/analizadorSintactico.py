@@ -441,7 +441,7 @@ def p_tagsacops(p):
 			operandoIzquierdo = PilaO.pop()
 			tipoIzquierdo = PTypes.pop()
 			operador = POper.pop()
-			resultType = validacion(tipoDerecho, tipoIzquierdo, operador)
+			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 			if resultType == "ERROR":
 				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
 				sys.exit(0)
@@ -547,8 +547,12 @@ def p_asig3(p):
 	#print "asignacion arreglo"
 
 def p_asigfinal(p):
-	'''asigfinal : IGUAL tagmeteig expresion tagig PUNTOCOMA'''
+	'''asigfinal : IGUAL tagmeteig asigf2'''
 	#POper.push(p[1])
+	
+def p_asigf2(p):
+	'''asigf2 : expresion tagig PUNTOCOMA
+	| read tagig'''
 	
 def p_tagmeteig(p):
 	'''tagmeteig : empty'''
@@ -730,7 +734,8 @@ def p_estatuto(p):
 	| apoya
 	| dimension
 	| llamafuncion
-	| if'''
+	| if
+	| declaracion'''
 #	| potencia
 #	| raiz
 	#print "estatuto"
@@ -747,7 +752,9 @@ def p_varcte(p):
 	'''varcte : ENTERO tagint
 	| FLOTANTE tagfloat
 	| CADENA tagcad
-	| CARACTER tagcar'''
+	| CARACTER tagcar
+	| TRUE tagbol
+	| FALSE tagbol'''
 	
 def p_tagint(p):
 	'''tagint : empty'''
@@ -771,6 +778,12 @@ def p_tagcar(p):
 	'''tagcar : empty'''
 	PilaO.push(p[-1])
 	PTypes.push("CHAR")
+	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
+	
+def p_tagbol(p):
+	'''tagbol : empty'''
+	PilaO.push(p[-1])
+	PTypes.push("BOOL")
 	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 
 
@@ -829,12 +842,40 @@ def p_tagcondiciondo(p):
 
 def p_read(p):
 	'''read : READ LPARENT RPARENT PUNTOCOMA'''
+	result = "mem-" + UnivMemManager.save("STRING", "temporallectura")
+	PilaO.push(result)
+	quad = Cuadruplo(pos1="READ", pos4=result)
+	cuadru.append(quad)
 	#print "lectura"
 
 def p_ciclofor(p):
-	'''ciclofor : FOR LPARENT asignacion expresion asignacion RPARENT bloque'''
+	'''ciclofor : FOR LPARENT asignacion expresion tagevaluafor asignacion RPARENT bloque tagasigna tagterminafor'''
 	#print "ciclo for"
 	
+def p_tagevaluafor(p):
+	'''tagevaluafor : empty'''
+	if not PTypes.pop() == "BOOL":
+		print "Error en la condicion evaluada en el IF"
+		sys.exit()
+	else:
+		result = PilaO.pop()
+		quad = Cuadruplo(pos1="GoToF", pos2=result)
+		cuadru.append(quad)
+		PSaltos.push(len(cuadru)-1)
+		PSaltos.push(len(cuadru)-2)
+
+def p_tagterminafor(p):
+	'''tagterminafor : empty'''
+	end = PSaltos.pop()
+	cuadru[end].pos4=len(cuadru)
+
+def p_tagasigna(p):
+	'''tagasigna : empty'''
+	end = PSaltos.pop()
+	quad = Cuadruplo(pos1="GoTo", pos4=end)
+	cuadru.append(quad)
+
+
 def p_if(p):
 	'''if : IF LPARENT expresion tagif RPARENT bloque if2'''
 	#print "Ciclo If"
@@ -884,12 +925,23 @@ def p_error(p):
 
 
 def p_cuadrado(p):
-	'''cuadrado : CUADRADO LPARENT exp RPARENT PUNTOCOMA'''
+	'''cuadrado : CUADRADO LPARENT exp COMA exp COMA exp RPARENT tagcuadro PUNTOCOMA'''
 	#print "Dibuja cuadrado"
+
+def p_tagcuadro(p):
+	'''tagcuadro : empty'''
+	quad = Cuadruplo(pos1 = "CUADRADO", pos2=PilaO.pop(), pos3=PilaO.pop(), pos4=PilaO.pop())
+	cuadru.append(quad)
+	
 	
 def p_triangulo(p):
-	'''triangulo : TRIANGULO LPARENT exp RPARENT PUNTOCOMA'''
+	'''triangulo : TRIANGULO LPARENT exp COMA exp COMA exp RPARENT tagtriangulo PUNTOCOMA'''
 	#print "Dibuja triangulo"
+	
+def p_tagtriangulo(p):
+	'''tagtriangulo : empty'''
+	quad = Cuadruplo(pos1 = "TRIANGULO", pos2=PilaO.pop(), pos3=PilaO.pop(), pos4=PilaO.pop())
+	cuadru.append(quad)
 	
 def p_rectangulo(p):
 	'''rectangulo : RECTANGULO LPARENT exp COMA exp RPARENT PUNTOCOMA'''
@@ -904,20 +956,34 @@ def p_estrella(p):
 	#print "Dibuja estrella"
 
 def p_cubo(p):
-	'''cubo : CUBO LPARENT exp RPARENT PUNTOCOMA'''
+	'''cubo : CUBO LPARENT exp COMA exp COMA exp RPARENT tagcubo PUNTOCOMA'''
 	#print "Dibuja cubo"
+	
+def p_tagcubo(p):
+	'''tagcubo : empty'''
+	quad = Cuadruplo(pos1 = "CUBOf", pos2=PilaO.pop(), pos3=PilaO.pop(), pos4=PilaO.pop())
+	cuadru.append(quad)
 
 def p_mueve(p):
-	'''mueve : MUEVE LPARENT exp COMA exp RPARENT PUNTOCOMA'''
+	'''mueve : MUEVE LPARENT exp COMA exp RPARENT tagmueve PUNTOCOMA'''
 	#print "Mueve"
+	
+def p_tagmueve(p):
+	'''tagmueve : empty'''
+	quad = Cuadruplo(pos1 = "MUEVE", pos2=PilaO.pop(), pos3=PilaO.pop())
+	cuadru.append(quad)
 	
 def p_levanta(p):
 	'''levanta : LEVANTA LPARENT RPARENT PUNTOCOMA'''
 		#print "Levanta lapiz"
+	quad = Cuadruplo(pos1 = "LEVANTA")
+	cuadru.append(quad)
 	
 def p_apoya(p):
 	'''apoya : APOYA LPARENT RPARENT PUNTOCOMA'''
 	#print "Apoya lapiz"
+	quad = Cuadruplo(pos1 = "APOYA")
+	cuadru.append(quad)
 	
 def p_trapecio(p):
 	'''trapecio : TRAPECIO LPARENT exp COMA exp RPARENT PUNTOCOMA'''
@@ -1057,13 +1123,13 @@ print UnivMemManager.memory
 ###################################################################################
 ########CUADRUPLOS#################################################################
 
-#print "---------------------------------------------------------------------"
-#print "--------------------CUADRUPLOS GENERADOS--------------------"
-#q = 0
-#for i in cuadru:
-#	print str(q) + " | ",
-#	print i.pos1, i.pos2, i.pos3, i.pos4
-#	q = q + 1 
+print "---------------------------------------------------------------------"
+print "--------------------CUADRUPLOS GENERADOS--------------------"
+q = 0
+for i in cuadru:
+	print str(q) + " | ",
+	print i.pos1, i.pos2, i.pos3, i.pos4
+	q = q + 1 
 ###########################################################################
 #print cuadru[0].pos1, cuadru[0].pos2, cuadru[0].pos3, cuadru[0].pos4
 #print "-------------PilaO (Pila de operandos)----------------------"
