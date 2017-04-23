@@ -148,13 +148,25 @@ class MemManager:
 		#self.memory = {"INT":{}, "FLOAT": {}, "STRING":{}, "CHAR":{}, "BOOL":{}}
 		self.memory = {}
 
+	def saveTEMP(self, value):
+		cont = 20000
+		for key, val in self.memory.iteritems():
+			if not cont in self.memory:
+				break
+			elif self.memory[cont] == None:
+				break
+			cont = cont + 1
+		self.memory[cont] = value
+		return str(cont)
+
 	def save(self, type, value):
-		#global decFunciones
-		#if decFunciones:
-		#	aux = 10000
-		#else:
-		#	aux = 0
-		aux = 0
+		global decFunciones
+		if decFunciones:
+			aux = 10000
+			print "declarando"
+		else:
+			aux = 0
+			print "no declarando"
 		#print aux;
 		if type == "INT":
 			cont = 0 + aux
@@ -285,7 +297,6 @@ def p_bloque(p):
 
 def p_iniEnv(p):
 	'''iniEnv : empty'''
-	global decFunciones
 	global saved
 	global top
 	saved = top
@@ -350,7 +361,7 @@ def p_tagsacalog(p):
 				global temporal
 				nombre = "t" + str(temporal)
 				temporal = temporal + 1
-				result = "mem-" + UnivMemManager.save(resultType, nombre)
+				result = "mem-" + UnivMemManager.saveTEMP(nombre)
 				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
 				cuadru.append(quad)
 				PilaO.push(result)
@@ -389,6 +400,7 @@ def p_tagsacrel(p):
 	'''tagsacrel : empty'''
 	if POper.isEmpty():
 		pass
+
 	else:
 		while POper.peek()==">" or POper.peek()=="<" or POper.peek()=="<=" or POper.peek()==">=" or POper.peek()=="==" or POper.peek()=="!=" or POper.peek() == "+" or POper.peek() == "-" or POper.peek() == "*" or POper.peek() == "/":
 			operandoDerecho = PilaO.pop()
@@ -404,7 +416,7 @@ def p_tagsacrel(p):
 				global temporal
 				nombre = "t" + str(temporal)
 				temporal = temporal + 1
-				result = "mem-" + UnivMemManager.save(resultType, nombre)
+				result = "mem-" + UnivMemManager.saveTEMP(nombre)
 				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
 				cuadru.append(quad)
 				PilaO.push(result)
@@ -449,7 +461,7 @@ def p_tagsacops(p):
 				global temporal
 				nombre = "t" + str(temporal)
 				temporal = temporal + 1
-				result = "mem-" + UnivMemManager.save(resultType, nombre)
+				result = "mem-" + UnivMemManager.saveTEMP(nombre)
 				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
 				cuadru.append(quad)
 				PilaO.push(result)
@@ -472,7 +484,6 @@ def p_tagsacops(p):
 #	top.put(p[2],varContent)
 #	print "declaracion"
 	
-
 def p_declaracion(p):
 	'''declaracion : tipo ID savevar decla1'''
 	#print "Declaracion"
@@ -524,7 +535,6 @@ def p_tipo(p):
 def p_asignacion(p):
 	'''asignacion : ID meteid asig2'''
 	global decFunciones
-	global top
 	if not decFunciones:
 		pass
 		#print(top.get(p[1]).identifier + ":" + top.get(p[1]).type)
@@ -637,7 +647,7 @@ def p_tagsacopm(p):
 				global temporal
 				nombre = "t" + str(temporal)
 				temporal = temporal + 1
-				result = "mem-" + UnivMemManager.save(resultType, nombre)
+				result = "mem-" + UnivMemManager.saveTEMP(nombre)
 				quad = Cuadruplo(operador, operandoIzquierdo, operandoDerecho, result)
 				cuadru.append(quad)
 				PilaO.push(result)
@@ -1001,6 +1011,9 @@ def p_function(p):
 
 def p_buildFunc(p):
 	'''buildFunc : empty''' 
+	#iniciamos a construir nuestro objeto funcion
+	#que sera guardado en nuestra tabla de funciones
+	#agregandole el tipo y su identificador como atributos
 	global FuncToBuild
 	FuncToBuild = Funcion(p[-2], p[-1])
 
@@ -1019,11 +1032,21 @@ def p_funct2(p):
 
 def p_initParams(p):
 	'''initParams : empty'''
+	#iniciamos el ambiente de variables locales
+	#y el de la tabla de parametros
+	#y guardamos cada parametro en ambas
 	global Localfunc
 	global EnvParam
+	global decFunciones
+	decFunciones = True
 	EnvParam = Env(None)
-	var = Variable(p[-2],p[-1],0,0)
+	Localfunc = Env(None)
+	pos = UnivMemManager.save(p[-2],p[-1])
+	var = Variable(p[-2],p[-1],pos,0)
+
 	EnvParam.put(p[-1],var)
+	Localfunc.put(p[-1],var)
+
 	
 def p_funtion3(p):
 	'''funct3 : COMA funct2'''
@@ -1038,12 +1061,8 @@ def p_function4(p):
 
 def p_initFunc(p):
 	'''initFunc : empty'''
-	global decFunciones
-	global FuncToBuild
-	global Localfunc
-	decFunciones = True
+	global FuncToBuild	
 	FuncToBuild.ParamTable = EnvParam
-	Localfunc = Env(None)
 
 def p_noinitFunc(p):
 	'''noinitFunc : empty'''
@@ -1058,7 +1077,6 @@ def p_noinitFunc(p):
 def p_llamafuncion(p):
 	'''llamafuncion : ID LPARENT llamaf11'''
 	#print "Llama a una funcion"
-	
 def p_llamaf11(p):
 	'''llamaf11 : llamaf2
 	| llamaf4'''
