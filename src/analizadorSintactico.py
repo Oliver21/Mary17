@@ -149,8 +149,15 @@ class MemManager:
 		self.memory = {}
 
 	def save(self, type, value):
+		#global decFunciones
+		#if decFunciones:
+		#	aux = 10000
+		#else:
+		#	aux = 0
+		aux = 0
+		#print aux;
 		if type == "INT":
-			cont = 0
+			cont = 0 + aux
 			for key, val in self.memory.iteritems():
 				if not cont in self.memory:
 					break
@@ -160,7 +167,7 @@ class MemManager:
 			self.memory[cont] = value
 
 		if type == "FLOAT":
-			cont = 2000
+			cont = 2000 + aux
 			for key, val in self.memory.iteritems():
 				if not cont in self.memory:
 					break
@@ -170,7 +177,7 @@ class MemManager:
 			self.memory[cont] = value
 
 		if type == "CHAR":
-			cont = 4000
+			cont = 4000 + aux
 			for key, val in self.memory.iteritems():
 				if not cont in self.memory:
 					break
@@ -180,7 +187,7 @@ class MemManager:
 			self.memory[cont] = value
 
 		if type == "STRING":
-			cont = 6000
+			cont = 6000 + aux
 			for key, val in self.memory.iteritems():
 				if not cont in self.memory:
 					break
@@ -190,7 +197,7 @@ class MemManager:
 			self.memory[cont] = value
 
 		if type == "BOOL":
-			cont = 8000
+			cont = 8000 + aux
 			for key, val in self.memory.iteritems():
 				if not cont in self.memory:
 					break
@@ -199,6 +206,7 @@ class MemManager:
 				cont = cont + 1
 			self.memory[cont] = value
 		return str(cont)
+
 
 	def find(self,position):
 		if position in self.memory:
@@ -1043,7 +1051,7 @@ parser.parse(cadena)
 #UnivMemManager.asigna(8,"hahahaha")
 #print UnivMemManager.find(8)
 print UnivMemManager.memory	
-print TablaFunciones.get("iBarney").LocalTable.get("ij").memory
+#print TablaFunciones.get("iBarney").LocalTable.get("ij").memory
 
 
 ###################################################################################
