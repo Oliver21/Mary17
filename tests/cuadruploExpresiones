@@ -24,6 +24,7 @@ program polaco:
 	}
 {
 	bdos = buno && (itotal == (ic + id + ie + in + ij * ik + ip - iz / ix) + ic);
+	int debeBorrarse;
 	//ia = ic != id;
 	bdos = buno == bdos;
 	ia = 4.3 * 1 + 9 + 8 * 2 / 3 + 1 * 5 * (5 + 1 + 5 - 3) + 1;

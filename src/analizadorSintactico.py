@@ -145,7 +145,6 @@ class FunctionTable:
 
 class MemManager:
 	def __init__(self):
-		#self.memory = {"INT":{}, "FLOAT": {}, "STRING":{}, "CHAR":{}, "BOOL":{}}
 		self.memory = {}
 
 	def saveTEMP(self, value):
@@ -163,10 +162,8 @@ class MemManager:
 		global decFunciones
 		if decFunciones:
 			aux = 10000
-			print "declarando"
 		else:
 			aux = 0
-			print "no declarando"
 		#print aux;
 		if type == "INT":
 			cont = 0 + aux
@@ -227,11 +224,12 @@ class MemManager:
 			return None
 
 	def release(self,position):
-		if position in self.memory:
-			self.memory[position] = None
+		#self.memory[position] = None
+		if int(position) in self.memory:
+			self.memory[int(position)] = None
 			return True
 		else:
-			return None
+			return False
 			
 	def asigna(self,position, valor):
 		self.memory[position]= valor
@@ -299,6 +297,7 @@ def p_iniEnv(p):
 	'''iniEnv : empty'''
 	global saved
 	global top
+	print top.dict
 	saved = top
 	top = Env(top)
 	#print "bloque"
@@ -319,10 +318,15 @@ def p_b5(p):
 	global EnvParam
 	global decFunciones
 	if not decFunciones:
+		print "not decFunciones"
+		print top.dict
+		top.release()
 		top = saved
 	else:
-		FuncToBuild.LocalTable = top
-		Localfunc = top
+		#FuncToBuild.LocalTable = top
+		#Localfunc = top
+		#for key,val in LocalTable.dict:
+		Localfunc.release()
 		top = saved
 		
 		
@@ -1026,24 +1030,24 @@ def p_funct111(p):
 
 def p_initParamTable(p):
 	'''initParamTable : empty'''
+	#iniciamos el ambiente de variables locales
+	#y el de la tabla de parametros
+	global Localfunc
+	global EnvParam
+	EnvParam = Env(None)
+	Localfunc = Env(None)
 	
 def p_funct2(p):
 	'''funct2 : tipo ID initParams funct3'''
 
 def p_initParams(p):
 	'''initParams : empty'''
-	#iniciamos el ambiente de variables locales
-	#y el de la tabla de parametros
-	#y guardamos cada parametro en ambas
-	global Localfunc
-	global EnvParam
+	#guardamos cada parametro en ambas tablas de
+	#locales y parametros
 	global decFunciones
 	decFunciones = True
-	EnvParam = Env(None)
-	Localfunc = Env(None)
 	pos = UnivMemManager.save(p[-2],p[-1])
 	var = Variable(p[-2],p[-1],pos,0)
-
 	EnvParam.put(p[-1],var)
 	Localfunc.put(p[-1],var)
 
@@ -1061,7 +1065,8 @@ def p_function4(p):
 
 def p_initFunc(p):
 	'''initFunc : empty'''
-	global FuncToBuild	
+	global FuncToBuild
+	global EnvParam	
 	FuncToBuild.ParamTable = EnvParam
 
 def p_noinitFunc(p):
@@ -1135,7 +1140,11 @@ parser.parse(cadena)
 #UnivMemManager.asigna(8,"hahahaha")
 #print UnivMemManager.find(8)
 print UnivMemManager.memory	
+
+#print TablaFunciones.get("funcionprueba").LocalTable.dict
+#print TablaFunciones.get("funcionprueba").ParamTable.dict
 #print TablaFunciones.get("iBarney").LocalTable.get("ij").memory
+
 
 
 ###################################################################################
