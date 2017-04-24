@@ -244,6 +244,8 @@ PilaO=Stack()
 PTypes=Stack()
 PSaltos=Stack()
 temporal = 1
+nombredelafuncion=""
+contadorParametro=0
 #Prueba de cuadruplos
 #x = Cuadruplo (1,3,2,5)
 #print x.pos1, x.pos2, x.pos3, x.pos4
@@ -748,8 +750,7 @@ def p_estatuto(p):
 	| apoya
 	| dimension
 	| llamafuncion
-	| if
-	| declaracion'''
+	| if'''
 #	| potencia
 #	| raiz
 	#print "estatuto"
@@ -772,30 +773,35 @@ def p_varcte(p):
 	
 def p_tagint(p):
 	'''tagint : empty'''
+	result = "mem-" + UnivMemManager.saveTEMP(p[-1])
 	PilaO.push(p[-1])
 	PTypes.push("INT")
 	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 	
 def p_tagfloat(p):
 	'''tagfloat : empty'''
+	result = "mem-" + UnivMemManager.saveTEMP(p[-1])
 	PilaO.push(p[-1])
 	PTypes.push("FLOAT")
 	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 	
 def p_tagcad(p):
 	'''tagcad : empty'''
+	result = "mem-" + UnivMemManager.saveTEMP("\""+ p[-1]+"\"")
 	PilaO.push(p[-1])
 	PTypes.push("STRING")
 	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 	
 def p_tagcar(p):
 	'''tagcar : empty'''
+	result = "mem-" + UnivMemManager.saveTEMP("\""+ p[-1]+"\"")
 	PilaO.push(p[-1])
 	PTypes.push("CHAR")
 	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 	
 def p_tagbol(p):
 	'''tagbol : empty'''
+	result = "mem-" + UnivMemManager.saveTEMP(p[-1])
 	PilaO.push(p[-1])
 	PTypes.push("BOOL")
 	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
@@ -1080,21 +1086,58 @@ def p_noinitFunc(p):
 
 ##################LLAMA UNA FUNCION###############################
 def p_llamafuncion(p):
-	'''llamafuncion : ID LPARENT llamaf11'''
+	'''llamafuncion : ID LPARENT tagverificafuncion llamaf11'''
 	#print "Llama a una funcion"
 def p_llamaf11(p):
 	'''llamaf11 : llamaf2
 	| llamaf4'''
 	
 def p_llamaf2(p):
-	'''llamaf2 : exp llamaf3'''
+	'''llamaf2 : exp tagrevisaparam llamaf3'''
 
 def p_llamaf3(p):
-	'''llamaf3 : COMA llamaf2
+	'''llamaf3 : COMA tagotroargumento llamaf2
 	| llamaf4'''
 	
 def p_llamaf4(p):
-	'''llamaf4 : RPARENT'''
+	'''llamaf4 : RPARENT  tagterminallamada PUNTOCOMA'''
+
+def p_tagverificafuncion(p):
+	'''tagverificafuncion : empty'''
+	global nombredelafuncion
+	global contadorParametro
+	if TablaFunciones.get(p[-2]) == None:
+		print "La funcion " + p[-2] + " no existe" 
+		sys.exit()
+	else:
+		contadorParametro=1
+		nombreFuncion=p[-2]
+		nombredelafuncion=nombreFuncion
+		#size = len(TablaFunciones.get(p[-2]).LocalTable.dict)
+		quad = Cuadruplo(pos1 = "ERA", pos2 =nombreFuncion)
+		cuadru.append(quad)
+
+
+def p_tagrevisaparam(p):
+	'''tagrevisaparam : empty'''
+	argument = PilaO.pop()
+	argumentType = PTypes.pop()
+	#TablaFunciones.get(nombredelafuncion).ParamTable.dict
+	#aqui comparamos los tipos de parametros
+	quad=Cuadruplo(pos1 = "param", pos2 = argument, pos4="param"+str(contadorParametro))
+	cuadru.append(quad)
+
+def p_tagotroargumento(p):
+	'''tagotroargumento : empty'''
+	global contadorParametro
+	contadorParametro = contadorParametro + 1
+
+def p_tagterminallamada(p):
+	'''tagterminallamada : empty'''
+	#verificar que el ultimo parametro apunte a null
+	quad =Cuadruplo(pos1="gosub", pos2=nombredelafuncion)
+	cuadru.append(quad)
+
 		
 ##################EMPTY########################################
 def p_empty(p):
