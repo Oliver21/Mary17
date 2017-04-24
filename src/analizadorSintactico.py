@@ -65,8 +65,15 @@ class Funcion:
 		self.numParam = None
 		self.identifier = identifier
 		self.Cont = None
-		self.ParamTable = None
+		self.ParamTable = []
 		self.LocalTable = None
+	def getParamType(self,indice):
+		if indice < len(self.ParamTable):
+			return self.ParamTable[indice]
+		elif indice == len(self.ParamTable):
+			return None
+		else:
+			return None
 
 #La clase Variable funciona como template para la entrada de variables
 class Variable:
@@ -276,7 +283,7 @@ def p_p4(p):
 	| p5'''
 	
 def p_p5(p):
-	'''p5 : cuadrupro2 bloque'''	
+	'''p5 : cuadrupro2 bloque delMem'''	
 	
 def p_cuadrupro(p):
 	'''cuadrupro : empty'''
@@ -288,18 +295,30 @@ def p_cuadrupro2(p):
 	'''cuadrupro2 : empty'''
 	cuadru[0].pos4 = len(cuadru)
 
+def p_delMem(p):
+	'''delMem : empty'''
+	global top
+	print top.dict
+	top.release
+
 ########################CONTENIDO DE UN BLOQUE######################################
 def p_bloque(p):
-
-	'''bloque : LKEY  iniEnv b3 b4 b5'''
+	'''bloque : LKEY iniEnv b3 b4 b5'''
 
 def p_iniEnv(p):
 	'''iniEnv : empty'''
 	global saved
 	global top
-	print top.dict
-	saved = top
-	top = Env(top)
+	global decFunciones
+	if not decFunciones:
+		saved = top
+		top = Env(top)	
+		if not saved == None:
+			print "{"
+			print "ANTES: " 
+			print saved.dict
+		else:
+			print "ANTES: None"
 	#print "bloque"
 
 
@@ -312,23 +331,28 @@ def p_b4(p):
 	| empty'''
 
 def p_b5(p):
-	'''b5 : RKEY'''
+	'''b5 : recEnv RKEY'''
+
+def p_recEnv(p):
+	'''recEnv : empty'''
 	global top
 	global saved
 	global EnvParam
 	global decFunciones
 	if not decFunciones:
-		print "not decFunciones"
-		print top.dict
+		print "DESPUES: "
 		top.release()
+		print saved.dict
+		print top.dict
 		top = saved
+		print "}"
 	else:
 		#FuncToBuild.LocalTable = top
 		#Localfunc = top
 		#for key,val in LocalTable.dict:
 		Localfunc.release()
-		top = saved
-		
+		#top = saved
+	
 		
 ############################CONTENIDO DE UNA EXPRESION################################
 def p_expresion(p):
@@ -499,9 +523,11 @@ def p_savevar(p):
 	global Localfunc
 	pos = UnivMemManager.save(p[-2],p[-1])
 	var = Variable(p[-2],p[-1],pos,1)
-	top.put(p[-1],var)
+	#top.put(p[-1],var)
 	if decFunciones:
 		Localfunc.put(p[-1],var)
+	else:
+		top.put(p[-1],var)
 
 def p_decla1(p):
 	'''decla1 : declafinal
@@ -547,6 +573,7 @@ def p_asignacion(p):
 def p_meteid(p):
 	'''meteid :  empty''' 
 	#PilaO.push(p[-1])
+	print(p[-1])
 	PilaO.push("mem-"+top.get(p[-1]).memory)
 	PTypes.push(top.get(p[-1]).type)
 	
@@ -1034,7 +1061,8 @@ def p_initParamTable(p):
 	#y el de la tabla de parametros
 	global Localfunc
 	global EnvParam
-	EnvParam = Env(None)
+	#EnvParam = Env(None)
+	EnvParam =[]
 	Localfunc = Env(None)
 	
 def p_funct2(p):
@@ -1044,14 +1072,18 @@ def p_initParams(p):
 	'''initParams : empty'''
 	#guardamos cada parametro en ambas tablas de
 	#locales y parametros
+	global UnivMemManager
 	global decFunciones
+	global Localfunc
+	global EnvParam
 	decFunciones = True
 	pos = UnivMemManager.save(p[-2],p[-1])
 	var = Variable(p[-2],p[-1],pos,0)
-	EnvParam.put(p[-1],var)
+	#EnvParam.put(p[-1],var)
+	EnvParam.append(p[-2]);
 	Localfunc.put(p[-1],var)
 
-	
+
 def p_funtion3(p):
 	'''funct3 : COMA funct2'''
 
@@ -1141,6 +1173,7 @@ parser.parse(cadena)
 #print UnivMemManager.find(8)
 print UnivMemManager.memory	
 
+print TablaFunciones.get("funcionEnv").getParamType(0);
 #print TablaFunciones.get("funcionprueba").LocalTable.dict
 #print TablaFunciones.get("funcionprueba").ParamTable.dict
 #print TablaFunciones.get("iBarney").LocalTable.get("ij").memory
