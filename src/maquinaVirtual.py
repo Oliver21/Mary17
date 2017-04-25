@@ -240,6 +240,14 @@ while i < len(cuadru):
     			right(144)
 		done()
 		dibujo=True
+
+	elif valor1=="ERA":
+		nombrefuncion=valor2
+		size = len(TablaFunciones.get(nombrefuncion).LocalTable.dict)
+
+	elif valor1 =="gosub":
+		nombrefuncion=valor2
+		#i = TablaFunciones.get(nombrefuncion).Cont -1
 		
 		
 		

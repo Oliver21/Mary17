@@ -3,8 +3,8 @@ FUNCTION int funcionprueba (int iparametro1, string sparametro2, char cparametro
 		float fflotante;	
 		int ifuncion;
 		ifuncion= 8 + 3;
-		print ("Aqui esta adentro de la funcion");
-		//ifuncion = ifuncion + iparametro1;
+		print ("Aqui esta adentro de la funcionprueba");
+		ifuncion = ifuncion + iparametro1;
 		print (ifuncion);
 	}
 
@@ -42,7 +42,7 @@ FUNCTION int funcionprueba (int iparametro1, string sparametro2, char cparametro
 	print(ia);
 	//ic = "Ya funciona el programa!!!. Genial";
 	print (ie + 7);
-	funcionprueba(7, "parametro2", "p");
+	funcionprueba(7, "parametro2", "a");
 	print(bol);
 	if (1 < 4){
 	print ("el primer valor es menor al segundo, si entro al if");
@@ -57,7 +57,7 @@ FUNCTION int funcionprueba (int iparametro1, string sparametro2, char cparametro
 	print("El contador interior es: " + icontador2);
 	if(icontador ==2 &&
 	 icontador2==2){
-	print("Alguno de los contadores es 2");
+	print("El valor de ambos contadores es 2");
 	}
 	icontador2 = icontador2+1;
 	}

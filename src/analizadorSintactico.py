@@ -1115,6 +1115,7 @@ def p_initFunc(p):
 	global FuncToBuild
 	global EnvParam	
 	FuncToBuild.ParamTable = EnvParam
+	FuncToBuild.Cont = len(cuadru)
 
 def p_noinitFunc(p):
 	'''noinitFunc : empty'''
@@ -1128,6 +1129,8 @@ def p_noinitFunc(p):
 	FuncToBuild.LocalTable.release()
 	TablaFunciones.put(FuncToBuild.identifier,FuncToBuild)
 	decFunciones = False
+	quad = Cuadruplo(pos1="ENDPROC")
+	cuadru.append(quad)
 
 ##################LLAMA UNA FUNCION###############################
 def p_llamafuncion(p):
@@ -1165,12 +1168,18 @@ def p_tagverificafuncion(p):
 
 def p_tagrevisaparam(p):
 	'''tagrevisaparam : empty'''
+	argumentoEnviado = TablaFunciones.get(nombredelafuncion).getParamType(contadorParametro-1);
+	if argumentoEnviado == None:
+		print "Estas enviando más argumentos de los que solicita la funcion "
+		sys.exit()
 	argument = PilaO.pop()
 	argumentType = PTypes.pop()
-	#TablaFunciones.get(nombredelafuncion).ParamTable.dict
-	#aqui comparamos los tipos de parametros
-	quad=Cuadruplo(pos1 = "param", pos2 = argument, pos4="param"+str(contadorParametro))
-	cuadru.append(quad)
+	if argumentType != argumentoEnviado:
+		print "Hay incompatibilidad entre el tipo de parametros enviados a la funcion " + nombredelafuncion
+		sys.exit()
+	else:
+		quad=Cuadruplo(pos1 = "param", pos2 = argument, pos4="param"+str(contadorParametro))
+		cuadru.append(quad)
 
 def p_tagotroargumento(p):
 	'''tagotroargumento : empty'''
@@ -1179,7 +1188,10 @@ def p_tagotroargumento(p):
 
 def p_tagterminallamada(p):
 	'''tagterminallamada : empty'''
-	#verificar que el ultimo parametro apunte a null
+	argumentoEnviado = TablaFunciones.get(nombredelafuncion).getParamType(contadorParametro);
+	if argumentoEnviado != None:
+		print "La funcion requiere más parametros"
+		sys.exit()
 	quad =Cuadruplo(pos1="gosub", pos2=nombredelafuncion)
 	cuadru.append(quad)
 
