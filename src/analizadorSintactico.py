@@ -1229,7 +1229,6 @@ parser.parse(cadena)
 #print UnivMemManager.find(8)
 print UnivMemManager.memory	
 
-print TablaFunciones.get("funcionEnv").getParamType(0);
 #print TablaFunciones.get("funcionprueba").LocalTable.dict
 #print TablaFunciones.get("funcionprueba").ParamTable.dict
 #print TablaFunciones.get("iBarney").LocalTable.get("ij").memory

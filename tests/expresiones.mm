@@ -1,5 +1,5 @@
 program polaco:
-int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
+FUNCTION int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
 		float fflotante;	
 		int ifuncion;
 		ifuncion= 8 + 3;
