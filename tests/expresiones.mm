@@ -4,6 +4,8 @@ int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
 		int ifuncion;
 		ifuncion= 8 + 3;
 		print ("Aqui esta adentro de la funcion");
+		//ifuncion = ifuncion + iparametro1;
+		print (ifuncion);
 	}
 
 {	float ia;
@@ -40,6 +42,7 @@ int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
 	print(ia);
 	//ic = "Ya funciona el programa!!!. Genial";
 	print (ie + 7);
+	funcionprueba(7, "parametro2", "p");
 	print(bol);
 	if (1 < 4){
 	print ("el primer valor es menor al segundo, si entro al if");
