@@ -27,7 +27,7 @@ precedence = (
 #definicion de funciones globales que necesitamos acceder en cualquier momento de la ejecuccion
 top = None
 saved = None
-Localfunc = None
+#Localfunc = None
 decFunciones = False
 TablaFunciones = None
 FuncToBuild = None
@@ -114,6 +114,13 @@ class Env:
 		global UnivMemManager
 		for i in self.dict:
 			UnivMemManager.release(self.dict[i].memory)
+#Funcion para ver las variables hasta el momento guardadas.
+	def showVars(self):
+		e = self
+		while e != None:
+			for k in e.dict:
+	  				print e.dict[k].identifier
+			e = e.prev
 
 #definicion de la tabla de funciones
 global_functions_table = {}
@@ -271,17 +278,26 @@ def p_initTop(p):
 
 def p_p2(p):
 	'''p2 : p3
-	| p4
+	| initFunctions p4
 	| p5'''
-	
+
 def p_p3(p):
 	'''p3 : declaracion p3
-	|  p4'''
-	
+	| initFunctions p4'''
+
+def p_initFunctions(p):
+	'''initFunctions : empty'''
+	global saved
+	global top
+	saved = top
+	print "SAVED"
+	saved.showVars()
+	print "SAVED"
+
 def p_p4(p):
 	'''p4 : function p4
 	| p5'''
-	
+
 def p_p5(p):
 	'''p5 : cuadrupro2 bloque delMem'''	
 	
@@ -293,17 +309,25 @@ def p_cuadrupro(p):
 	
 def p_cuadrupro2(p):
 	'''cuadrupro2 : empty'''
+	global saved
+	global top
+	print "SAVED"
+	saved.showVars()
+	print "SAVED"
+	top.showVars()
+	top = saved
 	cuadru[0].pos4 = len(cuadru)
 
 def p_delMem(p):
 	'''delMem : empty'''
 	global top
-	print top.dict
+	print "NP"
+	print top.showVars()
 	top.release
 
 ########################CONTENIDO DE UN BLOQUE######################################
 def p_bloque(p):
-	'''bloque : LKEY iniEnv b3 b4 b5'''
+	'''bloque : iniEnv LKEY b3 b4 b5'''
 
 def p_iniEnv(p):
 	'''iniEnv : empty'''
@@ -312,11 +336,11 @@ def p_iniEnv(p):
 	global decFunciones
 	if not decFunciones:
 		saved = top
-		top = Env(top)	
+		#print saved.dict
+		top = Env(saved)	
 		if not saved == None:
 			print "{"
 			print "ANTES: " 
-			print saved.dict
 		else:
 			print "ANTES: None"
 	#print "bloque"
@@ -342,15 +366,16 @@ def p_recEnv(p):
 	if not decFunciones:
 		print "DESPUES: "
 		top.release()
-		print saved.dict
-		print top.dict
+		#print saved.dict
+		#print top.dict
+		top.showVars()
 		top = saved
 		print "}"
-	else:
+	#else:
 		#FuncToBuild.LocalTable = top
 		#Localfunc = top
 		#for key,val in LocalTable.dict:
-		Localfunc.release()
+		#Localfunc.release()
 		#top = saved
 	
 		
@@ -520,14 +545,14 @@ def p_savevar(p):
 	'''savevar : empty'''
 	global top
 	global UnivMemManager
-	global Localfunc
+	#global Localfunc
 	pos = UnivMemManager.save(p[-2],p[-1])
 	var = Variable(p[-2],p[-1],pos,1)
-	#top.put(p[-1],var)
-	if decFunciones:
-		Localfunc.put(p[-1],var)
-	else:
-		top.put(p[-1],var)
+	#if decFunciones:
+	#	Localfunc.put(p[-1],var)
+	#else:
+	#	top.put(p[-1],var)
+	top.put(p[-1],var)
 
 def p_decla1(p):
 	'''decla1 : declafinal
@@ -1036,7 +1061,7 @@ def p_dimension(p):
 
 ##########################DECLARA UNA FUNCION##########################
 def p_function(p):
-	'''function : tipo ID buildFunc LPARENT funct11
+	'''function : FUNCTION tipo ID buildFunc LPARENT funct11
 	| VOID ID buildFunc LPARENT funct11'''
 	#print "Declara una funcion"
 
@@ -1047,7 +1072,6 @@ def p_buildFunc(p):
 	#agregandole el tipo y su identificador como atributos
 	global FuncToBuild
 	FuncToBuild = Funcion(p[-2], p[-1])
-
 	
 def p_funct11(p):
 	'''funct11 : function4'''
@@ -1059,11 +1083,12 @@ def p_initParamTable(p):
 	'''initParamTable : empty'''
 	#iniciamos el ambiente de variables locales
 	#y el de la tabla de parametros
-	global Localfunc
+	#global Localfunc
 	global EnvParam
-	#EnvParam = Env(None)
+	global top
 	EnvParam =[]
-	Localfunc = Env(None)
+	#Localfunc = Env(None)
+	top = Env(None)
 	
 def p_funct2(p):
 	'''funct2 : tipo ID initParams funct3'''
@@ -1074,14 +1099,15 @@ def p_initParams(p):
 	#locales y parametros
 	global UnivMemManager
 	global decFunciones
-	global Localfunc
+	#global Localfunc
 	global EnvParam
 	decFunciones = True
 	pos = UnivMemManager.save(p[-2],p[-1])
 	var = Variable(p[-2],p[-1],pos,0)
 	#EnvParam.put(p[-1],var)
 	EnvParam.append(p[-2]);
-	Localfunc.put(p[-1],var)
+	#Localfunc.put(p[-1],var)
+	top.put(p[-1],var)
 
 
 def p_funtion3(p):
@@ -1104,9 +1130,15 @@ def p_initFunc(p):
 def p_noinitFunc(p):
 	'''noinitFunc : empty'''
 	global decFunciones
-	global Localfunc
+	#global Localfunc
+	global top
 	global FuncToBuild
-	FuncToBuild.LocalTable = Localfunc
+	#FuncToBuild.LocalTable = Localfunc
+	print "VAR Y PARAM DE FUNC"
+	top.showVars()
+	print "VAR Y PARAM DE FUNC"
+	FuncToBuild.LocalTable = top
+	FuncToBuild.LocalTable.release()
 	TablaFunciones.put(FuncToBuild.identifier,FuncToBuild)
 	decFunciones = False
 
