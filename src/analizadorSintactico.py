@@ -66,12 +66,18 @@ class Funcion:
 		self.identifier = identifier
 		self.Cont = None
 		self.ParamTable = []
+		self.LocalVars = []
 		self.LocalTable = None
-	def getParamType(self,indice):
-		if indice < len(self.ParamTable):
-			return self.ParamTable[indice]
-		elif indice == len(self.ParamTable):
+	def getParamType(self,index):
+		if index < len(self.ParamTable):
+			return self.ParamTable[index]
+		else:
 			return None
+
+	def getVarMemory(self,index):
+		if index < len(self.LocalVars):
+			print self.LocalVars[index].identifier
+			return self.LocalVars[index].memory
 		else:
 			return None
 
@@ -247,6 +253,8 @@ class MemManager:
 			
 	def asigna(self,position, valor):
 		self.memory[position]= valor
+
+		
 
 #Inicializamos muestro administrador de memorias
 UnivMemManager = MemManager()
@@ -533,8 +541,8 @@ def p_savevar(p):
 	#global Localfunc
 	pos = UnivMemManager.save(p[-2],p[-1])
 	var = Variable(p[-2],p[-1],pos,1)
-	#if decFunciones:
-	#	Localfunc.put(p[-1],var)
+	if decFunciones:
+		FuncToBuild.LocalVars.append(var)
 	#else:
 	#	top.put(p[-1],var)
 	top.put(p[-1],var)
@@ -1089,10 +1097,12 @@ def p_initParams(p):
 	global UnivMemManager
 	global decFunciones
 	#global Localfunc
+	global FuncToBuild
 	global EnvParam
 	decFunciones = True
 	pos = UnivMemManager.save(p[-2],p[-1])
 	var = Variable(p[-2],p[-1],pos,0)
+	FuncToBuild.LocalVars.append(var)
 	#EnvParam.put(p[-1],var)
 	EnvParam.append(p[-2]);
 	#Localfunc.put(p[-1],var)
@@ -1241,8 +1251,7 @@ parser.parse(cadena)
 #print UnivMemManager.find(8)
 print UnivMemManager.memory	
 
-#print TablaFunciones.get("funcionprueba").LocalTable.dict
-#print TablaFunciones.get("funcionprueba").ParamTable.dict
+print TablaFunciones.get("funcionEnv").getVarMemory(5)
 #print TablaFunciones.get("iBarney").LocalTable.get("ij").memory
 
 
