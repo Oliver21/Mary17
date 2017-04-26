@@ -76,7 +76,7 @@ class Funcion:
 
 	def getVarMemory(self,index):
 		if index < len(self.LocalVars):
-			print self.LocalVars[index].identifier
+			#print self.LocalVars[index].identifier
 			return self.LocalVars[index].memory
 		else:
 			return None
@@ -1251,7 +1251,7 @@ parser.parse(cadena)
 #print UnivMemManager.find(8)
 print UnivMemManager.memory	
 
-print TablaFunciones.get("funcionEnv").getVarMemory(5)
+#print TablaFunciones.get("funcionEnv").getVarMemory(5)
 #print TablaFunciones.get("iBarney").LocalTable.get("ij").memory
 
 

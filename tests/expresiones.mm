@@ -1,12 +1,27 @@
 program polaco:
+
 FUNCTION int funcionprueba (int iparametro1, string sparametro2, char cparametro3){
 		float fflotante;	
 		int ifuncion;
-		ifuncion= 8 + 3;
 		print ("Aqui esta adentro de la funcionprueba");
+		ifuncion= 8 + 3;
 		ifuncion = ifuncion + iparametro1;
+		print ("El parametro 1 recibido es: " + iparametro1);
+		print("El parametro 2 recibido es: " + sparametro2);
+		print ("El parametro 3 recibido es: " + cparametro3);
 		print (ifuncion);
+		print ("Aqui termina la funcionprueba");
 	}
+
+FUNCTION int funcionprueba2 (int ix){
+	int ia;
+	print ("Aqui esta adentro de la funcionprueba2");
+	print ("El parametro 1 recibido es: " + ix);
+	ia=ix;
+	funcionprueba(ia, "paramtro22", "p");
+	print (ia);
+	print ("Aqui esta adentro de la funcionprueba2");
+}
 
 {	float ia;
 	int ib;
@@ -42,26 +57,27 @@ FUNCTION int funcionprueba (int iparametro1, string sparametro2, char cparametro
 	print(ia);
 	//ic = "Ya funciona el programa!!!. Genial";
 	print (ie + 7);
-	funcionprueba(7, "parametro2", "a");
+	funcionprueba(5*2, "parametro2", "a");
+	funcionprueba2(9);
 	print(bol);
 	if (1 < 4){
-	print ("el primer valor es menor al segundo, si entro al if");
-	} else {
-	print ("el primer valor no es menor al segundo, no entro al if");
+		print ("el primer valor es menor al segundo, si entro al if");
+		} 
+	else {
+		print ("el primer valor no es menor al segundo, no entro al if");
 	}
 	icontador=0;
 	while(icontador<5){
-	print("El contador exterior es: " + icontador);
-	icontador2=0;
-	while(icontador2<5){
-	print("El contador interior es: " + icontador2);
-	if(icontador ==2 &&
-	 icontador2==2){
-	print("El valor de ambos contadores es 2");
-	}
-	icontador2 = icontador2+1;
-	}
-	icontador = icontador+1;
+		print("El contador exterior es: " + icontador);
+		icontador2=0;
+		while(icontador2<5){
+			print("El contador interior es: " + icontador2);
+			if(icontador ==2 && icontador2==2){
+				print("El valor de ambos contadores es 2");
+			}
+			icontador2 = icontador2+1;
+		}
+		icontador = icontador+1;
 	}
 	for (ifo = 0; ifo<10 ifo=ifo+1;){
 		int ifo;
@@ -94,40 +110,40 @@ FUNCTION int funcionprueba (int iparametro1, string sparametro2, char cparametro
 	print("AQUI VA FIBBONACI");
 	
 	while(fibonaci<55){
-	if(sderecha && bnoentro){
-	iposx=iposx-fibonaci;
-	iposy=iposy-fibonaci;
-	mueve(iposx*10,iposy*10);
-	bnoentro=false;
-	sderecha=false;
-	sizquierda=true;
-	}
-	if(sizquierda && bnoentro){
-	iposx=iposx+fibonaci;
-	iposy=iposy-fibonaci;
-	mueve(iposx*10,iposy*10);
-	bnoentro=false;
-	sizquierda=false;
-	iizquierda=true;
-	}
-	if(iderecha && bnoentro){
-	iposx=iposx-fibonaci;
-	iposy=iposy+fibonaci;
-	mueve(iposx*10,iposy*10);
-	bnoentro=false;
-	iderecha=false;
-	sderecha=true;
-	}
-	if(iizquierda && bnoentro){
-	iposx=iposx+fibonaci;
-	iposy=iposy+fibonaci;
-	mueve(iposx*10,iposy*10);
-	bnoentro=false;
-	iizquierda=false;
-	iderecha=true;
-	}		
-	bnoentro=true;
-	print(fibonaci);
+		if(sderecha && bnoentro){
+			iposx=iposx-fibonaci;
+			iposy=iposy-fibonaci;
+			mueve(iposx*10,iposy*10);
+			bnoentro=false;
+			sderecha=false;
+			sizquierda=true;
+		}
+		if(sizquierda && bnoentro){
+			iposx=iposx+fibonaci;
+			iposy=iposy-fibonaci;
+			mueve(iposx*10,iposy*10);
+			bnoentro=false;
+			sizquierda=false;
+			iizquierda=true;
+		}
+		if(iderecha && bnoentro){
+			iposx=iposx-fibonaci;
+			iposy=iposy+fibonaci;
+			mueve(iposx*10,iposy*10);
+			bnoentro=false;
+			iderecha=false;
+			sderecha=true;
+		}
+		if(iizquierda && bnoentro){
+			iposx=iposx+fibonaci;
+			iposy=iposy+fibonaci;
+			mueve(iposx*10,iposy*10);
+			bnoentro=false;
+			iizquierda=false;
+			iderecha=true;
+		}		
+		bnoentro=true;
+		print(fibonaci);
         fibonaci = iterm1 + iterm2;
         iterm1 = iterm2;
         iterm2 = fibonaci;

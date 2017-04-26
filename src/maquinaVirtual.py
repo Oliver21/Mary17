@@ -35,8 +35,12 @@ def tablero():
 		tess = turtle.Turtle()
 		setup(940, 680, 0, 0)
 		title("MARY17")
-		speed(1)	
-	
+		speed(1)
+
+#servira para saber si tenemos llamadas anidadas			
+memoriaFuncion=10000
+memoriaInicialFuncion=10000
+PFunciones=Stack()
 
 print "-----------------MAQUINA VIRTUAL-------------------------------"
 i = 0
@@ -128,7 +132,6 @@ while i < len(cuadru):
 		i = damevalor(valor4) - 1
 		#print "Aqui hay una goto"
 	elif valor1=="PRINT":
-		#print "Aqui hay una print"
 		print damevalor(valor4)
 	elif valor1=="READ":
 		lectura=raw_input()
@@ -244,12 +247,38 @@ while i < len(cuadru):
 	elif valor1=="ERA":
 		nombrefuncion=valor2
 		size = len(TablaFunciones.get(nombrefuncion).LocalTable.dict)
+		s=0
+		memoriaInicialFuncion=memoriaFuncion
+		while s<size:
+			#escribimos el nombre de la funcion en memoriaFuncion
+			s = s+1
+			memoriaFuncion=memoriaFuncion+s
+
 
 	elif valor1 =="gosub":
 		nombrefuncion=valor2
-		#i = TablaFunciones.get(nombrefuncion).Cont -1
+		PFunciones.push(i)
+		i = TablaFunciones.get(nombrefuncion).Cont - 1
 		
-		
+	elif valor1=="ENDPROC":
+		#borramos todo el contenido de la memoria de funciones
+		TablaFunciones.get(nombrefuncion).LocalTable.release()
+		memoriaFuncion=10000
+		i=PFunciones.pop()
+
+	elif valor1 =="param":
+		#decFunciones=True
+		parametro=int(valor4[5:])
+		valorpara=damevalor(valor2)
+		posicion = TablaFunciones.get(nombrefuncion).getVarMemory(parametro-1)
+		UnivMemManager.asigna(int(posicion), valorpara)
+		#print "Se pasara el valor " + str(valorpara) + " a la posicion numero " + str(posicion)
+		#print posicion
+		#print UnivMemManager.find(posicion)
+		#print UnivMemManager.find(10000)
+		#print UnivMemManager.find(posicion)
+
+ 		
 		
 	i = i+1
 
