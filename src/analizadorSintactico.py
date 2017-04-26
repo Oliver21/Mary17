@@ -32,6 +32,8 @@ decFunciones = False
 TablaFunciones = None
 FuncToBuild = None
 EnvParam = None
+DecFuncIndividual = False
+LlegoReturn = False
 
 #definimos una estructura de datos tipo pila que nos servira para manejar los tipos y los identificadores de las variables
 class Stack:
@@ -68,6 +70,7 @@ class Funcion:
 		self.ParamTable = []
 		self.LocalVars = []
 		self.LocalTable = None
+		self.ReturnValue = None
 	def getParamType(self,index):
 		if index < len(self.ParamTable):
 			return self.ParamTable[index]
@@ -80,6 +83,7 @@ class Funcion:
 			return self.LocalVars[index].memory
 		else:
 			return None
+
 
 #La clase Variable funciona como template para la entrada de variables
 class Variable:
@@ -101,7 +105,11 @@ class Env:
 
 #funcion que nos sirve para insertar un nuevo simbolo a la tabla
 	def put(self, identifier, content):
+		if not identifier in self.dict: 
 			self.dict[identifier] = content
+			return True
+		else:
+			return False
 
 #funcion que itera por las tablas para encontrar un simbolo
 #empieza por el scope actual y regresa una tabla o None si no encuentra la variable
@@ -114,6 +122,7 @@ class Env:
 	  				return e.dict[k]
 	  				break
 			e = e.prev
+		print "La variable " + identifier + " no ha sido declarada"
 		return None
 #funcion que nos permite liberar la memoria de las variables para su reuso
 	def release(self):
@@ -126,6 +135,13 @@ class Env:
 		while e != None:
 			for k in e.dict:
 	  				print e.dict[k].identifier
+			e = e.prev
+	def showMemContent(self):
+		global UnivMemManager
+		e = self
+		while e != None:
+			for k in e.dict:
+	  				print UnivMemManager.find(e.dict[k].memory)
 			e = e.prev
 
 #definicion de la tabla de funciones
@@ -176,6 +192,58 @@ class MemManager:
 				break
 			cont = cont + 1
 		self.memory[cont] = value
+		return str(cont)
+
+	def saveReturnValue(self,type,value):
+		if type == "INT":
+			cont = 0
+			for key, val in self.memory.iteritems():
+				if not cont in self.memory:
+					break
+				elif self.memory[cont] == None:
+					break
+				cont = cont + 1
+			self.memory[cont] = value
+
+		if type == "FLOAT":
+			cont = 2000
+			for key, val in self.memory.iteritems():
+				if not cont in self.memory:
+					break
+				elif self.memory[cont] == None:
+					break
+				cont = cont + 1
+			self.memory[cont] = value
+
+		if type == "CHAR":
+			cont = 4000
+			for key, val in self.memory.iteritems():
+				if not cont in self.memory:
+					break
+				elif self.memory[cont] == None:
+					break
+				cont = cont + 1
+			self.memory[cont] = value
+
+		if type == "STRING":
+			cont = 6000
+			for key, val in self.memory.iteritems():
+				if not cont in self.memory:
+					break
+				elif self.memory[cont] == None:
+					break
+				cont = cont + 1
+			self.memory[cont] = value
+
+		if type == "BOOL":
+			cont = 8000
+			for key, val in self.memory.iteritems():
+				if not cont in self.memory:
+					break
+				elif self.memory[cont] == None:
+					break
+				cont = cont + 1
+			self.memory[cont] = value
 		return str(cont)
 
 	def save(self, type, value):
@@ -340,7 +408,6 @@ def p_iniEnv(p):
 		#print saved.dict
 		top = Env(saved)	
 	#print "bloque"
-
 
 def p_b3(p):
 	'''b3 : declaracion b3
@@ -795,6 +862,7 @@ def p_estatuto(p):
 	| apoya
 	| dimension
 	| llamafuncion
+	| return
 	| if'''
 #	| potencia
 #	| raiz
@@ -973,6 +1041,10 @@ def p_tagterminaif(p):
 	end = PSaltos.pop()
 	cuadru[end].pos4=len(cuadru)
 
+def p_return(p):
+	'''return : RETURN exp PUNTOCOMA'''
+	pass
+
 #def p_potencia(p):
 #	'''potencia : POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
 #	print "potencia"
@@ -1070,8 +1142,12 @@ def p_buildFunc(p):
 	#que sera guardado en nuestra tabla de funciones
 	#agregandole el tipo y su identificador como atributos
 	global FuncToBuild
+	global top
 	FuncToBuild = Funcion(p[-2], p[-1])
+	pos = UnivMemManager.save(p[-2], p[-1])
+	FuncToBuild.ReturnValue = Variable(p[-2], p[-1], pos, None)
 	TablaFunciones.put(p[-1], FuncToBuild)
+	top.put(p[-1],FuncToBuild.ReturnValue)
 	
 def p_funct11(p):
 	'''funct11 : function4'''
@@ -1088,7 +1164,7 @@ def p_initParamTable(p):
 	global top
 	EnvParam =[]
 	#Localfunc = Env(None)
-	top = Env(None)
+	top = Env(top)
 	
 def p_funct2(p):
 	'''funct2 : tipo ID initParams funct3'''
@@ -1100,6 +1176,7 @@ def p_initParams(p):
 	global UnivMemManager
 	global decFunciones
 	global TablaFunciones
+	global DecFuncIndividual
 	#global Localfunc
 	global FuncToBuild
 	global EnvParam
@@ -1143,8 +1220,7 @@ def p_noinitFunc(p):
 	#FuncToBuild.LocalTable = Localfunc
 
 	FuncToBuild.LocalTable = top
-	FuncToBuild.LocalTable.release()
-	TablaFunciones.put(FuncToBuild.identifier,FuncToBuild)
+	TablaFunciones.get(FuncToBuild.identifier).LocalTable.release()
 	decFunciones = False
 	quad = Cuadruplo(pos1="ENDPROC")
 	cuadru.append(quad)
@@ -1258,6 +1334,9 @@ parser.parse(cadena)
 #print UnivMemManager.find(8)
 print UnivMemManager.memory	
 
+
+print TablaFunciones.get("funcionEnv").ReturnValue.identifier
+print TablaFunciones.get("funcionEnv").	ReturnValue.memory
 #print TablaFunciones.get("funcionEnv").getVarMemory(5)
 #print TablaFunciones.get("iBarney").LocalTable.get("ij").memory
 
