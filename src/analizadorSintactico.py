@@ -538,11 +538,13 @@ def p_savevar(p):
 	'''savevar : empty'''
 	global top
 	global UnivMemManager
+	global TablaFunciones
 	#global Localfunc
 	pos = UnivMemManager.save(p[-2],p[-1])
 	var = Variable(p[-2],p[-1],pos,1)
 	if decFunciones:
 		FuncToBuild.LocalVars.append(var)
+		TablaFunciones.get(FuncToBuild.identifier).LocalVars.append(var)
 	#else:
 	#	top.put(p[-1],var)
 	top.put(p[-1],var)
@@ -1069,6 +1071,7 @@ def p_buildFunc(p):
 	#agregandole el tipo y su identificador como atributos
 	global FuncToBuild
 	FuncToBuild = Funcion(p[-2], p[-1])
+	TablaFunciones.put(p[-1], FuncToBuild)
 	
 def p_funct11(p):
 	'''funct11 : function4'''
@@ -1096,6 +1099,7 @@ def p_initParams(p):
 	#locales y parametros
 	global UnivMemManager
 	global decFunciones
+	global TablaFunciones
 	#global Localfunc
 	global FuncToBuild
 	global EnvParam
@@ -1103,8 +1107,10 @@ def p_initParams(p):
 	pos = UnivMemManager.save(p[-2],p[-1])
 	var = Variable(p[-2],p[-1],pos,0)
 	FuncToBuild.LocalVars.append(var)
+	TablaFunciones.get(FuncToBuild.identifier).LocalVars.append(var)
 	#EnvParam.put(p[-1],var)
 	EnvParam.append(p[-2]);
+	TablaFunciones.get(FuncToBuild.identifier).ParamTable.append(p[-2])
 	#Localfunc.put(p[-1],var)
 	top.put(p[-1],var)
 
@@ -1126,6 +1132,7 @@ def p_initFunc(p):
 	global EnvParam	
 	FuncToBuild.ParamTable = EnvParam
 	FuncToBuild.Cont = len(cuadru)
+
 
 def p_noinitFunc(p):
 	'''noinitFunc : empty'''

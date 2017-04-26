@@ -19,8 +19,24 @@ FUNCTION int funcionprueba2 (int ix){
 	print ("El parametro 1 recibido es: " + ix);
 	ia=ix;
 	funcionprueba(ia, "paramtro22", "p");
+	funcionprueba(50, "paramtro22", "z");
 	print (ia);
-	print ("Aqui esta adentro de la funcionprueba2");
+	print ("Aqui esta termina la funcionprueba2");
+}
+
+FUNCTION int frecursiva (int contador){
+	int iconta;
+	iconta=contador;
+	print ("Este es el contador" + iconta);
+	iconta=iconta+1;
+	if (iconta!=10){
+		frecursiva(iconta);
+		if (1<2){
+			int im;
+			im=iconta;
+			print (im);
+		}
+	}
 }
 
 {	float ia;
@@ -57,8 +73,9 @@ FUNCTION int funcionprueba2 (int ix){
 	print(ia);
 	//ic = "Ya funciona el programa!!!. Genial";
 	print (ie + 7);
-	funcionprueba(5*2, "parametro2", "a");
-	funcionprueba2(9);
+	//funcionprueba(5*2, "parametro2", "a");
+	//funcionprueba2(9);
+	frecursiva(1);
 	print(bol);
 	if (1 < 4){
 		print ("el primer valor es menor al segundo, si entro al if");

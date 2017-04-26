@@ -41,6 +41,9 @@ def tablero():
 memoriaFuncion=10000
 memoriaInicialFuncion=10000
 PFunciones=Stack()
+PValores=Stack()
+PNombres=Stack()
+nombrefuncion=None
 
 print "-----------------MAQUINA VIRTUAL-------------------------------"
 i = 0
@@ -245,15 +248,18 @@ while i < len(cuadru):
 		dibujo=True
 
 	elif valor1=="ERA":
-		nombrefuncion=valor2
-		size = len(TablaFunciones.get(nombrefuncion).LocalTable.dict)
-		s=0
-		memoriaInicialFuncion=memoriaFuncion
-		while s<size:
-			#escribimos el nombre de la funcion en memoriaFuncion
-			s = s+1
-			memoriaFuncion=memoriaFuncion+s
+		global nombrefuncion
+		#print nombrefuncion
+		if nombrefuncion!=None:
+			conta=0
+			while TablaFunciones.get(nombrefuncion).getVarMemory(conta)!=None:
+				posicion = TablaFunciones.get(nombrefuncion).getVarMemory(conta)
+				PValores.push(UnivMemManager.find(int(posicion)))
+				conta=conta+1
+			PNombres.push(nombrefuncion)
 
+		nombrefuncion=valor2
+		#PNombres.push(nombrefuncion)
 
 	elif valor1 =="gosub":
 		nombrefuncion=valor2
@@ -261,10 +267,21 @@ while i < len(cuadru):
 		i = TablaFunciones.get(nombrefuncion).Cont - 1
 		
 	elif valor1=="ENDPROC":
+		global nombrefuncion
 		#borramos todo el contenido de la memoria de funciones
 		TablaFunciones.get(nombrefuncion).LocalTable.release()
-		memoriaFuncion=10000
 		i=PFunciones.pop()
+		nombrefuncion=None
+		if PNombres.size()>0:
+			nombrefuncion=PNombres.pop()
+			conta=0
+			while TablaFunciones.get(nombrefuncion).getVarMemory(conta)!=None:
+				conta=conta+1
+			#print "El nombrefuncion en la pila es " + nombrefuncion
+			while (conta > 0):
+				posicion = TablaFunciones.get(nombrefuncion).getVarMemory(conta-1)
+				UnivMemManager.asigna(int(posicion), PValores.pop())
+				conta=conta-1
 
 	elif valor1 =="param":
 		#decFunciones=True
@@ -272,6 +289,7 @@ while i < len(cuadru):
 		valorpara=damevalor(valor2)
 		posicion = TablaFunciones.get(nombrefuncion).getVarMemory(parametro-1)
 		UnivMemManager.asigna(int(posicion), valorpara)
+		#PValores.push(valorpara)
 		#print "Se pasara el valor " + str(valorpara) + " a la posicion numero " + str(posicion)
 		#print posicion
 		#print UnivMemManager.find(posicion)
@@ -281,7 +299,7 @@ while i < len(cuadru):
  		
 		
 	i = i+1
-
+PValores.imprime()
 if (dibujo):
 	raw_input("Press enter to continue")
 		
