@@ -112,7 +112,6 @@ FUNCTION int frecursiva (int contador){
 	//apoya();
 	//mueve(200,100);
 	///////////////////////////////////////////////
-	ijuanchutero = 3;
 	print("Cual es tu nombre");
 	snombre=read();
 	iposx=0;

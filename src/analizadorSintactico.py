@@ -1336,8 +1336,8 @@ parser.parse(cadena)
 print UnivMemManager.memory	
 
 
-print TablaFunciones.get("funcionEnv").ReturnValue.identifier
-print TablaFunciones.get("funcionEnv").	ReturnValue.memory
+#print TablaFunciones.get("funcionEnv").ReturnValue.identifier
+#print TablaFunciones.get("funcionEnv").	ReturnValue.memory
 #print TablaFunciones.get("funcionEnv").getVarMemory(5)
 #print TablaFunciones.get("iBarney").LocalTable.get("ij").memory
 

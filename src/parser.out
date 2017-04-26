@@ -493,16 +493,16 @@ state 8
     LKEY            reduce using rule 184 (empty -> .)
     INT             shift and go to state 17
     FLOAT           shift and go to state 18
-    CHAR            shift and go to state 10
-    STRING          shift and go to state 13
+    CHAR            shift and go to state 15
+    STRING          shift and go to state 12
     BOOL            shift and go to state 19
 
-    p2                             shift and go to state 14
-    p3                             shift and go to state 15
-    tipo                           shift and go to state 11
+    p2                             shift and go to state 13
+    p3                             shift and go to state 14
+    tipo                           shift and go to state 10
     p5                             shift and go to state 16
     cuadrupro2                     shift and go to state 9
-    empty                          shift and go to state 12
+    empty                          shift and go to state 11
     initFunctions                  shift and go to state 20
     declaracion                    shift and go to state 21
 
@@ -521,19 +521,12 @@ state 9
 
 state 10
 
-    (56) tipo -> CHAR .
-
-    ID              reduce using rule 56 (tipo -> CHAR .)
-
-
-state 11
-
     (47) declaracion -> tipo . ID savevar decla1
 
     ID              shift and go to state 25
 
 
-state 12
+state 11
 
     (8) initFunctions -> empty .
     (13) cuadrupro2 -> empty .
@@ -546,25 +539,32 @@ state 12
   ! LKEY            [ reduce using rule 13 (cuadrupro2 -> empty .) ]
 
 
-state 13
+state 12
 
     (57) tipo -> STRING .
 
     ID              reduce using rule 57 (tipo -> STRING .)
 
 
-state 14
+state 13
 
     (1) program -> PROGRAM cuadrupro ID initTop DOSPUNTOS p2 .
 
     $end            reduce using rule 1 (program -> PROGRAM cuadrupro ID initTop DOSPUNTOS p2 .)
 
 
-state 15
+state 14
 
     (3) p2 -> p3 .
 
     $end            reduce using rule 3 (p2 -> p3 .)
+
+
+state 15
+
+    (56) tipo -> CHAR .
+
+    ID              reduce using rule 56 (tipo -> CHAR .)
 
 
 state 16
@@ -633,15 +633,15 @@ state 21
 
     INT             shift and go to state 17
     FLOAT           shift and go to state 18
-    CHAR            shift and go to state 10
-    STRING          shift and go to state 13
+    CHAR            shift and go to state 15
+    STRING          shift and go to state 12
     BOOL            shift and go to state 19
     FUNCTION        reduce using rule 184 (empty -> .)
     VOID            reduce using rule 184 (empty -> .)
     LKEY            reduce using rule 184 (empty -> .)
 
     p3                             shift and go to state 32
-    tipo                           shift and go to state 11
+    tipo                           shift and go to state 10
     empty                          shift and go to state 33
     initFunctions                  shift and go to state 34
     declaracion                    shift and go to state 21
@@ -715,8 +715,8 @@ state 27
 
     INT             shift and go to state 17
     FLOAT           shift and go to state 18
-    CHAR            shift and go to state 10
-    STRING          shift and go to state 13
+    CHAR            shift and go to state 15
+    STRING          shift and go to state 12
     BOOL            shift and go to state 19
 
     tipo                           shift and go to state 41
@@ -826,11 +826,11 @@ state 35
     RKEY            reduce using rule 184 (empty -> .)
     INT             shift and go to state 17
     FLOAT           shift and go to state 18
-    CHAR            shift and go to state 10
-    STRING          shift and go to state 13
+    CHAR            shift and go to state 15
+    STRING          shift and go to state 12
     BOOL            shift and go to state 19
 
-    tipo                           shift and go to state 11
+    tipo                           shift and go to state 10
     declaracion                    shift and go to state 46
     b3                             shift and go to state 45
     empty                          shift and go to state 44
@@ -1061,16 +1061,12 @@ state 46
     RKEY            reduce using rule 184 (empty -> .)
     INT             shift and go to state 17
     FLOAT           shift and go to state 18
-    CHAR            shift and go to state 10
-    STRING          shift and go to state 13
+    CHAR            shift and go to state 15
+    STRING          shift and go to state 12
     BOOL            shift and go to state 19
 
     declaracion                    shift and go to state 46
-<<<<<<< HEAD
     tipo                           shift and go to state 10
-=======
-    tipo                           shift and go to state 11
->>>>>>> 545d5f663a6a19b58d4b3fe24136fba4fb568130
     b3                             shift and go to state 98
     empty                          shift and go to state 44
 
@@ -3169,7 +3165,6 @@ state 141
     llamafuncion                   shift and go to state 107
     factor                         shift and go to state 109
     exp                            shift and go to state 197
-<<<<<<< HEAD
 
 state 142
 
@@ -3180,18 +3175,6 @@ state 142
 
 state 143
 
-=======
-
-state 142
-
-    (144) return -> RETURN exp . PUNTOCOMA
-
-    PUNTOCOMA       shift and go to state 198
-
-
-state 143
-
->>>>>>> 545d5f663a6a19b58d4b3fe24136fba4fb568130
     (145) cuadrado -> CUADRADO LPARENT . exp COMA exp COMA exp RPARENT tagcuadro PUNTOCOMA
     (41) exp -> . termino tagsacops exp2
     (74) termino -> . factor tagsacopm te2
@@ -3838,8 +3821,8 @@ state 170
 
     INT             shift and go to state 17
     FLOAT           shift and go to state 18
-    CHAR            shift and go to state 10
-    STRING          shift and go to state 13
+    CHAR            shift and go to state 15
+    STRING          shift and go to state 12
     BOOL            shift and go to state 19
 
     funct2                         shift and go to state 217
@@ -4390,7 +4373,6 @@ state 198
 state 199
 
     (145) cuadrado -> CUADRADO LPARENT exp . COMA exp COMA exp RPARENT tagcuadro PUNTOCOMA
-<<<<<<< HEAD
 
     COMA            shift and go to state 258
 
@@ -4399,16 +4381,6 @@ state 200
 
     (157) apoya -> APOYA LPARENT RPARENT . PUNTOCOMA
 
-=======
-
-    COMA            shift and go to state 258
-
-
-state 200
-
-    (157) apoya -> APOYA LPARENT RPARENT . PUNTOCOMA
-
->>>>>>> 545d5f663a6a19b58d4b3fe24136fba4fb568130
     PUNTOCOMA       shift and go to state 259
 
 
@@ -7573,8 +7545,8 @@ state 352
 
     INT             shift and go to state 17
     FLOAT           shift and go to state 18
-    CHAR            shift and go to state 10
-    STRING          shift and go to state 13
+    CHAR            shift and go to state 15
+    STRING          shift and go to state 12
     BOOL            shift and go to state 19
 
     funct2                         shift and go to state 383
@@ -8623,7 +8595,7 @@ state 410
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: reduce/reduce conflict in state 12 resolved using rule (initFunctions -> empty)
-WARNING: rejected rule (cuadrupro2 -> empty) in state 12
+WARNING: reduce/reduce conflict in state 11 resolved using rule (initFunctions -> empty)
+WARNING: rejected rule (cuadrupro2 -> empty) in state 11
 WARNING: reduce/reduce conflict in state 28 resolved using rule (p2 -> initFunctions p4)
 WARNING: rejected rule (p3 -> initFunctions p4) in state 28
