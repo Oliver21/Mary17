@@ -11,6 +11,7 @@ FUNCTION int funcionprueba (int iparametro1, string sparametro2, char cparametro
 		print ("El parametro 3 recibido es: " + cparametro3);
 		print (ifuncion);
 		print ("Aqui termina la funcionprueba");
+		//return 5;
 	}
 
 FUNCTION int funcionprueba2 (int ix){
@@ -38,7 +39,6 @@ FUNCTION int frecursiva (int contador){
 		}
 	}
 }
-
 {	float ia;
 	int ib;
 	float ik;
@@ -66,6 +66,7 @@ FUNCTION int frecursiva (int contador){
 	bol = 6!=6;
 	ib = 7;
 	ia=1;
+	//return 10;
 	ia = 4.3 * ib + 7 + 8 * 2 / 3 + 1 * 5 * (5 + 1 + 5 - 3) + 1;
 	ic = "hola";
 	id = "diego";

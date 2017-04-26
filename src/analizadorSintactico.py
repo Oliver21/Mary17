@@ -795,6 +795,7 @@ def p_estatuto(p):
 	| apoya
 	| dimension
 	| llamafuncion
+	| return
 	| if'''
 #	| potencia
 #	| raiz
@@ -973,6 +974,10 @@ def p_tagterminaif(p):
 	end = PSaltos.pop()
 	cuadru[end].pos4=len(cuadru)
 
+def p_return(p):
+	'''return : RETURN exp PUNTOCOMA'''
+	pass
+
 #def p_potencia(p):
 #	'''potencia : POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
 #	print "potencia"
@@ -1062,16 +1067,18 @@ def p_dimension(p):
 def p_function(p):
 	'''function : FUNCTION tipo ID buildFunc LPARENT funct11
 	| VOID ID buildFunc LPARENT funct11'''
+
 	#print "Declara una funcion"
 
 def p_buildFunc(p):
-	'''buildFunc : empty''' 
+	'''buildFunc : empty'''
 	#iniciamos a construir nuestro objeto funcion
 	#que sera guardado en nuestra tabla de funciones
 	#agregandole el tipo y su identificador como atributos
 	global FuncToBuild
 	FuncToBuild = Funcion(p[-2], p[-1])
 	TablaFunciones.put(p[-1], FuncToBuild)
+	print p[-2]
 	
 def p_funct11(p):
 	'''funct11 : function4'''
@@ -1141,7 +1148,6 @@ def p_noinitFunc(p):
 	global top
 	global FuncToBuild
 	#FuncToBuild.LocalTable = Localfunc
-
 	FuncToBuild.LocalTable = top
 	FuncToBuild.LocalTable.release()
 	TablaFunciones.put(FuncToBuild.identifier,FuncToBuild)
