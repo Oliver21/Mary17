@@ -1134,10 +1134,11 @@ def p_dimension(p):
 def p_function(p):
 	'''function : FUNCTION tipo ID buildFunc LPARENT funct11
 	| VOID ID buildFunc LPARENT funct11'''
+
 	#print "Declara una funcion"
 
 def p_buildFunc(p):
-	'''buildFunc : empty''' 
+	'''buildFunc : empty'''
 	#iniciamos a construir nuestro objeto funcion
 	#que sera guardado en nuestra tabla de funciones
 	#agregandole el tipo y su identificador como atributos
@@ -1148,6 +1149,7 @@ def p_buildFunc(p):
 	FuncToBuild.ReturnValue = Variable(p[-2], p[-1], pos, None)
 	TablaFunciones.put(p[-1], FuncToBuild)
 	top.put(p[-1],FuncToBuild.ReturnValue)
+
 	
 def p_funct11(p):
 	'''funct11 : function4'''
@@ -1218,7 +1220,6 @@ def p_noinitFunc(p):
 	global top
 	global FuncToBuild
 	#FuncToBuild.LocalTable = Localfunc
-
 	FuncToBuild.LocalTable = top
 	TablaFunciones.get(FuncToBuild.identifier).LocalTable.release()
 	decFunciones = False
