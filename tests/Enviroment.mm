@@ -1,6 +1,6 @@
 program penviroment:
 int iGlobal;
-FUNCTION int funcionEnv (int iparametro1, string sparametro2, char cparametro3){
+FUnCTIoN VoID funcionEnv (int iparametro1, string sparametro2, char cparametro3){
 		float fflotante;	
 		int ifuncion;
 		print ("Aqui esta adentro de la funcion");
