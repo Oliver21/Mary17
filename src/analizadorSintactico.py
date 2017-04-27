@@ -1042,8 +1042,18 @@ def p_tagterminaif(p):
 	cuadru[end].pos4=len(cuadru)
 
 def p_return(p):
-	'''return : RETURN exp PUNTOCOMA'''
-	pass
+	'''return : RETURN llegoRet exp PUNTOCOMA'''
+
+def p_llegoRet(p):
+	'''llegoRet : empty'''
+	global LlegoReturn
+	global TablaFunciones
+	global FuncToBuild
+	if(FuncToBuild.type == "VOID"):
+		print "valor de retorno inesperado"
+		sys.exit()
+	else:
+		LlegoReturn = True
 
 #def p_potencia(p):
 #	'''potencia : POW LPARENT varcte COMA varcte RPARENT PUNTOCOMA'''
@@ -1132,10 +1142,13 @@ def p_dimension(p):
 
 ##########################DECLARA UNA FUNCION##########################
 def p_function(p):
-	'''function : FUNCTION tipo ID buildFunc LPARENT funct11
-	| VOID ID buildFunc LPARENT funct11'''
+	'''function : FUNCTION pfunc'''
 
 	#print "Declara una funcion"
+
+def p_pfunc(p):
+	'''pfunc : tipo ID buildFunc LPARENT funct11
+	| VOID ID buildFunc LPARENT funct11'''
 
 def p_buildFunc(p):
 	'''buildFunc : empty'''
@@ -1145,11 +1158,13 @@ def p_buildFunc(p):
 	global FuncToBuild
 	global top
 	FuncToBuild = Funcion(p[-2], p[-1])
-	pos = UnivMemManager.save(p[-2], p[-1])
-	FuncToBuild.ReturnValue = Variable(p[-2], p[-1], pos, None)
-	TablaFunciones.put(p[-1], FuncToBuild)
-	top.put(p[-1],FuncToBuild.ReturnValue)
-
+	if not p[-2] == "VOID":
+		pos = UnivMemManager.save(p[-2], p[-1])
+		FuncToBuild.ReturnValue = Variable(p[-2], p[-1], pos, None)
+		TablaFunciones.put(p[-1], FuncToBuild)
+		top.put(p[-1],FuncToBuild.ReturnValue)
+	else:
+		TablaFunciones.put(p[-1], FuncToBuild)
 	
 def p_funct11(p):
 	'''funct11 : function4'''
@@ -1178,7 +1193,6 @@ def p_initParams(p):
 	global UnivMemManager
 	global decFunciones
 	global TablaFunciones
-	global DecFuncIndividual
 	#global Localfunc
 	global FuncToBuild
 	global EnvParam
@@ -1219,7 +1233,11 @@ def p_noinitFunc(p):
 	#global Localfunc
 	global top
 	global FuncToBuild
+	global LlegoReturn
 	#FuncToBuild.LocalTable = Localfunc
+	if not LlegoReturn and not FuncToBuild.type == "VOID":
+		print "La funcion " + FuncToBuild.identifier + " necesita un valor de retorno"
+		sys.exit()
 	FuncToBuild.LocalTable = top
 	TablaFunciones.get(FuncToBuild.identifier).LocalTable.release()
 	decFunciones = False
