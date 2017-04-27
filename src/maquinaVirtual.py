@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from analizadorSintactico import *
-#from turtle import *
-#import turtle
+from turtle import *
+import turtle
 import os
 
 def damevalor(valor):
