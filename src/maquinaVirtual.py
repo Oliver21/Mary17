@@ -43,7 +43,7 @@ memoriaInicialFuncion=10000
 PFunciones=Stack()
 PValores=Stack()
 PNombres=Stack()
-nombrefuncion=None
+nombrefuncion = None
 
 print "-----------------MAQUINA VIRTUAL-------------------------------"
 i = 0
@@ -253,7 +253,7 @@ while i < len(cuadru):
 		dibujo=True
 
 	elif valor1=="ERA":
-		global nombrefuncion
+		nombrefuncion
 		#print nombrefuncion
 		if nombrefuncion!=None:
 			conta=0
@@ -272,7 +272,7 @@ while i < len(cuadru):
 		i = TablaFunciones.get(nombrefuncion).Cont - 1
 		
 	elif valor1=="ENDPROC":
-		global nombrefuncion
+		nombrefuncion
 		#borramos todo el contenido de la memoria de funciones
 		TablaFunciones.get(nombrefuncion).LocalTable.release()
 		i=PFunciones.pop()

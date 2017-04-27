@@ -781,8 +781,7 @@ def p_factor(p):
 	'''factor : LPARENT tagfondofalso expresion RPARENT tagsacafondo
 	| f2
 	| f3
-	| f6
-	| f7'''
+	| f6'''
 	#print "factor"
 	if p[1] == '{':
 		p[0] = p[2]
@@ -828,9 +827,9 @@ def p_tagsacafondo(p):
 #	| RBRACKET'''
 
 #llamar a un arreglo
-def p_f7(p):
-	'''f7 : ID LBRACKET exp f8'''
-	print "OPERACION CON DIMENSIONES"
+#def p_f7(p):
+#	'''f7 : ID LBRACKET exp f8'''
+#	print "OPERACION CON DIMENSIONES"
 	
 def p_f8(p):
 	'''f8 : COMA exp f8
@@ -1055,7 +1054,7 @@ def p_tagterminaif(p):
 	cuadru[end].pos4=len(cuadru)
 
 def p_return(p):
-	'''return : RETURN llegoRet exp PUNTOCOMA'''
+	'''return : RETURN llegoRet expresion PUNTOCOMA'''
 	quad = Cuadruplo(pos1= "Return", pos2=PilaO.pop())
 	cuadru.append(quad)
 
@@ -1288,6 +1287,7 @@ def p_tagverificafuncion(p):
 		contadorParametro=1
 		nombreFuncion=p[-2]
 		nombredelafuncion=nombreFuncion
+		POper.push(p[-1])
 		#size = len(TablaFunciones.get(p[-2]).LocalTable.dict)
 		quad = Cuadruplo(pos1 = "ERA", pos2 =nombreFuncion)
 		cuadru.append(quad)
@@ -1329,6 +1329,7 @@ def p_tagterminallamada(p):
 	tipo = TablaFunciones.get (nombredelafuncion).ReturnValue.type
 	PilaO.push("mem-" + memoria)
 	PTypes.push(tipo)
+	POper.pop()
 
 		
 ##################EMPTY########################################

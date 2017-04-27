@@ -27,7 +27,7 @@ function int factorial(int fa){
 		//ifa = factorial(in);;
 		//return (in+1)*ifa;
 		//ik=factorial(in - 1);;
-		return factorial(in - 1); * in;
+		return in * factorial(in - 1);;
 	}
 }
 
@@ -94,8 +94,8 @@ FUNCTION int frecursiva (int contador){
 	ia=1;
 	//return 10;
 	ia = 4.3 * ib + 7 + 8 * 2 / 3 + 1 * 5 * (5 + 1 + 5 - 3) + 1;
-	ic = "hola";
-	id = "diego";
+	ic = "hola ";
+	id = "diego ";
 	ie = ic + id;
 	print(ia);
 	//ic = "Ya funciona el programa!!!. Genial";
@@ -105,10 +105,10 @@ FUNCTION int frecursiva (int contador){
 	//frecursiva(1);
 	print(bol);
 	if (1 < 4){
-		print ("el primer valor es menor al segundo, si entro al if");
+		print ("El primer valor es menor al segundo, si entro al if");
 		} 
 	else {
-		print ("el primer valor no es menor al segundo, no entro al if");
+		print ("El primer valor no es menor al segundo, no entro al if");
 	}
 	icontador=0;
 	while(icontador<5){
@@ -142,7 +142,7 @@ FUNCTION int frecursiva (int contador){
 	faaaa=readint();
 	faaa = factorial(faaaa);;
 	print("El factorial de "+ faaaa +  " es: " + faaa);
-	print("Cual es tu nombre");
+	print("Cual es tu nombre: ");
 	snombre=read();
 	iposx=0;
 	iposy=0;

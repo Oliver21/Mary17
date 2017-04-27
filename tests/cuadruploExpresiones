@@ -13,7 +13,7 @@ program polaco:
 	bool buno;
 	bool bdos;
 	string iQue;
-	int iBarney (string sPaso, char cAmigito){
+	function int iBarney (string sPaso, char cAmigito){
 		int ij;	
 		ij = ij + 5.5;
 		if(3 > 2){
