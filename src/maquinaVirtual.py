@@ -141,6 +141,11 @@ while i < len(cuadru):
 		UnivMemManager.asigna(dameposicion(valor4),lectura)
 		#print (entrada)
 		#print "Aqui hay una read"		
+
+	elif valor1=="READINT":
+		lectura=int(raw_input())
+		UnivMemManager.asigna(dameposicion(valor4),lectura)
+
 	elif valor1=="||":
 		if damevalor(valor2) or damevalor(valor3):
 			UnivMemManager.asigna(dameposicion(valor4),True)
@@ -295,11 +300,15 @@ while i < len(cuadru):
 		#print UnivMemManager.find(posicion)
 		#print UnivMemManager.find(10000)
 		#print UnivMemManager.find(posicion)
+	elif valor1=="Return":
+		valor=damevalor(valor2)
+		memoria=TablaFunciones.get (nombrefuncion).ReturnValue.memory
+		UnivMemManager.asigna (int(memoria), valor)
 
  		
 		
 	i = i+1
-PValores.imprime()
+#PValores.imprime()
 if (dibujo):
 	raw_input("Press enter to continue")
 		

@@ -521,7 +521,7 @@ def p_tagsacrel(p):
 			operandoIzquierdo = PilaO.pop()
 			tipoIzquierdo = PTypes.pop()
 			operador = POper.pop()
-			resultType = validacion(tipoDerecho, tipoIzquierdo, operador)
+			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 			if resultType == "ERROR":
 				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
 				sys.exit(0)
@@ -680,7 +680,8 @@ def p_asigfinal(p):
 	
 def p_asigf2(p):
 	'''asigf2 : expresion tagig PUNTOCOMA
-	| read tagig'''
+	| read tagig
+	| readint tagig'''
 	
 def p_tagmeteig(p):
 	'''tagmeteig : empty'''
@@ -694,7 +695,7 @@ def p_tagig(p):
 	operandoIzquierdo = PilaO.pop()
 	tipoIzquierdo = PTypes.pop()
 	operador = POper.pop()
-	resultType = validacion(tipoDerecho, tipoIzquierdo, operador)
+	resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 	if resultType == "ERROR":
 		print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
 		sys.exit(0)
@@ -849,6 +850,7 @@ def p_estatuto(p):
 	| ciclodowhile
 	| ciclofor
 	| read
+	| readint
 	| comentario
 	| cuadrado
 	| triangulo
@@ -977,9 +979,20 @@ def p_read(p):
 	'''read : READ LPARENT RPARENT PUNTOCOMA'''
 	result = "mem-" + UnivMemManager.save("STRING", "temporallectura")
 	PilaO.push(result)
+	PTypes.push("STRING")
 	quad = Cuadruplo(pos1="READ", pos4=result)
 	cuadru.append(quad)
 	#print "lectura"
+
+
+def p_readint(p):
+	'''readint : READINT LPARENT RPARENT PUNTOCOMA'''
+	result = "mem-" + UnivMemManager.save("INT", "temporalentero")
+	PilaO.push(result)
+	PTypes.push("INT")
+	quad = Cuadruplo(pos1="READINT", pos4=result)
+	cuadru.append(quad)
+
 
 def p_ciclofor(p):
 	'''ciclofor : FOR LPARENT asignacion expresion tagevaluafor asignacion RPARENT bloque tagasigna tagterminafor'''
@@ -1043,6 +1056,8 @@ def p_tagterminaif(p):
 
 def p_return(p):
 	'''return : RETURN llegoRet exp PUNTOCOMA'''
+	quad = Cuadruplo(pos1= "Return", pos2=PilaO.pop())
+	cuadru.append(quad)
 
 def p_llegoRet(p):
 	'''llegoRet : empty'''
@@ -1276,6 +1291,10 @@ def p_tagverificafuncion(p):
 		#size = len(TablaFunciones.get(p[-2]).LocalTable.dict)
 		quad = Cuadruplo(pos1 = "ERA", pos2 =nombreFuncion)
 		cuadru.append(quad)
+		#memoria = TablaFunciones.get (p[-2]).ReturnValue.memory
+		#tipo = TablaFunciones.get (p[-2]).ReturnValue.type
+		#PilaO.push("mem-" + memoria)
+		#PTypes.push(tipo)
 
 
 def p_tagrevisaparam(p):
@@ -1306,6 +1325,10 @@ def p_tagterminallamada(p):
 		sys.exit()
 	quad =Cuadruplo(pos1="gosub", pos2=nombredelafuncion)
 	cuadru.append(quad)
+	memoria = TablaFunciones.get (nombredelafuncion).ReturnValue.memory
+	tipo = TablaFunciones.get (nombredelafuncion).ReturnValue.type
+	PilaO.push("mem-" + memoria)
+	PTypes.push(tipo)
 
 		
 ##################EMPTY########################################

@@ -11,8 +11,30 @@ FUNCTION int funcionprueba (int iparametro1, string sparametro2, char cparametro
 		print ("El parametro 3 recibido es: " + cparametro3);
 		print (ifuncion);
 		print ("Aqui termina la funcionprueba");
-		//return 5;
+		return 5*2;
 	}
+
+function int factorial(int fa){
+	int in;
+	int ifa;
+	int ik;
+	in=fa;
+	if (in==0){
+		return 1;
+	}
+	else {
+		//in = in - 1;
+		//ifa = factorial(in);;
+		//return (in+1)*ifa;
+		//ik=factorial(in - 1);;
+		return factorial(in - 1); * in;
+	}
+}
+
+function int fmulti(int para1){
+	print("El parametro 1 es: " + para1);
+	return para1*2;
+}
 
 FUNCTION int funcionprueba2 (int ix){
 	int ia;
@@ -23,6 +45,7 @@ FUNCTION int funcionprueba2 (int ix){
 	funcionprueba(50, "paramtro22", "z");
 	print (ia);
 	print ("Aqui esta termina la funcionprueba2");
+	return 3;
 }
 
 FUNCTION int frecursiva (int contador){
@@ -38,6 +61,7 @@ FUNCTION int frecursiva (int contador){
 			print (im);
 		}
 	}
+	return 4;
 }
 {	float ia;
 	int ib;
@@ -62,6 +86,8 @@ FUNCTION int frecursiva (int contador){
 	bool iizquierda;
 	bool bnoentro;
 	int ifo;
+	int faaa;
+	int faaaa;
 	string snombre;
 	bol = 6!=6;
 	ib = 7;
@@ -76,7 +102,7 @@ FUNCTION int frecursiva (int contador){
 	print (ie + 7);
 	//funcionprueba(5*2, "parametro2", "a");
 	//funcionprueba2(9);
-	frecursiva(1);
+	//frecursiva(1);
 	print(bol);
 	if (1 < 4){
 		print ("el primer valor es menor al segundo, si entro al if");
@@ -112,6 +138,10 @@ FUNCTION int frecursiva (int contador){
 	//apoya();
 	//mueve(200,100);
 	///////////////////////////////////////////////
+	print("De que numero quieres calcular un factorial?");
+	faaaa=readint();
+	faaa = factorial(faaaa);;
+	print("El factorial de "+ faaaa +  " es: " + faaa);
 	print("Cual es tu nombre");
 	snombre=read();
 	iposx=0;
