@@ -60,6 +60,16 @@ class Stack:
 	 	print val,
 
 
+#definimos una clase que nos servira como campo para la descripcion de la dimencion
+class Dimension:
+	def __init__(self):
+		self.nextDim = None
+		self.antDim = None
+		self.LsDIM = None
+		self.LiDIM = None
+		self.mDIM = None
+
+
 #La clase Funcion funciona como template para la entrada de variables
 class Funcion:
 	def __init__(self, type, identifier):
@@ -92,6 +102,23 @@ class Variable:
 		self.memory = memory
 		self.identifier = identifier
 		self.size = size
+		self.Auxil = None
+
+	#Metodo que regresa a la primera posicion de las dimensiones encadenadas	
+	def goHeadDim(self):
+		while not self.size == None:
+			headSize = self.size
+			#self.size.antDim.nextDim = self.size
+			self.size = self.size.antDim
+		self.size = headSize
+
+	def goDimForward(self):
+		if self.size.nextDim == None or self.size == None:
+			return False
+		else:
+			#self.size.nextDim.antDim = self.size
+			self.size = self.size.nextDim
+			return True
 
 #definimos la clase para la tabla por enviroment
 #Nos servira para simular el creado de tablas por scope
@@ -129,6 +156,13 @@ class Env:
 		global UnivMemManager
 		for i in self.dict:
 			UnivMemManager.release(self.dict[i].memory)
+			if not self.dict[i].size == None:
+				temp = self.dict[i].Auxil 
+				while not temp == 0:
+					 UnivMemManager.release(int(self.dict[i].memory) + temp)
+					 temp = temp - 1
+			else:
+				UnivMemManager.release(self.dict[i].memory)
 #Funcion para ver las variables hasta el momento guardadas.
 	def showVars(self):
 		e = self
@@ -163,11 +197,9 @@ class FunctionTable:
 		else:
 			return None
 
-
-
 #funcion que nos sirve para insertar una nueva entrada a la tabla
-	def put(self, identifier, content):
-			self.dict[identifier] = content
+	#def put(self, identifier, content):
+			#self.dict[identifier] = content
 
 #funcion que itera por las tablas para encontrar un simbolo
 #regresa una funcion o None si no encuentra la funcion
@@ -246,6 +278,56 @@ class MemManager:
 			self.memory[cont] = value
 		return str(cont)
 
+
+	def saveDimensions(self, type, value, size):
+		global decFunciones
+		if decFunciones:
+			aux = 10000
+		else:
+			aux = 0
+		#print aux;
+		if type == "INT":
+			cont = 0 + aux
+
+		elif type == "FLOAT":
+			cont = 2000 + aux
+
+		elif type == "CHAR":
+			cont = 4000 + aux
+
+		elif type == "STRING":
+			cont = 6000 + aux
+
+		elif type == "BOOL":
+			cont = 8000 + aux
+		else:
+			return None
+
+		for key, val in self.memory.iteritems():
+				if (not cont in self.memory) or self.memory[cont] == None:
+					print "Entra aqui y el contador es: " + str(cont)
+					vacioHastaAhora = True
+					newCont = 0
+					while vacioHastaAhora and not newCont == size:
+						print "Entra despues aqui y el contador es : " + str(cont) + " y el nuevo contador es: " + str(newCont)
+						if (not (cont + newCont) in self.memory) or self.memory[cont + newCont] == None:
+							print "Ahora Entra aqui y el contador es : " + str(cont) + " y el nuevo contador es: " + str(newCont)
+							vacioHastaAhora = True
+						else:
+							print "La serie no se completo"
+							vacioHastaAhora = False
+						newCont = newCont + 1;
+					if vacioHastaAhora :
+						print "Entro aca y todo va bien"
+						newCont = 0
+						while not newCont == size:
+							print str(cont + newCont)
+							self.memory[cont + newCont] = value
+							newCont = newCont + 1
+						break
+				cont = cont + 1
+		return str(cont)
+
 	def save(self, type, value):
 		global decFunciones
 		if decFunciones:
@@ -306,8 +388,8 @@ class MemManager:
 
 
 	def find(self,position):
-		if position in self.memory:
-			return self.memory[position]
+		if int(position) in self.memory:
+			return self.memory[int(position)]
 		else:
 			return None
 
@@ -320,7 +402,7 @@ class MemManager:
 			return False
 			
 	def asigna(self,position, valor):
-		self.memory[position]= valor
+		self.memory[int(position)]= valor
 
 		
 
@@ -601,34 +683,131 @@ def p_declaracion(p):
 	'''declaracion : tipo ID savevar decla1'''
 	#print "Declaracion"
 
+var = None
+DIM = None
+R = None
+DimAnt = None
+DimNext = None
 def p_savevar(p):
 	'''savevar : empty'''
+	global var
+	#global Localfunc
+	var = Variable(p[-2],p[-1],None,None)
+	print var.type + " " + var.identifier 
+
+def p_decla1(p):
+	'''decla1 : saveMemNormal declafinal 
+	| LBRACKET decDimensionada exp saveLimSup decla2'''
+
+def p_saveMemNormal(p):
+	'''saveMemNormal : empty '''
+	global var
+	pos = UnivMemManager.save(var.type,var.identifier)
+	var.memory = pos
+	print "saveMemNormal"
+
+#Obtener un campo para la dimension; Ligar ese campo a la variable
+#DIM = 1 R = 1
+def p_decDimensionada(p):
+	'''decDimensionada : empty'''
+	global var
+	global DIM
+	global R
+	global DimAnt
+	DimAnt = Dimension()
+	DIM = 1
+	R = 1
+	print "decDimensionada"
+
+#Almacenar en campo de dimensionada la constante del limite superior
+#Acumulamos R
+def p_saveLimSup(p):
+	'''saveLimSup : empty'''
+	global PilaO
+	global PTypes
+	global var
+	global R
+	if PTypes.pop() == "INT":
+		DimAnt.LsDIM = PilaO.pop()
+		DimAnt.LiDIM = 0
+		R = (DimAnt.LsDIM - DimAnt.LiDIM + 1) * R
+		print "Limite Superior: " + str(DimAnt.LsDIM)
+		print "Limite Inferior: " + str(DimAnt.LiDIM)
+		print R
+	else:
+		print "Declaracion de dimension incorrecta, la dimension debe ser un valor entero"
+		sys.exit()
+	print "saveLimSup"
+
+
+def p_decla2(p):
+	'''decla2 : RBRACKET guardaMemDimen declafinal
+	| COMA SigDimension exp saveLimSup decla2'''
+	#print "declaracion arreglo"
+
+#DIM = DIM + 1
+#Obtener un nuevo campo para la siguiente descripcion
+#Ligar el campo anterior con  el nuevo campo
+def p_SigDimension(p):
+	'''SigDimension : empty '''
+	global DIM
+	global var
+	global DimAnt
+	global DimNext
+	DIM = DIM + 1
+	newDim = Dimension()
+	newDim.antDim = DimAnt
+	DimAnt.nextDim = newDim
+	DimAnt = newDim
+	print "SigDimension"
+
+def p_guardaMemDimen(p):
+	'''guardaMemDimen : empty'''
+	global var
+	global DimAnt
+	global DIM
+	global R
+	var.size = DimAnt
+	print "Limite Superior: " + str(var.size.LsDIM)
+	print "Limite Inferior: " + str(var.size.LiDIM)
+	var.goHeadDim()
+	print "Limite Superior: " + str(var.size.LsDIM)
+	print "Limite Inferior: " + str(var.size.LiDIM)
+	DIM = 1
+	suma = 0
+	aux = R
+	flagBol = True
+	while flagBol:
+		var.size.mDIM = R / (var.size.LsDIM - var.size.LiDIM + 1)
+		R = var.size.mDIM
+		suma = suma + var.size.LiDIM * var.size.mDIM
+		DIM = DIM + 1
+		flagBol = var.goDimForward()
+	k = suma
+	var.size.mDIM = -k
+	print var.type
+	print var.identifier
+	print aux
+	pos = UnivMemManager.saveDimensions(var.type,var.identifier,aux)
+	var.memory = pos
+	var.Auxil = aux 
+	print pos
+	print "saveLimSup"
+
+def p_declafinal(p):
+	'''declafinal : PUNTOCOMA'''
+	global var
 	global top
 	global UnivMemManager
 	global TablaFunciones
-	#global Localfunc
-	pos = UnivMemManager.save(p[-2],p[-1])
-	var = Variable(p[-2],p[-1],pos,1)
+	global decFunciones
+	global FuncToBuild
 	if decFunciones:
 		FuncToBuild.LocalVars.append(var)
 		TablaFunciones.get(FuncToBuild.identifier).LocalVars.append(var)
-	#else:
-	#	top.put(p[-1],var)
-	top.put(p[-1],var)
-
-def p_decla1(p):
-	'''decla1 : declafinal
-	| LBRACKET exp decla2'''
-	
-def p_decla2(p):
-	'''decla2 : RBRACKET declafinal
-	| COMA exp decla2'''
-	#print "declaracion arreglo"
-	
-def p_declafinal(p):
-	'''declafinal : PUNTOCOMA'''
-
-
+	top.put(var.identifier,var)
+	print "declafinal"
+	print UnivMemManager.memory
 ####################DECLARACION DE ARREGLO VARIABLES#############################
 #def p_declaracionarr(p):
 #	'''declaracionarr : tipo ID LBRACKET exp RBRACKET LBRACKET exp RBRACKET PUNTOCOMA'''
@@ -781,8 +960,7 @@ def p_factor(p):
 	'''factor : LPARENT tagfondofalso expresion RPARENT tagsacafondo
 	| f2
 	| f3
-	| f6
-	| f7'''
+	| f6'''
 	#print "factor"
 	if p[1] == '{':
 		p[0] = p[2]
@@ -828,9 +1006,9 @@ def p_tagsacafondo(p):
 #	| RBRACKET'''
 
 #llamar a un arreglo
-def p_f7(p):
-	'''f7 : ID LBRACKET exp f8'''
-	print "OPERACION CON DIMENSIONES"
+#def p_f7(p):
+#	'''f7 : ID LBRACKET exp f8'''
+#	print "OPERACION CON DIMENSIONES"
 	
 def p_f8(p):
 	'''f8 : COMA exp f8
@@ -1055,7 +1233,7 @@ def p_tagterminaif(p):
 	cuadru[end].pos4=len(cuadru)
 
 def p_return(p):
-	'''return : RETURN llegoRet exp PUNTOCOMA'''
+	'''return : RETURN llegoRet expresion PUNTOCOMA'''
 	quad = Cuadruplo(pos1= "Return", pos2=PilaO.pop())
 	cuadru.append(quad)
 
@@ -1288,6 +1466,7 @@ def p_tagverificafuncion(p):
 		contadorParametro=1
 		nombreFuncion=p[-2]
 		nombredelafuncion=nombreFuncion
+		POper.push(p[-1])
 		#size = len(TablaFunciones.get(p[-2]).LocalTable.dict)
 		quad = Cuadruplo(pos1 = "ERA", pos2 =nombreFuncion)
 		cuadru.append(quad)
@@ -1329,6 +1508,7 @@ def p_tagterminallamada(p):
 	tipo = TablaFunciones.get (nombredelafuncion).ReturnValue.type
 	PilaO.push("mem-" + memoria)
 	PTypes.push(tipo)
+	POper.pop()
 
 		
 ##################EMPTY########################################
