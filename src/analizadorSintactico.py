@@ -158,6 +158,7 @@ class Env:
 			UnivMemManager.release(self.dict[i].memory)
 			if not self.dict[i].size == None:
 				temp = self.dict[i].Auxil 
+				print "ESTE ES EL TEMPORAL DONDE TRUENA"
 				while not temp == 0:
 					 UnivMemManager.release(int(self.dict[i].memory) + temp)
 					 temp = temp - 1
@@ -474,7 +475,7 @@ def p_cuadrupro2(p):
 def p_delMem(p):
 	'''delMem : empty'''
 	global top
-	top.release
+	top.release()
 
 ########################CONTENIDO DE UN BLOQUE######################################
 def p_bloque(p):
@@ -790,7 +791,10 @@ def p_guardaMemDimen(p):
 	print aux
 	pos = UnivMemManager.saveDimensions(var.type,var.identifier,aux)
 	var.memory = pos
+	print aux
 	var.Auxil = aux 
+	print "PROBANDO EL AUXIIIAR"
+	print var.Auxil
 	print pos
 	print "saveLimSup"
 
@@ -1391,7 +1395,7 @@ def p_initParams(p):
 	global EnvParam
 	decFunciones = True
 	pos = UnivMemManager.save(p[-2],p[-1])
-	var = Variable(p[-2],p[-1],pos,0)
+	var = Variable(p[-2],p[-1],pos,None)
 	FuncToBuild.LocalVars.append(var)
 	TablaFunciones.get(FuncToBuild.identifier).LocalVars.append(var)
 	#EnvParam.put(p[-1],var)

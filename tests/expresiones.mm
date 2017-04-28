@@ -23,10 +23,6 @@ function int factorial(int fa){
 		return 1;
 	}
 	else {
-		//in = in - 1;
-		//ifa = factorial(in);;
-		//return (in+1)*ifa;
-		//ik=factorial(in - 1);;
 		return in * factorial(in - 1);;
 	}
 }
