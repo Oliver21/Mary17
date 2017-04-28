@@ -1,6 +1,10 @@
 program penviroment:
 int iGlobal;
 int iGlobal2;
+FUNCTION int iFuncionPrueba(int ia) {
+	int ib;
+	return 23;
+}
 { 	
 	int inegros;
 	if(2 < 3){

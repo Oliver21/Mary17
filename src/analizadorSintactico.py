@@ -157,6 +157,8 @@ class Env:
 		for i in self.dict:
 			UnivMemManager.release(self.dict[i].memory)
 			if not self.dict[i].size == None:
+				print "ESTO ES LO QUE TIENE EN SIZE:"
+				print self.dict[i].size
 				temp = self.dict[i].Auxil 
 				while not temp == 0:
 					 UnivMemManager.release(int(self.dict[i].memory) + temp)
@@ -704,7 +706,6 @@ def p_saveMemNormal(p):
 	global var
 	pos = UnivMemManager.save(var.type,var.identifier)
 	var.memory = pos
-	print "saveMemNormal"
 
 #Obtener un campo para la dimension; Ligar ese campo a la variable
 #DIM = 1 R = 1
@@ -717,7 +718,6 @@ def p_decDimensionada(p):
 	DimAnt = Dimension()
 	DIM = 1
 	R = 1
-	print "decDimensionada"
 
 #Almacenar en campo de dimensionada la constante del limite superior
 #Acumulamos R
@@ -731,9 +731,6 @@ def p_saveLimSup(p):
 		DimAnt.LsDIM = PilaO.pop()
 		DimAnt.LiDIM = 0
 		R = (DimAnt.LsDIM - DimAnt.LiDIM + 1) * R
-		print "Limite Superior: " + str(DimAnt.LsDIM)
-		print "Limite Inferior: " + str(DimAnt.LiDIM)
-		print R
 	else:
 		print "Declaracion de dimension incorrecta, la dimension debe ser un valor entero"
 		sys.exit()
@@ -759,7 +756,6 @@ def p_SigDimension(p):
 	newDim.antDim = DimAnt
 	DimAnt.nextDim = newDim
 	DimAnt = newDim
-	print "SigDimension"
 
 def p_guardaMemDimen(p):
 	'''guardaMemDimen : empty'''
@@ -768,11 +764,7 @@ def p_guardaMemDimen(p):
 	global DIM
 	global R
 	var.size = DimAnt
-	print "Limite Superior: " + str(var.size.LsDIM)
-	print "Limite Inferior: " + str(var.size.LiDIM)
 	var.goHeadDim()
-	print "Limite Superior: " + str(var.size.LsDIM)
-	print "Limite Inferior: " + str(var.size.LiDIM)
 	DIM = 1
 	suma = 0
 	aux = R
@@ -792,7 +784,6 @@ def p_guardaMemDimen(p):
 	var.memory = pos
 	var.Auxil = aux 
 	print pos
-	print "saveLimSup"
 
 def p_declafinal(p):
 	'''declafinal : PUNTOCOMA'''
@@ -806,8 +797,7 @@ def p_declafinal(p):
 		FuncToBuild.LocalVars.append(var)
 		TablaFunciones.get(FuncToBuild.identifier).LocalVars.append(var)
 	top.put(var.identifier,var)
-	print "declafinal"
-	print UnivMemManager.memory
+
 ####################DECLARACION DE ARREGLO VARIABLES#############################
 #def p_declaracionarr(p):
 #	'''declaracionarr : tipo ID LBRACKET exp RBRACKET LBRACKET exp RBRACKET PUNTOCOMA'''
@@ -1391,7 +1381,7 @@ def p_initParams(p):
 	global EnvParam
 	decFunciones = True
 	pos = UnivMemManager.save(p[-2],p[-1])
-	var = Variable(p[-2],p[-1],pos,0)
+	var = Variable(p[-2],p[-1],pos,None)
 	FuncToBuild.LocalVars.append(var)
 	TablaFunciones.get(FuncToBuild.identifier).LocalVars.append(var)
 	#EnvParam.put(p[-1],var)
@@ -1399,7 +1389,6 @@ def p_initParams(p):
 	TablaFunciones.get(FuncToBuild.identifier).ParamTable.append(p[-2])
 	#Localfunc.put(p[-1],var)
 	top.put(p[-1],var)
-
 
 def p_funtion3(p):
 	'''funct3 : COMA funct2'''
