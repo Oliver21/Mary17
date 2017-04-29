@@ -8,6 +8,8 @@ def damevalor(valor):
 	revisado=str(valor)
 	if revisado[0:4]=="mem-":
 		revisado=revisado[4:]
+		if revisado[0:4]=="mem-":
+			revisado=damevalor(revisado)
 		revisado=UnivMemManager.find(int(revisado))
 		return revisado
 	elif revisado[0]=="\"":
@@ -26,6 +28,9 @@ def damevalor(valor):
 def dameposicion(valor):
 	revisado=str(valor)
 	revisado=revisado[4:]
+	if revisado[0:4]=="mem-":
+		#revisado=revisado[4:]
+		revisado=damevalor(revisado)
 	return int(revisado)
 
 
@@ -305,10 +310,21 @@ while i < len(cuadru):
 		memoria=TablaFunciones.get (nombrefuncion).ReturnValue.memory
 		UnivMemManager.asigna (int(memoria), valor)
 
+	elif valor1=="Verifica":
+		indice=damevalor(valor2)
+		limiteInferior=damevalor(valor3)
+		limiteSuperior=damevalor(valor4)
+		if indice < limiteInferior or indice>limiteSuperior:
+			print "Estas intentando acceder a valorer fuera del arreglo"
+			sys.exit()
+		else:
+			pass
+
  		
 		
 	i = i+1
 #PValores.imprime()
+PilaO.imprime()
 if (dibujo):
 	raw_input("Press enter to continue")
 		

@@ -107,9 +107,12 @@ class Variable:
 	#Metodo que regresa a la primera posicion de las dimensiones encadenadas	
 	def goHeadDim(self):
 		while not self.size == None:
+			print self.size.LsDIM
 			headSize = self.size
 			#self.size.antDim.nextDim = self.size
 			self.size = self.size.antDim
+		print "ESTA afuera DEL WHILE"
+		#print self.size.LsDIM
 		self.size = headSize
 
 	def goDimForward(self):
@@ -418,6 +421,10 @@ POper=Stack()
 PilaO=Stack()
 PTypes=Stack()
 PSaltos=Stack()
+PilaDimensionadas=Stack()
+PilaDim=Stack()
+PilaEspera=Stack()
+
 temporal = 1
 nombredelafuncion=""
 contadorParametro=0
@@ -788,6 +795,7 @@ def p_guardaMemDimen(p):
 	print "PROBANDO EL AUXIIIAR"
 	print var.Auxil
 	print pos
+	var.goHeadDim()
 
 def p_declafinal(p):
 	'''declafinal : PUNTOCOMA'''
@@ -801,6 +809,8 @@ def p_declafinal(p):
 		FuncToBuild.LocalVars.append(var)
 		TablaFunciones.get(FuncToBuild.identifier).LocalVars.append(var)
 	top.put(var.identifier,var)
+
+
 
 ####################DECLARACION DE ARREGLO VARIABLES#############################
 #def p_declaracionarr(p):
@@ -823,7 +833,9 @@ def p_tipo(p):
 #	 "asignacion"
 
 def p_asignacion(p):
-	'''asignacion : ID meteid asig2'''
+	'''asignacion : ID meteid asigfinal
+	| f7 asigfinal'''
+	#'''asignacion : ID meteid asig2'''
 	global decFunciones
 	if not decFunciones:
 		pass
@@ -954,7 +966,8 @@ def p_factor(p):
 	'''factor : LPARENT tagfondofalso expresion RPARENT tagsacafondo
 	| f2
 	| f3
-	| f6'''
+	| f6
+	| f7'''
 	#print "factor"
 	if p[1] == '{':
 		p[0] = p[2]
@@ -1000,13 +1013,77 @@ def p_tagsacafondo(p):
 #	| RBRACKET'''
 
 #llamar a un arreglo
-#def p_f7(p):
-#	'''f7 : ID LBRACKET exp f8'''
-#	print "OPERACION CON DIMENSIONES"
-	
+def p_f7(p):
+	'''f7 : ID LBRACKET tagrevisadime exp tagmetedim f8'''
+	print "OPERACION CON DIMENSIONES"
+
 def p_f8(p):
-	'''f8 : COMA exp f8
-	| RBRACKET'''
+	'''f8 : COMA tagotradim exp tagmetedim f8
+	| RBRACKET tagterminadim'''
+
+def p_tagrevisadime(p):
+	'''tagrevisadime : empty'''
+	global Dim
+	nombre = p[-2]
+	if top.get(nombre).size==None:
+		sys.exit()
+	else:
+		Dim=1
+		PilaDimensionadas.push(nombre)
+		PilaDim.push(Dim)
+		POper.push(p[-1])
+
+def p_tagmetedim(p):
+	'''tagmetedim : empty'''
+	global Dim
+	valor = PilaO.peek()
+	nombre=PilaDimensionadas.peek()
+	#Dim=PilaDim.peek()
+	lsuperior=top.get(nombre).size.LsDIM
+	quad = Cuadruplo("Verifica", valor, 0, lsuperior)
+	cuadru.append(quad)
+
+	if  top.get(nombre).size.nextDim != None:
+		aux = PilaO.pop()
+		result = "mem-" + UnivMemManager.saveTEMP(0)
+		quad = Cuadruplo("*" , aux, top.get(nombre).size.mDIM , result)
+		cuadru.append(quad)
+		PilaO.push(result)
+	if Dim>1:
+		aux2 = PilaO.pop()
+		aux1 = PilaO.pop()
+		result = "mem-" + UnivMemManager.saveTEMP(0)
+		quad = Cuadruplo("+" , aux1, aux2 , result)
+		cuadru.append(quad)
+		PilaO.push(result)
+
+def p_tagotradim(p):
+	'''tagotradim : empty'''
+	global Dim
+	Dim = Dim + 1
+	PilaDim.push(Dim)
+	nombre=PilaDimensionadas.peek()
+	top.get(nombre).goDimForward()
+
+def p_tagterminadim(p):
+	'''tagterminadim : empty'''
+	aux1=PilaO.pop()
+	nombre=PilaDimensionadas.peek()
+	result = "mem-" + UnivMemManager.saveTEMP(0)
+	quad = Cuadruplo("+" , aux1, top.get(nombre).size.mDIM , result)
+	cuadru.append(quad)
+	quad = Cuadruplo("+" , result, top.get(nombre).memory , result)
+	cuadru.append(quad)
+	result="mem-" + result
+	PilaO.push(result)
+	POper.pop()
+	PilaDimensionadas.pop()
+	top.get(nombre).goHeadDim()
+	#PTypes.push(top.get(nombre).type)
+
+
+
+
 
 #llamar a una funcion
 def p_f6(p):
@@ -1167,7 +1244,7 @@ def p_readint(p):
 
 
 def p_ciclofor(p):
-	'''ciclofor : FOR LPARENT asignacion expresion tagevaluafor asignacion RPARENT bloque tagasigna tagterminafor'''
+	'''ciclofor : FOR LPARENT asignacion expresion tagevaluafor asignacion tagespera RPARENT bloque tagasigna tagterminafor'''
 	#print "ciclo for"
 	
 def p_tagevaluafor(p):
@@ -1187,8 +1264,13 @@ def p_tagterminafor(p):
 	end = PSaltos.pop()
 	cuadru[end].pos4=len(cuadru)
 
+def p_tagespera(p):
+	'''tagespera : empty'''
+	PilaEspera.push(cuadru.pop())
+
 def p_tagasigna(p):
 	'''tagasigna : empty'''
+	cuadru.append(PilaEspera.pop())
 	end = PSaltos.pop()
 	quad = Cuadruplo(pos1="GoTo", pos4=end)
 	cuadru.append(quad)

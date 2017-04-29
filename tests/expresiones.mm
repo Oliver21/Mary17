@@ -82,12 +82,33 @@ FUNCTION int frecursiva (int contador){
 	bool iizquierda;
 	bool bnoentro;
 	int ifo;
+	int ifa;
 	int faaa;
 	int faaaa;
+	int ik;
+	int ioliver [9, 7];
 	string snombre;
 	bol = 6!=6;
 	ib = 7;
 	ia=1;
+	for (ifo = 0; ifo<10 ifo=ifo+1;){
+		for(ifa=0; ifa<8 ifa=ifa+1;){
+			ioliver[ifo,ifa]=ifo*ifa;
+		}
+	}
+
+		for (ifo = 0; ifo<10 ifo=ifo+1;){
+		for(ifa=0; ifa<8 ifa=ifa+1;){
+			print ("ioliver[" + ifo + "][" +ifa + "]= " + ioliver[ifo,ifa]);
+		}
+	}
+
+
+	//for (ifo = -1; ifo<8 ifo=ifo+1;){
+	//for(ifa=-1; ifa<7 ifa=ifa+1;){
+	//		print ("ioliver[" + ifo + "][" +ifa + "]= " + ioliver[ifo,ifa]);
+	//	}
+	//}
 	//return 10;
 	ia = 4.3 * ib + 7 + 8 * 2 / 3 + 1 * 5 * (5 + 1 + 5 - 3) + 1;
 	ic = "hola ";
@@ -96,6 +117,8 @@ FUNCTION int frecursiva (int contador){
 	print(ia);
 	//ic = "Ya funciona el programa!!!. Genial";
 	print (ie + 7);
+	//ia=ioliver[1 , 2];
+	//print(ioliver[1,2]);
 	//funcionprueba(5*2, "parametro2", "a");
 	//funcionprueba2(9);
 	//frecursiva(1);
@@ -134,10 +157,18 @@ FUNCTION int frecursiva (int contador){
 	//apoya();
 	//mueve(200,100);
 	///////////////////////////////////////////////
+	//print("ioliver[0,3] = " + ioliver[0,3]);
+	//print("ioliver[2,2] = " + ioliver[2,2]);
 	print("De que numero quieres calcular un factorial?");
 	faaaa=readint();
 	faaa = factorial(faaaa);;
 	print("El factorial de "+ faaaa +  " es: " + faaa);
+
+	print("El factorial de " + ioliver[1,3] +  " es: " + factorial(ioliver[1,3]););
+
+	ioliver[1,factorial(3);] = 100;
+	print ("ioliver[" + 1 + "][" +factorial(3); + "]= " + ioliver[1,6]);
+
 	print("Cual es tu nombre: ");
 	snombre=read();
 	iposx=0;
