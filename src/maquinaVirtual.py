@@ -3,7 +3,6 @@ from analizadorSintactico import *
 from turtle import *
 import turtle
 import os
-
 def damevalor(valor):
 	revisado=str(valor)
 	if revisado[0:4]=="mem-":
@@ -49,7 +48,7 @@ PFunciones=Stack()
 PValores=Stack()
 PNombres=Stack()
 nombrefuncion = None
-
+print "---------------------------------------------------------------------"
 print "-----------------MAQUINA VIRTUAL-------------------------------"
 i = 0
 while i < len(cuadru):
@@ -249,12 +248,14 @@ while i < len(cuadru):
 		penup()
 		dibujo=True
 		
-	elif valor1=="ESTRELLA":
+	elif valor1=="ESTRELLA1":
 		tablero()
-		for i in range(50):
-    			forward(50)
-    			right(144)
-		done()
+		i=0
+		while i<5:
+			forward(50)
+			right(144)
+			i=i+1
+			penup()
 		dibujo=True
 
 	elif valor1=="ERA":
@@ -315,16 +316,13 @@ while i < len(cuadru):
 		limiteInferior=damevalor(valor3)
 		limiteSuperior=damevalor(valor4)
 		if indice < limiteInferior or indice>limiteSuperior:
-			print "Estas intentando acceder a valorer fuera del arreglo"
+			print "Estas intentando acceder a valores fuera de la dimension de la variable"
 			sys.exit()
 		else:
 			pass
-
- 		
 		
 	i = i+1
-#PValores.imprime()
-PilaO.imprime()
+
 if (dibujo):
 	raw_input("Press enter to continue")
 		

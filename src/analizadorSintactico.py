@@ -107,11 +107,11 @@ class Variable:
 	#Metodo que regresa a la primera posicion de las dimensiones encadenadas	
 	def goHeadDim(self):
 		while not self.size == None:
-			print self.size.LsDIM
+			#print self.size.LsDIM
 			headSize = self.size
 			#self.size.antDim.nextDim = self.size
 			self.size = self.size.antDim
-		print "ESTA afuera DEL WHILE"
+		#print "ESTA afuera DEL WHILE"
 		#print self.size.LsDIM
 		self.size = headSize
 
@@ -160,10 +160,10 @@ class Env:
 		for i in self.dict:
 			UnivMemManager.release(self.dict[i].memory)
 			if not self.dict[i].size == None:
-				print "ESTO ES LO QUE TIENE EN SIZE:"
-				print self.dict[i].size
+				#print "ESTO ES LO QUE TIENE EN SIZE:"
+				#print self.dict[i].size
 				temp = self.dict[i].Auxil 
-				print "ESTE ES EL TEMPORAL DONDE TRUENA"
+				#print "ESTE ES EL TEMPORAL DONDE TRUENA"
 				while not temp == 0:
 					 UnivMemManager.release(int(self.dict[i].memory) + temp)
 					 temp = temp - 1
@@ -311,23 +311,23 @@ class MemManager:
 
 		for key, val in self.memory.iteritems():
 				if (not cont in self.memory) or self.memory[cont] == None:
-					print "Entra aqui y el contador es: " + str(cont)
+					#print "Entra aqui y el contador es: " + str(cont)
 					vacioHastaAhora = True
 					newCont = 0
 					while vacioHastaAhora and not newCont == size:
-						print "Entra despues aqui y el contador es : " + str(cont) + " y el nuevo contador es: " + str(newCont)
+						#print "Entra despues aqui y el contador es : " + str(cont) + " y el nuevo contador es: " + str(newCont)
 						if (not (cont + newCont) in self.memory) or self.memory[cont + newCont] == None:
-							print "Ahora Entra aqui y el contador es : " + str(cont) + " y el nuevo contador es: " + str(newCont)
+							#print "Ahora Entra aqui y el contador es : " + str(cont) + " y el nuevo contador es: " + str(newCont)
 							vacioHastaAhora = True
 						else:
-							print "La serie no se completo"
+							#print "La serie no se completo"
 							vacioHastaAhora = False
 						newCont = newCont + 1;
 					if vacioHastaAhora :
-						print "Entro aca y todo va bien"
+						#print "Entro aca y todo va bien"
 						newCont = 0
 						while not newCont == size:
-							print str(cont + newCont)
+							#print str(cont + newCont)
 							self.memory[cont + newCont] = value
 							newCont = newCont + 1
 						break
@@ -703,7 +703,7 @@ def p_savevar(p):
 	global var
 	#global Localfunc
 	var = Variable(p[-2],p[-1],None,None)
-	print var.type + " " + var.identifier 
+	#print var.type + " " + var.identifier 
 
 def p_decla1(p):
 	'''decla1 : saveMemNormal declafinal 
@@ -742,7 +742,7 @@ def p_saveLimSup(p):
 	else:
 		print "Declaracion de dimension incorrecta, la dimension debe ser un valor entero"
 		sys.exit()
-	print "saveLimSup"
+	#print "saveLimSup"
 
 
 def p_decla2(p):
@@ -785,16 +785,16 @@ def p_guardaMemDimen(p):
 		flagBol = var.goDimForward()
 	k = suma
 	var.size.mDIM = -k
-	print var.type
-	print var.identifier
-	print aux
+	#print var.type
+	#print var.identifier
+	#print aux
 	pos = UnivMemManager.saveDimensions(var.type,var.identifier,aux)
 	var.memory = pos
-	print aux
+	#print aux
 	var.Auxil = aux 
-	print "PROBANDO EL AUXIIIAR"
-	print var.Auxil
-	print pos
+	#print "PROBANDO EL AUXIIIAR"
+	#print var.Auxil
+	#print pos
 	var.goHeadDim()
 
 def p_declafinal(p):
@@ -845,7 +845,7 @@ def p_asignacion(p):
 def p_meteid(p):
 	'''meteid :  empty''' 
 	#PilaO.push(p[-1])
-	print(p[-1])
+	#print(p[-1])
 	PilaO.push("mem-"+top.get(p[-1]).memory)
 	PTypes.push(top.get(p[-1]).type)
 	
@@ -1015,7 +1015,7 @@ def p_tagsacafondo(p):
 #llamar a un arreglo
 def p_f7(p):
 	'''f7 : ID LBRACKET tagrevisadime exp tagmetedim f8'''
-	print "OPERACION CON DIMENSIONES"
+	#print "OPERACION CON DIMENSIONES"
 
 def p_f8(p):
 	'''f8 : COMA tagotradim exp tagmetedim f8
@@ -1088,7 +1088,7 @@ def p_tagterminadim(p):
 #llamar a una funcion
 def p_f6(p):
 	'''f6 : llamafuncion'''
-	print "OPERACION CON FUNCIONES"
+	#print "OPERACION CON FUNCIONES"
 
 ######################CONTENIDO DE UN ESTATUTO##################################
 
@@ -1368,8 +1368,14 @@ def p_casa(p):
 	#print "Dibuja casa"
 
 def p_estrella(p):
-	'''estrella : ESTRELLA LPARENT exp RPARENT PUNTOCOMA'''
+	'''estrella : ESTRELLA LPARENT exp RPARENT tagestrella PUNTOCOMA'''
 	#print "Dibuja estrella"
+
+def p_tagestrella(p):
+	'''tagestrella : empty'''
+	quad = Cuadruplo(pos1 = "ESTRELLA", pos2=PilaO.pop())
+	cuadru.append(quad)
+
 
 def p_cubo(p):
 	'''cubo : CUBO LPARENT exp COMA exp COMA exp RPARENT tagcubo PUNTOCOMA'''
@@ -1377,7 +1383,7 @@ def p_cubo(p):
 	
 def p_tagcubo(p):
 	'''tagcubo : empty'''
-	quad = Cuadruplo(pos1 = "CUBOf", pos2=PilaO.pop(), pos3=PilaO.pop(), pos4=PilaO.pop())
+	quad = Cuadruplo(pos1 = "CUBO", pos2=PilaO.pop(), pos3=PilaO.pop(), pos4=PilaO.pop())
 	cuadru.append(quad)
 
 def p_mueve(p):
@@ -1629,6 +1635,8 @@ parser.parse(cadena)
 
 #UnivMemManager.asigna(8,"hahahaha")
 #print UnivMemManager.find(8)
+print "---------------------------------------------------------------------"
+print "--------------------MEMORIA--------------------"
 print UnivMemManager.memory	
 
 
