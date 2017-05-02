@@ -1,9 +1,41 @@
-#!/usr/bin/python
+# -*- coding: utf-8 -*
 from analizadorSintactico import *
 from turtle import *
 import turtle
 import os
+
+
 def damevalor(valor):
+	revisado=str(valor)
+	if revisado[0:4]=="mem-":
+		revisado=revisado[4:]
+		if revisado[0:4]=="mem-":
+			revisado=damevalor(revisado)
+		#return revisado
+		revisado=UnivMemManager.find(int(revisado))
+		revisado=str(revisado)
+		if revisado[0]=="\"":
+			revisado=revisado[1:len(revisado)-1]
+			while revisado[0]=="\"":
+				revisado=revisado[1:len(revisado)-1]
+			#print revisado
+			return str(revisado)
+		elif revisado[0]=="T":
+			return True
+		elif revisado[0]=="F":
+			return False
+		elif revisado.find(".")==-1:
+			return int (revisado)
+		else:
+			return float(revisado)
+	else:
+		return int(revisado)
+
+
+
+
+
+def damevalor2(valor):
 	revisado=str(valor)
 	if revisado[0:4]=="mem-":
 		revisado=revisado[4:]
@@ -48,8 +80,8 @@ PFunciones=Stack()
 PValores=Stack()
 PNombres=Stack()
 nombrefuncion = None
-print "---------------------------------------------------------------------"
-print "-----------------MAQUINA VIRTUAL-------------------------------"
+#print "---------------------------------------------------------------------"
+#print "-----------------MAQUINA VIRTUAL-------------------------------"
 i = 0
 while i < len(cuadru):
 	valor1=cuadru[i].pos1
@@ -64,7 +96,10 @@ while i < len(cuadru):
 		if type(valor2) == str or type(valor3) == str:
 			valor2 = str(valor2)
 			valor3 = str(valor3)
-		resultado = valor2 + valor3
+			resultado = valor2 + valor3
+			resultado = "\"" + str(resultado) + "\""
+		else:
+			resultado = valor2 + valor3
 		UnivMemManager.asigna(dameposicion(valor4),resultado)
 	elif valor1=="-":
 		#print "Aqui hay una resta"
@@ -87,7 +122,10 @@ while i < len(cuadru):
 	elif valor1=="=":
 		#print "Aqui hay una ="
 		valor2=damevalor(valor2)
+		if type(valor2) == str:
+			valor2 = "\"" + valor2 + "\""
 		lugar=dameposicion(valor4)
+		#print "Asigna el valor " + str(valor2) + " a la posicion " + str(lugar) 
 		UnivMemManager.asigna(lugar, valor2)
 	elif valor1=="<":
 		valor2=damevalor(valor2)
@@ -142,6 +180,7 @@ while i < len(cuadru):
 		print damevalor(valor4)
 	elif valor1=="READ":
 		lectura=raw_input()
+		lectura="\"" + lectura + "\""
 		UnivMemManager.asigna(dameposicion(valor4),lectura)
 		#print (entrada)
 		#print "Aqui hay una read"		
@@ -248,14 +287,14 @@ while i < len(cuadru):
 		penup()
 		dibujo=True
 		
-	elif valor1=="ESTRELLA1":
+	elif valor1=="ESTRELLA":
 		tablero()
 		i=0
 		while i<5:
 			forward(50)
 			right(144)
 			i=i+1
-			penup()
+		penup()
 		dibujo=True
 
 	elif valor1=="ERA":

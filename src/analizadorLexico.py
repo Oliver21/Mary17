@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*
 #MARY17
 #Oliver Alejandro Martinez Quiroz A01280416
 #Diego Alejandro Mayorga Morales A00813211
@@ -70,7 +70,11 @@ t_OR = r'\|\|'
 t_AND = r'\&\&'
 
 
-#def t_ccode_nonspace(t):
+def t_newline(t):
+	r'\n+'
+	t.lexer.lineno += len(t.value)
+
+#def t_code_nonspace(t):
 #	r'\s+'
 #	pass
 
@@ -87,10 +91,6 @@ def t_NOESNADA(t):
 		t.value = t.value.upper()
 		t.type = t.value
 	return t	
-	
-def t_newline(t):
-	r'\n+'
-	t.lexer.lineno += len(t.value)
 
 def t_COMENTARIO(t):
 	r'\/\/.*'
@@ -115,7 +115,7 @@ def t_CADENA(t):
 	return t
 
 def t_error(t):
-	print "caracter ilegal '%s'" %t.value[0]
+	print "caracter ilegal " + t.value[0]
 	t.lexer.skip(1)
 
 

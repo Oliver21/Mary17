@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*
 #MARY17
 #Oliver Alejandro Martinez Quiroz A01280416
 #Diego Alejandro Mayorga Morales A00813211
@@ -34,6 +34,7 @@ FuncToBuild = None
 EnvParam = None
 DecFuncIndividual = False
 LlegoReturn = False
+esdimen=False
 
 #definimos una estructura de datos tipo pila que nos servira para manejar los tipos y los identificadores de las variables
 class Stack:
@@ -153,6 +154,7 @@ class Env:
 	  				break
 			e = e.prev
 		print "La variable " + identifier + " no ha sido declarada"
+		sys.exit()
 		return None
 #funcion que nos permite liberar la memoria de las variables para su reuso
 	def release(self):
@@ -424,6 +426,7 @@ PSaltos=Stack()
 PilaDimensionadas=Stack()
 PilaDim=Stack()
 PilaEspera=Stack()
+PilaDi=Stack()
 
 temporal = 1
 nombredelafuncion=""
@@ -560,7 +563,7 @@ def p_tagsacalog(p):
 			operador = POper.pop()
 			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 			if resultType == "ERROR":
-				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
+				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operador, tipoDerecho
 				sys.exit(0)
 			else:
 				global temporal
@@ -615,7 +618,7 @@ def p_tagsacrel(p):
 			operador = POper.pop()
 			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 			if resultType == "ERROR":
-				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
+				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operador, tipoDerecho
 				sys.exit(0)
 			else:
 				global temporal
@@ -660,7 +663,7 @@ def p_tagsacops(p):
 			operador = POper.pop()
 			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 			if resultType == "ERROR":
-				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
+				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operador, tipoDerecho
 				sys.exit(0)
 			else:
 				global temporal
@@ -723,6 +726,8 @@ def p_decDimensionada(p):
 	global DIM
 	global R
 	global DimAnt
+	global esdimen
+	esdimen=True
 	DimAnt = Dimension()
 	DIM = 1
 	R = 1
@@ -735,8 +740,10 @@ def p_saveLimSup(p):
 	global PTypes
 	global var
 	global R
+	global esdimen
 	if PTypes.pop() == "INT":
-		DimAnt.LsDIM = PilaO.pop()
+		DimAnt.LsDIM = PilaDi.pop()
+		PilaO.pop()
 		DimAnt.LiDIM = 0
 		R = (DimAnt.LsDIM - DimAnt.LiDIM + 1) * R
 	else:
@@ -805,10 +812,12 @@ def p_declafinal(p):
 	global TablaFunciones
 	global decFunciones
 	global FuncToBuild
+	global esdimen
 	if decFunciones:
 		FuncToBuild.LocalVars.append(var)
 		TablaFunciones.get(FuncToBuild.identifier).LocalVars.append(var)
 	top.put(var.identifier,var)
+	esdimen=False;
 
 
 
@@ -882,7 +891,7 @@ def p_tagig(p):
 	operador = POper.pop()
 	resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 	if resultType == "ERROR":
-		print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operandoIzquierdo, operador, tipoDerecho, operandoDerecho
+		print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operador, tipoDerecho
 		sys.exit(0)
 	else:
 		#global temporal
@@ -947,6 +956,7 @@ def p_tagsacopm(p):
 			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 			if resultType == "ERROR":
 				print "INCOMPATIBILIDAD DE TIPOS"
+				sys.exit()
 			else:	
 				global temporal
 				nombre = "t" + str(temporal)
@@ -1059,6 +1069,10 @@ def p_tagmetedim(p):
 
 def p_tagotradim(p):
 	'''tagotradim : empty'''
+	nombre=PilaDimensionadas.peek()
+	if top.get(nombre).size.nextDim==None:
+		print "Estas asignando mas dimensiones de las necesitadas por la variable " + nombre
+		sys.exit() 
 	global Dim
 	Dim = Dim + 1
 	PilaDim.push(Dim)
@@ -1067,6 +1081,10 @@ def p_tagotradim(p):
 
 def p_tagterminadim(p):
 	'''tagterminadim : empty'''
+	nombre=PilaDimensionadas.peek()
+	if top.get(nombre).size.nextDim!=None:
+		print "Faltan mas dimensiones para la variable " + nombre
+		sys.exit() 
 	aux1=PilaO.pop()
 	nombre=PilaDimensionadas.peek()
 	result = "mem-" + UnivMemManager.saveTEMP(0)
@@ -1088,6 +1106,11 @@ def p_tagterminadim(p):
 #llamar a una funcion
 def p_f6(p):
 	'''f6 : llamafuncion'''
+
+def p_guardafunc(p):
+	'''guardafunc : empty'''
+	result = "mem-" + UnivMemManager.saveTEMP(0)
+	PilaO.push(result)
 	#print "OPERACION CON FUNCIONES"
 
 ######################CONTENIDO DE UN ESTATUTO##################################
@@ -1138,35 +1161,37 @@ def p_varcte(p):
 def p_tagint(p):
 	'''tagint : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP(p[-1])
-	PilaO.push(p[-1])
+	PilaO.push(result)
 	PTypes.push("INT")
+	if esdimen:
+		PilaDi.push(p[-1])
 	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 	
 def p_tagfloat(p):
 	'''tagfloat : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP(p[-1])
-	PilaO.push(p[-1])
+	PilaO.push(result)
 	PTypes.push("FLOAT")
 	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 	
 def p_tagcad(p):
 	'''tagcad : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP("\""+ p[-1]+"\"")
-	PilaO.push(p[-1])
+	PilaO.push(result)
 	PTypes.push("STRING")
 	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 	
 def p_tagcar(p):
 	'''tagcar : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP("\""+ p[-1]+"\"")
-	PilaO.push(p[-1])
+	PilaO.push(result)
 	PTypes.push("CHAR")
 	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 	
 def p_tagbol(p):
 	'''tagbol : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP(p[-1])
-	PilaO.push(p[-1])
+	PilaO.push(result)
 	PTypes.push("BOOL")
 	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 
@@ -1336,6 +1361,7 @@ def p_llegoRet(p):
 def p_error(p):
 	print "error de sintaxis en la linea " + str(p.lineno)
 	print p
+	sys.exit()
 	
 ################FUNCIONES DIIBUJAR###############################
 
@@ -1635,9 +1661,9 @@ parser.parse(cadena)
 
 #UnivMemManager.asigna(8,"hahahaha")
 #print UnivMemManager.find(8)
-print "---------------------------------------------------------------------"
-print "--------------------MEMORIA--------------------"
-print UnivMemManager.memory	
+#print "---------------------------------------------------------------------"
+#print "--------------------MEMORIA--------------------"
+#print UnivMemManager.memory	
 
 
 #print TablaFunciones.get("funcionEnv").ReturnValue.identifier
@@ -1650,13 +1676,13 @@ print UnivMemManager.memory
 ###################################################################################
 ########CUADRUPLOS#################################################################
 
-print "---------------------------------------------------------------------"
-print "--------------------CUADRUPLOS GENERADOS--------------------"
-q = 0
-for i in cuadru:
-	print str(q) + " | ",
-	print i.pos1, i.pos2, i.pos3, i.pos4
-	q = q + 1 
+#print "---------------------------------------------------------------------"
+#print "--------------------CUADRUPLOS GENERADOS--------------------"
+#q = 0
+#for i in cuadru:
+#	print str(q) + " | ",
+#	print i.pos1, i.pos2, i.pos3, i.pos4
+#	q = q + 1 
 ###########################################################################
 #print cuadru[0].pos1, cuadru[0].pos2, cuadru[0].pos3, cuadru[0].pos4
 #print "-------------PilaO (Pila de operandos)----------------------"
