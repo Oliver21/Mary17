@@ -6,4 +6,6 @@ program caso5:{
 	mueve(-50,0);
 	cubo(40,40,40);
 	cubo(0,0,20);
+	//firma();
+	//estrella(-30,30,40);
 }

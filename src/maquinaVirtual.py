@@ -4,7 +4,6 @@ from turtle import *
 import turtle
 import os
 
-
 def damevalor(valor):
 	revisado=str(valor)
 	if revisado[0:4]=="mem-":
@@ -14,6 +13,9 @@ def damevalor(valor):
 		#return revisado
 		revisado=UnivMemManager.find(int(revisado))
 		revisado=str(revisado)
+		if revisado=="None":
+			print "La variable a la que intentas acceder no tiene un valor asignado"
+			sys.exit()
 		if revisado[0]=="\"":
 			revisado=revisado[1:len(revisado)-1]
 			while revisado[0]=="\"":
@@ -289,13 +291,85 @@ while i < len(cuadru):
 		
 	elif valor1=="ESTRELLA":
 		tablero()
-		i=0
-		while i<5:
-			forward(50)
-			right(144)
-			i=i+1
+		penup()
+		inicioy=damevalor(valor3)
+		iniciox=damevalor(valor4)
+		tamano=damevalor(valor2)
+		goto(iniciox, inicioy)
+		pendown()
+		goto(iniciox+(tamano/2), inicioy+tamano)
+		goto(iniciox+tamano, inicioy)
+		goto(iniciox-(tamano*.2), inicioy+(tamano*(.6)))
+		goto(iniciox+tamano+(tamano*.2), inicioy+(tamano*(.6)) )
+		goto(iniciox, inicioy)
 		penup()
 		dibujo=True
+
+	elif valor1=="FIRMA":
+		tablero()
+		penup()
+		iniciox=0
+		inicioy=0
+		goto(iniciox,inicioy)
+		pendown()
+		goto(iniciox,inicioy+30)
+		goto(iniciox+15,inicioy+15)
+		goto(iniciox+30, inicioy+30)
+		goto(iniciox+30,inicioy)
+		penup()
+		iniciox=iniciox+40
+		goto(iniciox, inicioy)
+		pendown()
+		goto(iniciox, inicioy+30)
+		goto(iniciox+30, inicioy+30)
+		goto(iniciox+30, inicioy)
+		goto(iniciox+30, inicioy+15)
+		goto(iniciox, inicioy+15)
+		penup()
+		iniciox=iniciox+40
+		goto(iniciox, inicioy)
+		pendown()
+		goto(iniciox, inicioy+30)
+		goto(iniciox+30, inicioy+30)
+		goto(iniciox+30, inicioy+15)
+		goto(iniciox, inicioy+15)
+		goto(iniciox+15, inicioy+15)
+		goto(iniciox+30, inicioy)
+		penup()
+		iniciox=iniciox+40
+		goto(iniciox, inicioy)
+		goto(iniciox+15, inicioy)
+		pendown()
+		goto(iniciox+15, inicioy+15)
+		goto(iniciox, inicioy+30)
+		goto(iniciox+15, inicioy+15)
+		goto(iniciox+30, inicioy+30)
+		penup()
+		iniciox=iniciox+50
+		goto(iniciox, inicioy)
+		pendown()
+		goto(iniciox, inicioy+30)
+		penup()
+		iniciox=iniciox+10
+		goto(iniciox, inicioy)
+		pendown()
+		goto(iniciox+30, inicioy+30)
+		goto(iniciox, inicioy+30)
+		iniciox=iniciox-120
+		inicioy=inicioy+40
+		penup()
+		goto(iniciox, inicioy)
+		pendown()
+		goto(iniciox+30, inicioy+30)
+		goto(iniciox+40, inicioy+15)
+		goto(iniciox+50,inicioy+25)
+		goto(iniciox+80, inicioy)
+		dibujo=True
+		penup()
+		goto(0,0)
+
+
+
 
 	elif valor1=="ERA":
 		nombrefuncion

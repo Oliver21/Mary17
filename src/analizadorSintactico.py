@@ -1131,6 +1131,7 @@ def p_estatuto(p):
 	| cubo
 	| trapecio
 	| estrella
+	| firma
 	| mueve
 	| levanta
 	| apoya
@@ -1394,13 +1395,19 @@ def p_casa(p):
 	#print "Dibuja casa"
 
 def p_estrella(p):
-	'''estrella : ESTRELLA LPARENT exp RPARENT tagestrella PUNTOCOMA'''
+	'''estrella : ESTRELLA LPARENT exp COMA exp COMA exp RPARENT tagestrella PUNTOCOMA'''
 	#print "Dibuja estrella"
 
 def p_tagestrella(p):
 	'''tagestrella : empty'''
-	quad = Cuadruplo(pos1 = "ESTRELLA", pos2=PilaO.pop())
+	quad = Cuadruplo(pos1 = "ESTRELLA", pos2=PilaO.pop(), pos3=PilaO.pop(), pos4=PilaO.pop())
 	cuadru.append(quad)
+
+def p_firma(p):
+	'''firma : FIRMA LPARENT RPARENT PUNTOCOMA'''
+	quad = Cuadruplo(pos1 = "FIRMA")
+	cuadru.append(quad)
+
 
 
 def p_cubo(p):
