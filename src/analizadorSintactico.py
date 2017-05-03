@@ -1064,6 +1064,16 @@ def p_tagsaca(p):
 def p_tagfon(p):
 	'''tagfon : empty'''
 	POper.push("(")
+
+
+def p_sort(p):
+	'''sort : SORT LPARENT RPARENT PUNTO ID LBRACKET RBRACKET PUNTOCOMA'''
+	if top.get(p[5]).size==None:
+		print "No puedes hacer sort de una variable no dimensionada"
+		sys.exit()
+	else:
+		quad=Cuadruplo(pos1="sort", pos2=top.get(p[5]).memory, pos3=top.get(p[5]).Auxil)
+		cuadru.append(quad)
 ######################CONTENIDO DE UN ESTATUTO##################################
 
 def p_estatuto(p):
@@ -1089,7 +1099,8 @@ def p_estatuto(p):
 	| dimension
 	| llamafuncion
 	| return
-	| if'''
+	| if
+	| sort'''
 #	| potencia
 #	| raiz
 

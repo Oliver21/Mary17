@@ -404,6 +404,24 @@ while i < len(cuadru):
 			contador=contador+1
 		UnivMemManager.asigna(posicion, encontrado)
 
+	elif valor1=="sort":
+		valor2=damevalor(valor2)
+		base=int(valor2)
+		valor3=damevalor(valor3)
+		tamano=int(valor3)
+		cambio=True
+		while cambio:
+			cambio=False
+			contador=0
+			while contador<tamano-1:
+				aux1=UnivMemManager.find(base+contador)
+				aux2 = UnivMemManager.find(base+contador+1)
+				if aux2 < aux1:
+					UnivMemManager.asigna(base+contador, aux2)
+					UnivMemManager.asigna(base+contador+1, aux1)
+					cambio=True
+				contador=contador+1
+
 	# verifica que un valor se encuentre entre los limites de una variable dimensionada
 	elif valor1=="Verifica":
 		indice=damevalor(valor2)

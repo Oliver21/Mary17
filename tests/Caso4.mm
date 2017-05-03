@@ -12,6 +12,4 @@ program caso4:{
 	print("El valor de ib[0,0,0] es: " + ib[0,0,0]);
 	print("El valor de ib[1,2,4] es: " + ib[1,2,4]);
 	print(ia[3] * ib[1,2,4]);
-	ij = find(0).ib[];
-	print (ij);
 }
