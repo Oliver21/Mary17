@@ -162,15 +162,13 @@ class Env:
 		for i in self.dict:
 			UnivMemManager.release(self.dict[i].memory)
 			if not self.dict[i].size == None:
-				#print "ESTO ES LO QUE TIENE EN SIZE:"
-				#print self.dict[i].size
 				temp = self.dict[i].Auxil 
-				#print "ESTE ES EL TEMPORAL DONDE TRUENA"
 				while not temp == 0:
 					 UnivMemManager.release(int(self.dict[i].memory) + temp)
 					 temp = temp - 1
 			else:
 				UnivMemManager.release(self.dict[i].memory)
+
 #Funcion para ver las variables hasta el momento guardadas.
 	def showVars(self):
 		e = self
@@ -293,7 +291,6 @@ class MemManager:
 			aux = 10000
 		else:
 			aux = 0
-		#print aux;
 		if type == "INT":
 			cont = 0 + aux
 
@@ -395,7 +392,6 @@ class MemManager:
 			return None
 
 	def release(self,position):
-		#self.memory[position] = None
 		if int(position) in self.memory:
 			self.memory[int(position)] = None
 			return True
