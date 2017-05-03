@@ -458,12 +458,14 @@ def p_p4(p):
 
 def p_p5(p):
 	'''p5 : cuadrupro2 bloque delMem'''	
-	
+
+#generamos el cuadruplo GoTo que nos llevara al main para iniciar la ejecucion	
 def p_cuadrupro(p):
 	'''cuadrupro : empty'''
 	x = Cuadruplo(pos1 = "GoTo")
 	cuadru.append(x)
-	
+
+#asignamos la posicion en donde comienza el main (ejecucion del programa)	
 def p_cuadrupro2(p):
 	'''cuadrupro2 : empty'''
 	global saved
@@ -508,15 +510,7 @@ def p_recEnv(p):
 	global decFunciones
 	if not decFunciones:
 		top.release()
-		#print saved.dict
-		#print top.dict
 		top = saved
-	#else:
-		#FuncToBuild.LocalTable = top
-		#Localfunc = top
-		#for key,val in LocalTable.dict:
-		#Localfunc.release()
-		#top = saved
 	
 		
 ############################CONTENIDO DE UNA EXPRESION################################
@@ -534,7 +528,9 @@ def p_expre2(p):
 def p_tagmetelog(p):
 	'''tagmetelog : empty'''
 	POper.push(p[-1])
-	
+
+#verificamos el contenido de la pila de operadores antes de almacenar el valor nuevo....en cado de que contanga alguno de
+#los operadores vistos abajo primero sacaremos los operadores para generar cuadruplos
 def p_tagsacalog(p):
 	'''tagsacalog : empty'''
 	if POper.isEmpty():
@@ -546,6 +542,7 @@ def p_tagsacalog(p):
 			operandoIzquierdo = PilaO.pop()
 			tipoIzquierdo = PTypes.pop()
 			operador = POper.pop()
+			#validamos los tipos de datos de acuerdo al cubo semantico, para saber si la operacion es compatible entre estos
 			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 			if resultType == "ERROR":
 				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operador, tipoDerecho
@@ -588,7 +585,8 @@ def p_tagrel(p):
 	'''tagrel : empty'''
 	POper.push(p[-1])
 	
-	
+#verificamos el contenido de la pila de operadores antes de almacenar el valor nuevo....en cado de que contanga alguno de
+#los operadores vistos abajo primero sacaremos los operadores para generar cuadruplos	
 def p_tagsacrel(p):
 	'''tagsacrel : empty'''
 	if POper.isEmpty():
@@ -601,6 +599,7 @@ def p_tagsacrel(p):
 			operandoIzquierdo = PilaO.pop()
 			tipoIzquierdo = PTypes.pop()
 			operador = POper.pop()
+			#validamos el tipo de dato para ver si la operacion es compatible entre estos
 			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 			if resultType == "ERROR":
 				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operador, tipoDerecho
@@ -633,7 +632,9 @@ def p_exp2(p):
 def p_tagop(p):
 	'''tagop : empty'''
 	POper.push(p[-1])
-	
+
+#verificamos el contenido de la pila de operadores antes de almacenar el valor nuevo....en cado de que contanga alguno de
+#los operadores vistos abajo primero sacaremos los operadores para generar cuadruplos
 def p_tagsacops(p):
 	'''tagsacops : empty'''
 	if POper.isEmpty():
@@ -645,6 +646,7 @@ def p_tagsacops(p):
 			operandoIzquierdo = PilaO.pop()
 			tipoIzquierdo = PTypes.pop()
 			operador = POper.pop()
+			#revisamos si la operacion es compatible entre los tipos de operadores de la pila
 			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 			if resultType == "ERROR":
 				print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operador, tipoDerecho
@@ -802,11 +804,10 @@ def p_asignacion(p):
 	global decFunciones
 	if not decFunciones:
 		pass
-
+#buscamos la posicion de memoria del ID recibido y lo metemos a la pila de operandos
+#despues metemos el tipo a la pila de tipos
 def p_meteid(p):
 	'''meteid :  empty''' 
-	#PilaO.push(p[-1])
-	#print(p[-1])
 	PilaO.push("mem-"+top.get(p[-1]).memory)
 	PTypes.push(top.get(p[-1]).type)
 	
@@ -827,7 +828,8 @@ def p_asigf2(p):
 	'''asigf2 : expresion tagig PUNTOCOMA
 	| read tagig
 	| readint tagig'''
-	
+
+#metemos a la pila de operadores el operador recibido ( = )	
 def p_tagmeteig(p):
 	'''tagmeteig : empty'''
 	POper.push(p[-1])
@@ -840,6 +842,7 @@ def p_tagig(p):
 	operandoIzquierdo = PilaO.pop()
 	tipoIzquierdo = PTypes.pop()
 	operador = POper.pop()
+	#revisamos la compatibilidad entre los operandos y el operador utilizados
 	resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 	if resultType == "ERROR":
 		print "Incompatibilidad entre los tipos de la operacion: ", tipoIzquierdo, operador, tipoDerecho
@@ -862,7 +865,8 @@ def p_pr2(p):
 
 def p_pr3(p):
 	'''pr3 : tagimprime RPARENT PUNTOCOMA'''
-	
+
+#generamos el cuadruplo para imprimir en pantalla pasando la posicion de memoria que se imprimira
 def p_tagimprime(p):
 	'''tagimprime : empty'''
 	quad = Cuadruplo(pos1 = "PRINT", pos4=PilaO.pop())
@@ -877,8 +881,7 @@ def p_te2(p):
 	| DIV tagm termino
 	| empty'''
 	
-	
-	
+#metemos el operador a la pila de operaodres (+) o (-)	
 def p_tagm(p):
 	'''tagm : empty'''
 	POper.push(p[-1])
@@ -894,11 +897,13 @@ def p_tagsacopm(p):
 			operandoIzquierdo = PilaO.pop()
 			tipoIzquierdo = PTypes.pop()
 			operador = POper.pop()
+			#revisamos compatibilidad entre los tipos de los operandos y el operador
 			resultType = validacion(tipoIzquierdo, tipoDerecho, operador)
 			if resultType == "ERROR":
 				print "INCOMPATIBILIDAD DE TIPOS"
 				sys.exit()
-			else:	
+			else:
+				#generamos memoria temporal en donde se almacenara el resultado de la operacion cuando se ejecute
 				global temporal
 				nombre = "t" + str(temporal)
 				temporal = temporal + 1
@@ -933,7 +938,6 @@ def p_f2(p):
 #llamar a un id
 def p_f3(p):
 	'''f3 : ID'''
-	#PilaO.push(p[1])
 	PilaO.push("mem-"+top.get(p[1]).memory)
 	PTypes.push(top.get(p[1]).type)
 	
@@ -951,7 +955,6 @@ def p_tagsacafondo(p):
 	
 def p_f7(p):
 	'''f7 : ID LBRACKET tagrevisadime exp tagmetedim f8'''
-	#print "OPERACION CON DIMENSIONES"
 
 def p_f8(p):
 	'''f8 : COMA tagotradim exp tagmetedim f8
@@ -969,12 +972,12 @@ def p_tagrevisadime(p):
 		PilaDim.push(Dim)
 		POper.push(p[-1])
 
+#generamos el cuadruplo para verificar los limites de la variable dimensionada
 def p_tagmetedim(p):
 	'''tagmetedim : empty'''
 	global Dim
 	valor = PilaO.peek()
 	nombre=PilaDimensionadas.peek()
-	#Dim=PilaDim.peek()
 	lsuperior=top.get(nombre).size.LsDIM
 	quad = Cuadruplo("Verifica", valor, 0, lsuperior)
 	cuadru.append(quad)
@@ -993,6 +996,7 @@ def p_tagmetedim(p):
 		cuadru.append(quad)
 		PilaO.push(result)
 
+#revisamos el numero de dimensiones a las que estamos intentando acceder
 def p_tagotradim(p):
 	'''tagotradim : empty'''
 	nombre=PilaDimensionadas.peek()
@@ -1005,6 +1009,7 @@ def p_tagotradim(p):
 	nombre=PilaDimensionadas.peek()
 	top.get(nombre).goDimForward()
 
+#revisamos si se pasaron las dimensiones necesarias a la variable dimensionada
 def p_tagterminadim(p):
 	'''tagterminadim : empty'''
 	nombre=PilaDimensionadas.peek()
@@ -1023,7 +1028,6 @@ def p_tagterminadim(p):
 	POper.pop()
 	PilaDimensionadas.pop()
 	top.get(nombre).goHeadDim()
-	#PTypes.push(top.get(nombre).type)
 
 #llamar a una funcion
 def p_f6(p):
@@ -1077,7 +1081,9 @@ def p_varcte(p):
 	| CARACTER tagcar
 	| TRUE tagbol
 	| FALSE tagbol'''
-	
+
+#guardamos en memoria el valor recibido y generamos el cuadruplo con esa posicion de memoria
+#guardamos en la pila de tipos el tipo del valor recibido	
 def p_tagint(p):
 	'''tagint : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP(p[-1])
@@ -1085,25 +1091,33 @@ def p_tagint(p):
 	PTypes.push("INT")
 	if esdimen:
 		PilaDi.push(p[-1])
-	
+
+#guardamos en memoria el valor recibido y generamos el cuadruplo con esa posicion de memoria
+#guardamos en la pila de tipos el tipo del valor recibido		
 def p_tagfloat(p):
 	'''tagfloat : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP(p[-1])
 	PilaO.push(result)
 	PTypes.push("FLOAT")
-	
+
+#guardamos en memoria el valor recibido y generamos el cuadruplo con esa posicion de memoria
+#guardamos en la pila de tipos el tipo del valor recibido		
 def p_tagcad(p):
 	'''tagcad : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP("\""+ p[-1]+"\"")
 	PilaO.push(result)
 	PTypes.push("STRING")
-	
+
+#guardamos en memoria el valor recibido y generamos el cuadruplo con esa posicion de memoria
+#guardamos en la pila de tipos el tipo del valor recibido		
 def p_tagcar(p):
 	'''tagcar : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP("\""+ p[-1]+"\"")
 	PilaO.push(result)
 	PTypes.push("CHAR")
-	
+
+#guardamos en memoria el valor recibido y generamos el cuadruplo con esa posicion de memoria
+#guardamos en la pila de tipos el tipo del valor recibido		
 def p_tagbol(p):
 	'''tagbol : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP(p[-1])
@@ -1114,11 +1128,13 @@ def p_tagbol(p):
 #####################CICLOS Y OTRAS FUNCIONES####################################
 def p_ciclowhile(p):
 	'''ciclowhile : WHILE taginiciawhile LPARENT expresion RPARENT tagwhile bloque tagregresawhile'''
-	
+
+#guardamos la posicion del cuadruplo actual para saber a donde regresar en el ciclo	
 def p_taginiciawhile(p):
 	'''taginiciawhile : empty'''
 	PSaltos.push(len(cuadru))
-	
+
+#revisamos si la condicion a evaluar es booleana, en caso de no serlo mostramos un mensaje de error		
 def p_tagwhile(p):
 	'''tagwhile : empty'''
 	expType = PTypes.pop()
@@ -1147,7 +1163,8 @@ def p_ciclodowhile(p):
 def p_taginiciado(p):
 	'''taginiciado : empty'''
 	PSaltos.push(len(cuadru))
-	
+
+#revisamos si la condicion a evaluar es booleana, en caso de no serlo mostramos un mensaje de error		
 def p_tagcondiciondo(p):
 	'''tagcondiciondo : empty'''
 	expType = PTypes.pop()
@@ -1161,7 +1178,7 @@ def p_tagcondiciondo(p):
 		cuadru.append(quad)
 
 #####################################################################################################################
-
+#generamos el cuadruplo de lectura
 def p_read(p):
 	'''read : READ LPARENT RPARENT PUNTOCOMA'''
 	result = "mem-" + UnivMemManager.save("STRING", "temporallectura")
@@ -1170,7 +1187,7 @@ def p_read(p):
 	quad = Cuadruplo(pos1="READ", pos4=result)
 	cuadru.append(quad)
 
-
+#generamos el cuadruplo para leer valores numericos
 def p_readint(p):
 	'''readint : READINT LPARENT RPARENT PUNTOCOMA'''
 	result = "mem-" + UnivMemManager.save("INT", "temporalentero")
@@ -1182,7 +1199,8 @@ def p_readint(p):
 
 def p_ciclofor(p):
 	'''ciclofor : FOR LPARENT asignacion expresion tagevaluafor asignacion tagespera RPARENT bloque tagasigna tagterminafor'''
-	
+
+#revisamos si la condicion a evaluar es booleana, en caso de no serlo mostramos un mensaje de error		
 def p_tagevaluafor(p):
 	'''tagevaluafor : empty'''
 	if not PTypes.pop() == "BOOL":
@@ -1218,7 +1236,8 @@ def p_if(p):
 def p_if2(p):
 	'''if2 : tagterminaif
 	| ELSE tagelse bloque tagterminaif'''
-	
+
+#revisamos si la condicion a evaluar es booleana, en caso de no serlo mostramos un mensaje de error	
 def p_tagif(p):
 	'''tagif : empty'''
 	if not PTypes.pop() == "BOOL":
@@ -1432,11 +1451,9 @@ def p_initFunc(p):
 def p_noinitFunc(p):
 	'''noinitFunc : empty'''
 	global decFunciones
-	#global Localfunc
 	global top
 	global FuncToBuild
 	global LlegoReturn
-	#FuncToBuild.LocalTable = Localfunc
 	if not LlegoReturn and not FuncToBuild.type == "VOID":
 		print "La funcion " + FuncToBuild.identifier + " necesita un valor de retorno"
 		sys.exit()
@@ -1464,6 +1481,7 @@ def p_llamaf3(p):
 def p_llamaf4(p):
 	'''llamaf4 : RPARENT  tagterminallamada PUNTOCOMA'''
 
+#revisamos si la funcion a la que estamos llamando existe en la tabla de funciones
 def p_tagverificafuncion(p):
 	'''tagverificafuncion : empty'''
 	global nombredelafuncion
@@ -1476,15 +1494,10 @@ def p_tagverificafuncion(p):
 		nombreFuncion=p[-2]
 		nombredelafuncion=nombreFuncion
 		POper.push(p[-1])
-		#size = len(TablaFunciones.get(p[-2]).LocalTable.dict)
 		quad = Cuadruplo(pos1 = "ERA", pos2 =nombreFuncion)
 		cuadru.append(quad)
-		#memoria = TablaFunciones.get (p[-2]).ReturnValue.memory
-		#tipo = TablaFunciones.get (p[-2]).ReturnValue.type
-		#PilaO.push("mem-" + memoria)
-		#PTypes.push(tipo)
 
-
+#revisamos los parametros que se envian en la llamada de la funcion (tipo y numero de argumentos)
 def p_tagrevisaparam(p):
 	'''tagrevisaparam : empty'''
 	argumentoEnviado = TablaFunciones.get(nombredelafuncion).getParamType(contadorParametro-1);
@@ -1500,11 +1513,14 @@ def p_tagrevisaparam(p):
 		quad=Cuadruplo(pos1 = "param", pos2 = argument, pos4="param"+str(contadorParametro))
 		cuadru.append(quad)
 
+#aumentamos el contador porque significa que viene otro parametro
 def p_tagotroargumento(p):
 	'''tagotroargumento : empty'''
 	global contadorParametro
 	contadorParametro = contadorParametro + 1
 
+#revisamos si la funcion tiene todos los parametros necesarios
+#generamos el cuadruplo para ir a la subrutina de esa funcion
 def p_tagterminallamada(p):
 	'''tagterminallamada : empty'''
 	argumentoEnviado = TablaFunciones.get(nombredelafuncion).getParamType(contadorParametro);

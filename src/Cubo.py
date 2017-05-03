@@ -57,7 +57,6 @@ cubo =  [['INT',   'INT',    'INT',   'FLOAT', 'ERROR', 'ERROR', 'BOOL',  'BOOL'
 #var2 = 2 #CHAR
 
 
-#print cubo[((var1*5)+(var2))][1]
 
 def revisaVariable(var1):
 	if var1 == "INT":
@@ -102,12 +101,13 @@ def revisaOperador(op):
 	return op
 	
 	
-	
+#realizamos la validacion de los tipos de los argumentos enviados junto con el operador, para saber si es posible realizar cierta operacion
+#y regresamos el tipo de dato que se generara de dicha combinacion, en caso de ser error, regresamos la palabra error	
 def validacion (var1, var2, operador):
 	var1 = revisaVariable(var1)
 	var2 = revisaVariable(var2)
 	operador = revisaOperador(operador)
-		
+	#se realizan estos calculos para llegar al renglon necesario dependiendo de los tipos de datos		
 	renglon = var1 * 5 + var2
 	columna = operador
 	return cubo[renglon][columna]

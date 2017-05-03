@@ -53,6 +53,7 @@ def t_newline(t):
 #	r'\s+'
 #	pass
 
+#esto es lo que aceptara un id
 def t_ID(t):
 	r'[i|f|c|s|b|p] [a-zA-Z0-9_]+'
 	if t.value.upper() in reservadas:
@@ -66,7 +67,8 @@ def t_NOESNADA(t):
 		t.value = t.value.upper()
 		t.type = t.value
 	return t	
-
+	
+#un comentario empieza con // e ignora el resto hasta el salto de linea
 def t_COMENTARIO(t):
 	r'\/\/.*'
 	pass

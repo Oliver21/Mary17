@@ -4,13 +4,14 @@ from turtle import *
 import turtle
 import os
 
+#esta funcion nos regresa el valor que contiene cierta posicion de memoria,
+#primero ingresamos a esa posicion, extraemos el valor y dependiendo de su contenido regresamos ese valor
 def damevalor(valor):
 	revisado=str(valor)
 	if revisado[0:4]=="mem-":
 		revisado=revisado[4:]
 		if revisado[0:4]=="mem-":
 			revisado=damevalor(revisado)
-		#return revisado
 		revisado=UnivMemManager.find(int(revisado))
 		revisado=str(revisado)
 		if revisado=="None":
@@ -20,7 +21,6 @@ def damevalor(valor):
 			revisado=revisado[1:len(revisado)-1]
 			while revisado[0]=="\"":
 				revisado=revisado[1:len(revisado)-1]
-			#print revisado
 			return str(revisado)
 		elif revisado[0]=="T":
 			return True
@@ -32,31 +32,6 @@ def damevalor(valor):
 			return float(revisado)
 	else:
 		return int(revisado)
-
-
-
-
-
-def damevalor2(valor):
-	revisado=str(valor)
-	if revisado[0:4]=="mem-":
-		revisado=revisado[4:]
-		if revisado[0:4]=="mem-":
-			revisado=damevalor(revisado)
-		revisado=UnivMemManager.find(int(revisado))
-		return revisado
-	elif revisado[0]=="\"":
-		return str(revisado[1:len(revisado)-1])
-	elif revisado[0]=="T":
-		return True
-	elif revisado[0]=="F":
-		return False
-	else:
-		revisado=revisado
-		if revisado.find(".")==-1:
-			return int(revisado)
-		else:
-			return float(revisado)
 			
 def dameposicion(valor):
 	revisado=str(valor)
@@ -68,6 +43,7 @@ def dameposicion(valor):
 
 
 dibujo=False
+#esta funcion se activa en caso de que el usuario use alguna de las funciones especiales para dibujar
 def tablero():
 	if dibujo==False:
 		tess = turtle.Turtle()
@@ -90,9 +66,8 @@ while i < len(cuadru):
 	valor2=cuadru[i].pos2
 	valor3=cuadru[i].pos3
 	valor4=cuadru[i].pos4
-	
+	#cuadruplo que realiza operacion de suma
 	if valor1=="+":
-		#print "Aqui hay una suma"
 		valor2=damevalor(valor2)
 		valor3=damevalor(valor3)
 		if type(valor2) == str or type(valor3) == str:
@@ -103,104 +78,106 @@ while i < len(cuadru):
 		else:
 			resultado = valor2 + valor3
 		UnivMemManager.asigna(dameposicion(valor4),resultado)
+	#cuadruplo que realiza operacion de resta
 	elif valor1=="-":
-		#print "Aqui hay una resta"
 		valor2=damevalor(valor2)
 		valor3=damevalor(valor3)
 		resultado = valor2 - valor3
 		UnivMemManager.asigna(dameposicion(valor4),resultado)
+	#cuadruplo que realiza operacion de multiplicacion
 	elif valor1=="*":
-		#print "Aqui hay una multiplicacion"
 		valor2=damevalor(valor2)
 		valor3=damevalor(valor3)
 		resultado = valor2 * valor3
 		UnivMemManager.asigna(dameposicion(valor4),resultado)
+	#cuadruplo que realiza operacion de division
 	elif valor1=="/":
-		#print "Aqui hay una division"
 		valor2=damevalor(valor2)
 		valor3=damevalor(valor3)
 		resultado = valor2 / valor3
 		UnivMemManager.asigna(dameposicion(valor4),resultado)
+	#cuadruplo que realiza operacion de asignacion (=)
 	elif valor1=="=":
-		#print "Aqui hay una ="
 		valor2=damevalor(valor2)
 		if type(valor2) == str:
 			valor2 = "\"" + valor2 + "\""
 		lugar=dameposicion(valor4)
-		#print "Asigna el valor " + str(valor2) + " a la posicion " + str(lugar) 
 		UnivMemManager.asigna(lugar, valor2)
+	#cuadruplo que realiza operacion de comparacion (<)
 	elif valor1=="<":
 		valor2=damevalor(valor2)
 		valor3=damevalor(valor3)
 		resultado = valor2 < valor3
 		UnivMemManager.asigna(dameposicion(valor4),resultado)
-		#print "Aqui hay una <"
+	#cuadruplo que realiza operacion de comparacion (>)
 	elif valor1==">":
 		valor2=damevalor(valor2)
 		valor3=damevalor(valor3)
 		resultado = valor2 > valor3
 		UnivMemManager.asigna(dameposicion(valor4),resultado)
-		#print "Aqui hay una >"
+	#cuadruplo que realiza operacion de comparacion (<=)
 	elif valor1=="<=":
 		valor2=damevalor(valor2)
 		valor3=damevalor(valor3)
 		resultado = valor2 <= valor3
 		UnivMemManager.asigna(dameposicion(valor4),resultado)
-		#print "Aqui hay una <="
+	#cuadruplo que realiza operacion de comparacion (>=)
 	elif valor1==">=":
 		valor2=damevalor(valor2)
 		valor3=damevalor(valor3)
 		resultado = valor2 >= valor3
 		UnivMemManager.asigna(dameposicion(valor4),resultado)
-		#print "Aqui hay una >="
+	#cuadruplo que realiza operacion de comparacion (==)
 	elif valor1=="==":
 		valor2=damevalor(valor2)
 		valor3=damevalor(valor3)
 		resultado = valor2 == valor3
 		UnivMemManager.asigna(dameposicion(valor4),resultado)
-		#print "Aqui hay una =="
+	#cuadruplo que realiza operacion de comparacion (!=)
 	elif valor1=="!=":
 		valor2=damevalor(valor2)
 		valor3=damevalor(valor3)
 		resultado = valor2 != valor3
 		UnivMemManager.asigna(dameposicion(valor4),resultado)
-		#print "Aqui hay una !="
+	#cuadruplo para cambiar de posicion en caso de que la evalucacion sea verdadera
 	elif valor1=="GoToT":
 		if damevalor(valor2):
 			i = damevalor(valor4) - 1
-		#print "Aqui hay una gotot"
+	#cuadruplo para cambiar de posicion en caso de que la evalucacion sea falsa
 	elif valor1=="GoToF":
 		if damevalor(valor2):
 			pass
 		else:
 			i = damevalor(valor4) - 1
-		#print "Aqui hay una gotof"
+	#cuadruplo para cambiar de posicion
 	elif valor1=="GoTo":
 		i = damevalor(valor4) - 1
-		#print "Aqui hay una goto"
+	#cuadruplo para imprimir en pantalla
 	elif valor1=="PRINT":
 		print damevalor(valor4)
+	#cuadruplo para leer del teclado
 	elif valor1=="READ":
 		lectura=raw_input()
 		lectura="\"" + lectura + "\""
-		UnivMemManager.asigna(dameposicion(valor4),lectura)
-		#print (entrada)
-		#print "Aqui hay una read"		
-
+		UnivMemManager.asigna(dameposicion(valor4),lectura)	
+	#cuadruplo para leer un valor numerico del teclado
 	elif valor1=="READINT":
 		lectura=int(raw_input())
 		UnivMemManager.asigna(dameposicion(valor4),lectura)
-
+	#cuadruplo que realiza operacion booleana (||)
 	elif valor1=="||":
 		if damevalor(valor2) or damevalor(valor3):
 			UnivMemManager.asigna(dameposicion(valor4),True)
 		else:
 			UnivMemManager.asigna(dameposicion(valor4),False)
+	#cuadruplo que realiza operacion booleana (&&)
 	elif valor1=="&&":
 		if damevalor(valor2) and damevalor(valor3):
 			UnivMemManager.asigna(dameposicion(valor4),True)
 		else:
 			UnivMemManager.asigna(dameposicion(valor4),False)
+	#FUNCIONES ESPECIALES
+	#Dibuja un cuadrado en pantalla recibiendo como parametros , pos en x, pos en y y tamaño
 	elif valor1=="CUADRADO":
 		tablero()
 		penup()
@@ -215,7 +192,7 @@ while i < len(cuadru):
 		goto(iniciox, inicioy) #inferior izquierda
 		penup()
 		dibujo=True
-		
+	#Dibuja un cubo en pantalla recibiendo como parametros , pos en x, pos en y y tamaño	
 	elif valor1=="CUBO":
 		tablero()
 		penup()
@@ -257,7 +234,7 @@ while i < len(cuadru):
 		#############################################################
 		penup()
 		dibujo=True
-		 		
+	#Dibuja un triangulo en pantalla recibiendo como parametros , pos en x, pos en y y tamaño	 		
 	elif valor1=="TRIANGULO":
 		tablero()
 		penup()
@@ -304,7 +281,7 @@ while i < len(cuadru):
 		goto(iniciox, inicioy)
 		penup()
 		dibujo=True
-
+	#Dibuja la fimra de nuestro lenguaje de programacion MARY 17
 	elif valor1=="FIRMA":
 		tablero()
 		penup()
@@ -368,12 +345,9 @@ while i < len(cuadru):
 		penup()
 		goto(0,0)
 
-
-
-
+	#esta funcion es para separar espacios de memoria en donde se alamacenaran los datos de una funcion
 	elif valor1=="ERA":
 		nombrefuncion
-		#print nombrefuncion
 		if nombrefuncion!=None:
 			conta=0
 			while TablaFunciones.get(nombrefuncion).getVarMemory(conta)!=None:
@@ -381,18 +355,15 @@ while i < len(cuadru):
 				PValores.push(UnivMemManager.find(int(posicion)))
 				conta=conta+1
 			PNombres.push(nombrefuncion)
-
 		nombrefuncion=valor2
-		#PNombres.push(nombrefuncion)
-
+	#sirve para regresar a ejecutar una funcion al hacerse su llamada
 	elif valor1 =="gosub":
 		nombrefuncion=valor2
 		PFunciones.push(i)
 		i = TablaFunciones.get(nombrefuncion).Cont - 1
-		
+	#ENDPROC sirve para saber que se termino de ejecutar una funcion, por lo tanto regresamos a nuestra ejecucion normal
 	elif valor1=="ENDPROC":
 		nombrefuncion
-		#borramos todo el contenido de la memoria de funciones
 		TablaFunciones.get(nombrefuncion).LocalTable.release()
 		i=PFunciones.pop()
 		nombrefuncion=None
@@ -401,29 +372,23 @@ while i < len(cuadru):
 			conta=0
 			while TablaFunciones.get(nombrefuncion).getVarMemory(conta)!=None:
 				conta=conta+1
-			#print "El nombrefuncion en la pila es " + nombrefuncion
 			while (conta > 0):
 				posicion = TablaFunciones.get(nombrefuncion).getVarMemory(conta-1)
 				UnivMemManager.asigna(int(posicion), PValores.pop())
 				conta=conta-1
-
+	#se pasan los parametros pertenecientes a una funcion
 	elif valor1 =="param":
-		#decFunciones=True
 		parametro=int(valor4[5:])
 		valorpara=damevalor(valor2)
 		posicion = TablaFunciones.get(nombrefuncion).getVarMemory(parametro-1)
 		UnivMemManager.asigna(int(posicion), valorpara)
-		#PValores.push(valorpara)
-		#print "Se pasara el valor " + str(valorpara) + " a la posicion numero " + str(posicion)
-		#print posicion
-		#print UnivMemManager.find(posicion)
-		#print UnivMemManager.find(10000)
-		#print UnivMemManager.find(posicion)
+
+	#regresa el resultado de una funcion
 	elif valor1=="Return":
 		valor=damevalor(valor2)
 		memoria=TablaFunciones.get (nombrefuncion).ReturnValue.memory
 		UnivMemManager.asigna (int(memoria), valor)
-
+	# verifica que un valor se encuentre entre los limites de una variable dimensionada
 	elif valor1=="Verifica":
 		indice=damevalor(valor2)
 		limiteInferior=damevalor(valor3)

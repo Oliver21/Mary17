@@ -13,5 +13,5 @@ FUNCTION int iFuncionPrueba(int ia) {
 	if(4<6){
 		int ihola;
 	}
-	print("A huevoooo puttoooooteee");
+	print("FUNCIONA");
 }
