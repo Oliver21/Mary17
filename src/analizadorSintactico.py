@@ -919,7 +919,8 @@ def p_factor(p):
 	| f2
 	| f3
 	| f6
-	| f7'''
+	| f7
+	| f9'''
 	if p[1] == '{':
 		p[0] = p[2]
 	else:
@@ -961,6 +962,7 @@ def p_tagrevisadime(p):
 	global Dim
 	nombre = p[-2]
 	if top.get(nombre).size==None:
+		print "La variable " + nombre + " no tiene dimensiones"
 		sys.exit()
 	else:
 		Dim=1
@@ -1034,6 +1036,34 @@ def p_guardafunc(p):
 	result = "mem-" + UnivMemManager.saveTEMP(0)
 	PilaO.push(result)
 
+def p_f9(p):
+	'''f9 : find'''
+
+
+def p_find(p):
+	'''find : FIND  tagfon LPARENT tagfondofalso exp RPARENT tagsaca PUNTO ID LBRACKET tagfind RBRACKET'''
+
+
+def p_tagfind(p):
+	'''tagfind : empty'''
+	if top.get(p[-2]).size==None:
+		print "No puedes hacer find de una variable no dimensionada"
+	else:
+		result=result = "mem-" + UnivMemManager.saveTEMP(0)
+		PTypes.pop()
+		quad=Cuadruplo(pos1="find", pos2=PilaO.pop(), pos3=str(top.get(p[-2]).memory) + "-" + str(top.get(p[-2]).Auxil), pos4=result)
+		cuadru.append(quad)
+		PTypes.push("INT")
+		PilaO.push(result)
+		POper.pop()
+
+def p_tagsaca(p):
+	'''tagsaca : empty'''
+	POper.pop()
+
+def p_tagfon(p):
+	'''tagfon : empty'''
+	POper.push("(")
 ######################CONTENIDO DE UN ESTATUTO##################################
 
 def p_estatuto(p):

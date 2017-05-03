@@ -388,6 +388,22 @@ while i < len(cuadru):
 		valor=damevalor(valor2)
 		memoria=TablaFunciones.get (nombrefuncion).ReturnValue.memory
 		UnivMemManager.asigna (int(memoria), valor)
+
+	elif valor1=="find":
+		valor2=damevalor(valor2)
+		guion=int(valor3.find("-"))
+		base=int(valor3[0:guion])
+		tamano=int(valor3[guion+1:len(valor3)])
+		posicion=dameposicion(valor4)
+		contador=0
+		encontrado=-1
+		while contador<tamano:
+			if UnivMemManager.find(base+contador)==valor2:
+				encontrado=contador
+				contador=tamano
+			contador=contador+1
+		UnivMemManager.asigna(posicion, encontrado)
+
 	# verifica que un valor se encuentre entre los limites de una variable dimensionada
 	elif valor1=="Verifica":
 		indice=damevalor(valor2)
