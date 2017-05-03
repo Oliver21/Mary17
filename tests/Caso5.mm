@@ -7,5 +7,5 @@ program caso5:{
 	cubo(40,40,40);
 	cubo(0,0,20);
 	//firma();
-	//estrella(-30,30,40);
+	estrella(-200,30,40);
 }

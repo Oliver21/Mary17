@@ -9,38 +9,13 @@ import codecs
 import os
 import sys
 
-
-#tokens = ['ID', 'MULT', 'DIV', 'SUMA', 'RESTA', 'LPARENT', 'RPARENT', 'COMA',
-#'PUNTOCOMA', 'DOSPUNTOS', 'PUNTO', 'LBRACKET', 'RBRACKET', 'LKEY', 'RKEY', 'IGUAL', 'LT', 'GT',
-#'COMSIMPLE', 'COMDOBLE', 'ENTERO', 'FLOTANTE', 'CARACTER', 'CADENA'
-#	]
-
 reservadas = ['INT','FLOAT','IF','ELSE','VAR','PRINT','PROGRAM', 'DO', 'WHILE', 'CHAR', 'STRING', 'BEGIN', 'END', 'FOR', 'FUNCTION', 'BOOL', 'READ', 'POW', 'SQRT', 'CUADRADO', 'TRIANGULO', 'RECTANGULO', 'CASA', 'TRAPECIO', 'ESTRELLA', 'CIRCULO', 'LEVANTA',
 'APOYA', 'CUBO', 'FIRMA', 'MUEVE', 'DIMENSION', 'VOID', 'TRUE', 'FALSE', 'RETURN', 'READINT']
-
-#reservadas = {
-#	'begin':'BEGIN',
-#	'end':'END',
-#	'if':'IF',
-#	'else':'ELSE',
-#	'while':'WHILE',
-#	'do':'DO',
-#	'for':'FOR',
-#	'print':'PRINT',
-#	'int':'INT',
-#	'float':'FLOAT',
-#	'char':'CHAR',
-#	'string':'STRING'
-#}
-
-#tokens = tokens+list(reservadas.values())
-#reservadas = list(reservadas.values())
 
 tokens = reservadas + ['ID', 'MULT', 'DIV', 'SUMA', 'RESTA', 'LPARENT', 'RPARENT', 'COMA',
 'PUNTOCOMA', 'DOSPUNTOS', 'PUNTO', 'LBRACKET', 'RBRACKET', 'LKEY', 'RKEY', 'IGUAL', 'LT', 'GT', 'LE', 'GE', 'DIF', 'SAME',
 'COMSIMPLE', 'COMDOBLE', 'ENTERO', 'FLOTANTE', 'CARACTER', 'CADENA', 'NOESNADA', 'COMENTARIO', 'BOLEANO',
-'RAIZ', 'POTENCIA', 'AND', 'OR'	
-	]
+'RAIZ', 'POTENCIA', 'AND', 'OR'	]
 
 t_ignore = '\t '	
 t_SUMA = r'\+'

@@ -313,23 +313,17 @@ class MemManager:
 
 		for key, val in self.memory.iteritems():
 				if (not cont in self.memory) or self.memory[cont] == None:
-					#print "Entra aqui y el contador es: " + str(cont)
 					vacioHastaAhora = True
 					newCont = 0
 					while vacioHastaAhora and not newCont == size:
-						#print "Entra despues aqui y el contador es : " + str(cont) + " y el nuevo contador es: " + str(newCont)
-						if (not (cont + newCont) in self.memory) or self.memory[cont + newCont] == None:
-							#print "Ahora Entra aqui y el contador es : " + str(cont) + " y el nuevo contador es: " + str(newCont)
+						if (not (cont + newCont) in self.memory) or self.memory[cont + newCont] == None:		
 							vacioHastaAhora = True
 						else:
-							#print "La serie no se completo"
 							vacioHastaAhora = False
 						newCont = newCont + 1;
 					if vacioHastaAhora :
-						#print "Entro aca y todo va bien"
 						newCont = 0
 						while not newCont == size:
-							#print str(cont + newCont)
 							self.memory[cont + newCont] = value
 							newCont = newCont + 1
 						break
@@ -342,7 +336,6 @@ class MemManager:
 			aux = 10000
 		else:
 			aux = 0
-		#print aux;
 		if type == "INT":
 			cont = 0 + aux
 			for key, val in self.memory.iteritems():
@@ -431,15 +424,10 @@ PilaDi=Stack()
 temporal = 1
 nombredelafuncion=""
 contadorParametro=0
-#Prueba de cuadruplos
-#x = Cuadruplo (1,3,2,5)
-#print x.pos1, x.pos2, x.pos3, x.pos4
 
 ####################CONTENIDO DE UN PROGRAMA###################################
 def p_program(p):
 	'''program : PROGRAM  cuadrupro ID initTop DOSPUNTOS p2'''
-	#p[0] = program(p[4], "program")
-	#print "programa"
 
 def p_initTop(p):
 	'''initTop : empty'''
@@ -475,7 +463,6 @@ def p_cuadrupro(p):
 	'''cuadrupro : empty'''
 	x = Cuadruplo(pos1 = "GoTo")
 	cuadru.append(x)
-	#print x.pos1, x.pos2, x.pos3, x.pos4
 	
 def p_cuadrupro2(p):
 	'''cuadrupro2 : empty'''
@@ -500,9 +487,7 @@ def p_iniEnv(p):
 	global decFunciones
 	if not decFunciones:
 		saved = top
-		#print saved.dict
 		top = Env(saved)	
-	#print "bloque"
 
 def p_b3(p):
 	'''b3 : declaracion b3
@@ -648,7 +633,6 @@ def p_exp2(p):
 def p_tagop(p):
 	'''tagop : empty'''
 	POper.push(p[-1])
-	#print "Se agrego a la pila sum"
 	
 def p_tagsacops(p):
 	'''tagsacops : empty'''
@@ -684,14 +668,6 @@ def p_tagsacops(p):
 		
 
 ####################DECLARACION DE VARIABLES#############################
-#def p_declaracion(p):
-#	'''declaracion : tipo ID PUNTOCOMA'''
-	#AddGlobalVariable(p[1],p[2])
-#	global top
-#	varContent  = {'type':p[1]}
-#	top.put(p[2],varContent)
-#	print "declaracion"
-	
 def p_declaracion(p):
 	'''declaracion : tipo ID savevar decla1'''
 	#print "Declaracion"
@@ -706,7 +682,6 @@ def p_savevar(p):
 	global var
 	#global Localfunc
 	var = Variable(p[-2],p[-1],None,None)
-	#print var.type + " " + var.identifier 
 
 def p_decla1(p):
 	'''decla1 : saveMemNormal declafinal 
@@ -749,13 +724,10 @@ def p_saveLimSup(p):
 	else:
 		print "Declaracion de dimension incorrecta, la dimension debe ser un valor entero"
 		sys.exit()
-	#print "saveLimSup"
-
 
 def p_decla2(p):
 	'''decla2 : RBRACKET guardaMemDimen declafinal
 	| COMA SigDimension exp saveLimSup decla2'''
-	#print "declaracion arreglo"
 
 #DIM = DIM + 1
 #Obtener un nuevo campo para la siguiente descripcion
@@ -792,16 +764,9 @@ def p_guardaMemDimen(p):
 		flagBol = var.goDimForward()
 	k = suma
 	var.size.mDIM = -k
-	#print var.type
-	#print var.identifier
-	#print aux
 	pos = UnivMemManager.saveDimensions(var.type,var.identifier,aux)
 	var.memory = pos
-	#print aux
 	var.Auxil = aux 
-	#print "PROBANDO EL AUXIIIAR"
-	#print var.Auxil
-	#print pos
 	var.goHeadDim()
 
 def p_declafinal(p):
@@ -818,13 +783,6 @@ def p_declafinal(p):
 		TablaFunciones.get(FuncToBuild.identifier).LocalVars.append(var)
 	top.put(var.identifier,var)
 	esdimen=False;
-
-
-
-####################DECLARACION DE ARREGLO VARIABLES#############################
-#def p_declaracionarr(p):
-#	'''declaracionarr : tipo ID LBRACKET exp RBRACKET LBRACKET exp RBRACKET PUNTOCOMA'''
-#	print "declaracion arreglo"
 	
 ######################TIPO DE VARIABLES######################################
 def p_tipo(p):
@@ -837,19 +795,13 @@ def p_tipo(p):
 	#print "tipo"
 
 ##################ASIGNACION A VARIABLES###################################
-#def p_asignacion(p):
-#	'''asignacion : ID IGUAL expresion PUNTOCOMA'''
-#	 "asignacion"
 
 def p_asignacion(p):
 	'''asignacion : ID meteid asigfinal
 	| f7 asigfinal'''
-	#'''asignacion : ID meteid asig2'''
 	global decFunciones
 	if not decFunciones:
 		pass
-		#print(top.get(p[1]).identifier + ":" + top.get(p[1]).type)
-	#print "asignacion"
 
 def p_meteid(p):
 	'''meteid :  empty''' 
@@ -866,7 +818,6 @@ def p_asig2(p):
 def p_asig3(p):
 	'''asig3 : COMA exp asig3
 	| RBRACKET asigfinal'''
-	#print "asignacion arreglo"
 
 def p_asigfinal(p):
 	'''asigfinal : IGUAL tagmeteig asigf2'''
@@ -902,20 +853,12 @@ def p_tagig(p):
 		#PilaO.push(result)
 		#PTypes.push(resultType)
 	
-
-	
-##################ASIGNACION A ARREGLOS DE VARIABLES###################################
-#def p_asignacionarr(p):
-#	'''asignacionarr : ID LBRACKET exp RBRACKET LBRACKET exp RBRACKET IGUAL expresion PUNTOCOMA'''
-#	print "asignacion a arreglo"
 #########################ESCRITURA####################################
 def p_print(p):
 	'''print : PRINT LPARENT pr2'''
-	#print "esritura"
 
 def p_pr2(p):
 	'''pr2 : expresion pr3'''
-	#print "es2"
 
 def p_pr3(p):
 	'''pr3 : tagimprime RPARENT PUNTOCOMA'''
@@ -928,7 +871,6 @@ def p_tagimprime(p):
 ########################TERMINO#################################
 def p_termino(p):
 	'''termino : factor tagsacopm te2'''
-	#print "termino"
 
 def p_te2(p):
 	'''te2 : MULT tagm termino 
@@ -940,7 +882,6 @@ def p_te2(p):
 def p_tagm(p):
 	'''tagm : empty'''
 	POper.push(p[-1])
-		#print "Se agrego a la pila mult"
 		
 def p_tagsacopm(p):
 	'''tagsacopm : empty'''
@@ -978,7 +919,6 @@ def p_factor(p):
 	| f3
 	| f6
 	| f7'''
-	#print "factor"
 	if p[1] == '{':
 		p[0] = p[2]
 	else:
@@ -996,7 +936,6 @@ def p_f3(p):
 	#PilaO.push(p[1])
 	PilaO.push("mem-"+top.get(p[1]).memory)
 	PTypes.push(top.get(p[1]).type)
-	#print "SE AGREGO ID AL VECTOR POLACO"
 	
 def p_tagfondofalso(p):
 	'''tagfondofalso : empty'''
@@ -1010,19 +949,6 @@ def p_tagsacafondo(p):
 			break
 	POper.pop()
 	
-#def p_f4(p):
-#	'''f4 : empty'''
-
-
-#def p_f4(p):
-#	'''f4 : LBRACKET exp f5
-#	| empty'''
-	
-#def p_f5(p):
-#	'''f5 : COMA exp f5
-#	| RBRACKET'''
-
-#llamar a un arreglo
 def p_f7(p):
 	'''f7 : ID LBRACKET tagrevisadime exp tagmetedim f8'''
 	#print "OPERACION CON DIMENSIONES"
@@ -1099,10 +1025,6 @@ def p_tagterminadim(p):
 	top.get(nombre).goHeadDim()
 	#PTypes.push(top.get(nombre).type)
 
-
-
-
-
 #llamar a una funcion
 def p_f6(p):
 	'''f6 : llamafuncion'''
@@ -1111,7 +1033,6 @@ def p_guardafunc(p):
 	'''guardafunc : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP(0)
 	PilaO.push(result)
-	#print "OPERACION CON FUNCIONES"
 
 ######################CONTENIDO DE UN ESTATUTO##################################
 
@@ -1141,13 +1062,11 @@ def p_estatuto(p):
 	| if'''
 #	| potencia
 #	| raiz
-	#print "estatuto"
 
 #####################COMENTARIO######################################
 
 def p_comentario(p):
 	'''comentario : COMENTARIO'''
-	#print "Este es un comentario"
 
 ######################VARIABLE CONSTANTE#####################################
 
@@ -1166,41 +1085,35 @@ def p_tagint(p):
 	PTypes.push("INT")
 	if esdimen:
 		PilaDi.push(p[-1])
-	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 	
 def p_tagfloat(p):
 	'''tagfloat : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP(p[-1])
 	PilaO.push(result)
 	PTypes.push("FLOAT")
-	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 	
 def p_tagcad(p):
 	'''tagcad : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP("\""+ p[-1]+"\"")
 	PilaO.push(result)
 	PTypes.push("STRING")
-	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 	
 def p_tagcar(p):
 	'''tagcar : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP("\""+ p[-1]+"\"")
 	PilaO.push(result)
 	PTypes.push("CHAR")
-	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 	
 def p_tagbol(p):
 	'''tagbol : empty'''
 	result = "mem-" + UnivMemManager.saveTEMP(p[-1])
 	PilaO.push(result)
 	PTypes.push("BOOL")
-	#print "SE AGREGO CONSTANTE A LA PILA DE OPERANDOS"
 
 
 #####################CICLOS Y OTRAS FUNCIONES####################################
 def p_ciclowhile(p):
 	'''ciclowhile : WHILE taginiciawhile LPARENT expresion RPARENT tagwhile bloque tagregresawhile'''
-	#print "ciclo While"
 	
 def p_taginiciawhile(p):
 	'''taginiciawhile : empty'''
@@ -1229,7 +1142,6 @@ def p_tagregresawhile(p):
 ##################################CICLO DO WHILE###########################################################
 def p_ciclodowhile(p):
 	'''ciclodowhile : DO taginiciado bloque WHILE LPARENT expresion tagcondiciondo RPARENT PUNTOCOMA'''
-	#print "ciclo do while"
 
 
 def p_taginiciado(p):
@@ -1257,7 +1169,6 @@ def p_read(p):
 	PTypes.push("STRING")
 	quad = Cuadruplo(pos1="READ", pos4=result)
 	cuadru.append(quad)
-	#print "lectura"
 
 
 def p_readint(p):
@@ -1271,7 +1182,6 @@ def p_readint(p):
 
 def p_ciclofor(p):
 	'''ciclofor : FOR LPARENT asignacion expresion tagevaluafor asignacion tagespera RPARENT bloque tagasigna tagterminafor'''
-	#print "ciclo for"
 	
 def p_tagevaluafor(p):
 	'''tagevaluafor : empty'''
@@ -1304,7 +1214,6 @@ def p_tagasigna(p):
 
 def p_if(p):
 	'''if : IF LPARENT expresion tagif RPARENT bloque if2'''
-	#print "Ciclo If"
 
 def p_if2(p):
 	'''if2 : tagterminaif
@@ -1369,7 +1278,6 @@ def p_error(p):
 
 def p_cuadrado(p):
 	'''cuadrado : CUADRADO LPARENT exp COMA exp COMA exp RPARENT tagcuadro PUNTOCOMA'''
-	#print "Dibuja cuadrado"
 
 def p_tagcuadro(p):
 	'''tagcuadro : empty'''
@@ -1379,7 +1287,6 @@ def p_tagcuadro(p):
 	
 def p_triangulo(p):
 	'''triangulo : TRIANGULO LPARENT exp COMA exp COMA exp RPARENT tagtriangulo PUNTOCOMA'''
-	#print "Dibuja triangulo"
 	
 def p_tagtriangulo(p):
 	'''tagtriangulo : empty'''
@@ -1388,15 +1295,12 @@ def p_tagtriangulo(p):
 	
 def p_rectangulo(p):
 	'''rectangulo : RECTANGULO LPARENT exp COMA exp RPARENT PUNTOCOMA'''
-	#print "Dibuja rectangulo"
 
 def p_casa(p):
 	'''casa : CASA LPARENT exp COMA exp RPARENT PUNTOCOMA'''
-	#print "Dibuja casa"
 
 def p_estrella(p):
 	'''estrella : ESTRELLA LPARENT exp COMA exp COMA exp RPARENT tagestrella PUNTOCOMA'''
-	#print "Dibuja estrella"
 
 def p_tagestrella(p):
 	'''tagestrella : empty'''
@@ -1409,10 +1313,8 @@ def p_firma(p):
 	cuadru.append(quad)
 
 
-
 def p_cubo(p):
 	'''cubo : CUBO LPARENT exp COMA exp COMA exp RPARENT tagcubo PUNTOCOMA'''
-	#print "Dibuja cubo"
 	
 def p_tagcubo(p):
 	'''tagcubo : empty'''
@@ -1421,7 +1323,6 @@ def p_tagcubo(p):
 
 def p_mueve(p):
 	'''mueve : MUEVE LPARENT exp COMA exp RPARENT tagmueve PUNTOCOMA'''
-	#print "Mueve"
 	
 def p_tagmueve(p):
 	'''tagmueve : empty'''
@@ -1430,29 +1331,23 @@ def p_tagmueve(p):
 	
 def p_levanta(p):
 	'''levanta : LEVANTA LPARENT RPARENT PUNTOCOMA'''
-		#print "Levanta lapiz"
 	quad = Cuadruplo(pos1 = "LEVANTA")
 	cuadru.append(quad)
 	
 def p_apoya(p):
 	'''apoya : APOYA LPARENT RPARENT PUNTOCOMA'''
-	#print "Apoya lapiz"
 	quad = Cuadruplo(pos1 = "APOYA")
 	cuadru.append(quad)
 	
 def p_trapecio(p):
 	'''trapecio : TRAPECIO LPARENT exp COMA exp RPARENT PUNTOCOMA'''
-	#print "Dibuja trapecio"
 	
 def p_dimension(p):
 	'''dimension : DIMENSION LPARENT exp RPARENT PUNTOCOMA'''
-	#print "Asigna dimension"
 
 ##########################DECLARA UNA FUNCION##########################
 def p_function(p):
 	'''function : FUNCTION pfunc'''
-
-	#print "Declara una funcion"
 
 def p_pfunc(p):
 	'''pfunc : tipo ID buildFunc LPARENT funct11
@@ -1554,7 +1449,7 @@ def p_noinitFunc(p):
 ##################LLAMA UNA FUNCION###############################
 def p_llamafuncion(p):
 	'''llamafuncion : ID LPARENT tagverificafuncion llamaf11'''
-	#print "Llama a una funcion"
+
 def p_llamaf11(p):
 	'''llamaf11 : llamaf2
 	| llamaf4'''
